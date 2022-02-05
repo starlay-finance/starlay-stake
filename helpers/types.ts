@@ -9,6 +9,10 @@ export enum eEthereumNetwork {
   tenderly = 'tenderly',
 }
 
+export enum eAstarNetwork {
+  shibuya = 'shibuya',
+}
+
 export enum eContractid {
   DistributionManager = 'DistributionManager',
   StakedAave = 'StakedAave',
@@ -47,4 +51,5 @@ export interface iParamsPerNetwork<T> {
   [eEthereumNetwork.kovan]: T;
   [eEthereumNetwork.ropsten]: T;
   [eEthereumNetwork.main]: T;
+  [eAstarNetwork.shibuya]: T;
 }
