@@ -1,4 +1,4 @@
-import { eEthereumNetwork } from './helpers/types';
+import { eAstarNetwork, eEthereumNetwork } from './helpers/types';
 // @ts-ignore
 import { accounts } from './test-wallets';
 import path from 'path';
@@ -21,6 +21,7 @@ const ETHERSCAN_KEY = process.env.ETHERSCAN_KEY || '';
 const MNEMONIC_PATH = "m/44'/60'/0'/0";
 const MNEMONIC = process.env.MNEMONIC || '';
 const ALCHEMY_KEY = process.env.ALCHEMY_KEY || '';
+const BWARE_LABS_KEY = process.env.BWARE_LABS_KEY || '';
 const SKIP_LOAD = process.env.SKIP_LOAD === 'true';
 const MAINNET_FORK = process.env.MAINNET_FORK === 'true';
 const FORKING_BLOCK = parseInt(process.env.FORKING_BLOCK || '12369243');
@@ -48,23 +49,37 @@ const mainnetFork = MAINNET_FORK
     }
   : undefined;
 
+const defaultNetworkConfig = {
+  hardfork: HARDFORK,
+  blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
+  gasPrice: DEFAULT_GAS_PRICE,
+  accounts: {
+    mnemonic: MNEMONIC,
+    path: MNEMONIC_PATH,
+    initialIndex: 0,
+    count: 20,
+  },
+}
+
 const getCommonNetworkConfig = (networkName: eEthereumNetwork, networkId: number) => {
   return {
+    ...defaultNetworkConfig,
     url: ALCHEMY_KEY
       ? `https://eth-${
           networkName === 'main' ? 'mainnet' : networkName
         }.alchemyapi.io/v2/${ALCHEMY_KEY}`
       : `https://${networkName}.infura.io/v3/${INFURA_KEY}`,
-    hardfork: HARDFORK,
-    blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
-    gasPrice: DEFAULT_GAS_PRICE,
     chainId: networkId,
-    accounts: {
-      mnemonic: MNEMONIC,
-      path: MNEMONIC_PATH,
-      initialIndex: 0,
-      count: 20,
-    },
+  };
+};
+
+const getAstarNetworkConfig = (networkName: eAstarNetwork, networkId: number) => {
+  return {
+    ...defaultNetworkConfig,
+    url: BWARE_LABS_KEY
+      ? `https://shibuya-api.bwarelabs.com/${BWARE_LABS_KEY}`
+      : 'https://rpc.shibuya.astar.network:8545',
+    chainId: networkId,
   };
 };
 
@@ -107,6 +122,7 @@ const config: HardhatUserConfig = {
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),
     ropsten: getCommonNetworkConfig(eEthereumNetwork.ropsten, 3),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
+    shibuya: getAstarNetworkConfig(eAstarNetwork.shibuya, 81),
     hardhat: {
       hardfork: 'istanbul',
       blockGasLimit: DEFAULT_BLOCK_GAS_LIMIT,
