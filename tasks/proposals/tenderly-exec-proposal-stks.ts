@@ -196,7 +196,7 @@ task('exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fork'
 
         const redeemed = underlyingBalanceAfter
           .sub(underlyingBalanceBefore)
-          .sub(tokenName === 'aave' ? rewards : '0');
+          .sub(tokenName === 'lay' ? rewards : '0');
 
         console.log(`- Redeemed ${tokenName}`, formatEther(redeemed));
         await waitForTx(
@@ -220,7 +220,7 @@ task('exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fork'
     // Iterate staking and redeem to check if there is still rewards
     for (let x = 0; x < 3; x++) {
       for (let y = 0; y < 10; y++) {
-        await rewardAndRedeem(top10stkAaveHolders[y], aaveStakeV2.address, 'aave');
+        await rewardAndRedeem(top10stkAaveHolders[y], aaveStakeV2.address, 'lay');
         await rewardAndRedeem(top10stkBptHolders[y], bptStakeV2.address, 'bpt');
       }
     }
