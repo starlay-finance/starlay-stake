@@ -138,7 +138,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
         REWARDS_VAULT,
         EMISSION_MANAGER,
         DISTRIBUTION_DURATION,
-        'Aave stakedToken',
+        'Starley stakedToken',
         'stkToken',
         '18',
         AAVE_GOVERNANCE_V2,

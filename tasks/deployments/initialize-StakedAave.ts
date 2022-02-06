@@ -52,5 +52,5 @@ task(`initialize-${StakedAave}`, `Initialize the ${StakedAave} proxy contract`)
       )
     );
 
-    console.log('\tFinished Aave Token and Transparent Proxy initialization');
+    console.log('\tFinished Starley Token and Transparent Proxy initialization');
   });

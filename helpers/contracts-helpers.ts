@@ -152,7 +152,7 @@ export const buildPermitParams = (
   },
   primaryType: 'Permit' as const,
   domain: {
-    name: 'Staked Aave',
+    name: 'Staked Lay',
     version: '1',
     chainId: chainId,
     verifyingContract: aaveToken,
@@ -190,7 +190,7 @@ export const buildDelegateByTypeParams = (
   },
   primaryType: 'DelegateByType' as const,
   domain: {
-    name: 'Staked Aave',
+    name: 'Staked Lay',
     version: '1',
     chainId: chainId,
     verifyingContract: aaveToken,
@@ -225,7 +225,7 @@ export const buildDelegateParams = (
   },
   primaryType: 'Delegate' as const,
   domain: {
-    name: 'Staked Aave',
+    name: 'Staked Lay',
     version: '1',
     chainId: chainId,
     verifyingContract: aaveToken,
