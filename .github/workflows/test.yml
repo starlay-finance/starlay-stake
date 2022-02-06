@@ -1,10 +1,13 @@
-name: Build
+name: test
 
 on:
   push:
-    branches: [master]
+    branch:
+      - main
+      - dev
+      - 'feature/**'
   pull_request:
-    branches: [master]
+    types: [opened, reopened, ready_for_review]
 
 jobs:
   build:
