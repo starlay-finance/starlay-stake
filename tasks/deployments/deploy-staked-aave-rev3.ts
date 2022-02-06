@@ -28,8 +28,8 @@ task('deploy-staked-aave-rev3', 'Deploy implementation')
         '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
         '0xEE56e2B3D491590B5b31738cC34d5232F378a8D5',
         '3153600000', // 100 years from now
-        'Staked AAVE',
-        'stkAAVE',
+        'Staked LAY',
+        'sLAY',
         '18',
         '0x0000000000000000000000000000000000000000',
       ],

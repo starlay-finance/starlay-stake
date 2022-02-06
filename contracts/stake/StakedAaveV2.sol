@@ -11,8 +11,8 @@ import {StakedTokenV2} from './StakedTokenV2.sol';
  * @author Aave
  **/
 contract StakedAaveV2 is StakedTokenV2 {
-  string internal constant NAME = 'Staked Aave';
-  string internal constant SYMBOL = 'stkAAVE';
+  string internal constant NAME = 'Staked LAY';
+  string internal constant SYMBOL = 'sLAY';
   uint8 internal constant DECIMALS = 18;
 
   constructor(

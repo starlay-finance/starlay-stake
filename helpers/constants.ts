@@ -9,8 +9,8 @@ export const COOLDOWN_SECONDS = '3600'; // 1 hour in seconds
 export const UNSTAKE_WINDOW = '1800'; // 30 min in seconds
 export const DISTRIBUTION_DURATION = '86400'; // 1 day in seconds
 
-export const STAKED_AAVE_NAME = 'Staked Aave';
-export const STAKED_AAVE_SYMBOL = 'stkAAVE';
+export const STAKED_AAVE_NAME = 'Staked Lay';
+export const STAKED_AAVE_SYMBOL = 'sLAY';
 export const STAKED_AAVE_DECIMALS = 18;
 
 export const AAVE_GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c';

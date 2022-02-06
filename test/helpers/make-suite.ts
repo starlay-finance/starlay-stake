@@ -84,8 +84,8 @@ export async function initializeMakeSuite() {
   testEnv.stakedAaveV2 = await getStakedAaveV2();
   testEnv.aaveIncentivesController = await getAaveIncentivesController();
   testEnv.aaveToken = await getMintableErc20();
-  testEnv.aDaiMock = await getATokenMock({ slug: 'aDai' });
-  testEnv.aWethMock = await getATokenMock({ slug: 'aWeth' });
+  testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
+  testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });
 }
 
 export function makeSuite(name: string, tests: (testEnv: TestEnv) => void) {
