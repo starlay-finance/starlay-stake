@@ -88,7 +88,7 @@ export const testDeployAaveStakeV1 = async (
       .approve(aaveIncentivesControllerProxy.address, MAX_UINT_AMOUNT)
   );
   await insertContractAddressInDb(
-    eContractid.AaveIncentivesController,
+    eContractid.IncentivesController,
     aaveIncentivesControllerProxy.address
   );
 

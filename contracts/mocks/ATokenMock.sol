@@ -2,12 +2,12 @@
 pragma solidity 0.7.5;
 pragma experimental ABIEncoderV2;
 
-import {IAaveIncentivesController} from '../interfaces/IAaveIncentivesController.sol';
+import {IIncentivesController} from '../interfaces/IIncentivesController.sol';
 import {DistributionTypes} from '../lib/DistributionTypes.sol';
 import {IAToken} from '../interfaces/IAToken.sol';
 
 contract ATokenMock is IAToken {
-  IAaveIncentivesController public _aic;
+  IIncentivesController public _ic;
   uint256 internal _userBalance;
   uint256 internal _totalSupply;
 
@@ -19,8 +19,8 @@ contract ATokenMock is IAToken {
   event AssetIndexUpdated(address indexed asset, uint256 index);
   event UserIndexUpdated(address indexed user, address indexed asset, uint256 index);
 
-  constructor(IAaveIncentivesController aic) public {
-    _aic = aic;
+  constructor(IIncentivesController ic) public {
+    _ic = ic;
   }
 
   function handleActionOnAic(
@@ -28,7 +28,7 @@ contract ATokenMock is IAToken {
     uint256 userBalance,
     uint256 totalSupply
   ) external {
-    _aic.handleAction(user, userBalance, totalSupply);
+    _ic.handleAction(user, userBalance, totalSupply);
   }
 
   function setUserBalanceAndSupply(uint256 userBalance, uint256 totalSupply) public {

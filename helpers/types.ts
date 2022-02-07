@@ -18,7 +18,7 @@ export enum eContractid {
   DistributionManager = 'DistributionManager',
   StakedAave = 'StakedAave',
   StakedAaveImpl = 'StakedAaveImpl',
-  AaveIncentivesController = 'AaveIncentivesController',
+  IncentivesController = 'IncentivesController',
   IERC20Detailed = 'IERC20Detailed',
   AdminUpgradeabilityProxy = 'AdminUpgradeabilityProxy',
   InitializableAdminUpgradeabilityProxy = 'InitializableAdminUpgradeabilityProxy',

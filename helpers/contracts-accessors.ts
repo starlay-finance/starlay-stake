@@ -12,7 +12,7 @@ import { StakedTokenV2 } from '../types/StakedTokenV2';
 import { StakedTokenV3 } from '../types/StakedTokenV3';
 import { Ierc20Detailed } from '../types/Ierc20Detailed';
 import { InitializableAdminUpgradeabilityProxy } from '../types/InitializableAdminUpgradeabilityProxy';
-import { AaveIncentivesController } from '../types/AaveIncentivesController';
+import { IncentivesController } from '../types/IncentivesController';
 import { MockTransferHook } from '../types/MockTransferHook';
 import { verifyContract } from './etherscan-verification';
 import { ATokenMock } from '../types/ATokenMock';
@@ -309,7 +309,7 @@ export const deployAaveIncentivesController = async (
   ],
   verify?: boolean
 ) => {
-  const id = eContractid.AaveIncentivesController;
+  const id = eContractid.IncentivesController;
   const args: string[] = [
     rewardToken,
     rewardsVault,
@@ -318,7 +318,7 @@ export const deployAaveIncentivesController = async (
     emissionManager,
     distributionDuration,
   ];
-  const instance = await deployContract<AaveIncentivesController>(id, args);
+  const instance = await deployContract<IncentivesController>(id, args);
   await instance.deployTransaction.wait();
   if (verify) {
     await verifyContract(instance.address, args);
@@ -400,8 +400,8 @@ export const getStakedTokenV3 = async (address?: tEthereumAddress) => {
   );
 };
 
-export const getAaveIncentivesController = getContractFactory<AaveIncentivesController>(
-  eContractid.AaveIncentivesController
+export const getAaveIncentivesController = getContractFactory<IncentivesController>(
+  eContractid.IncentivesController
 );
 
 export const getIErc20Detailed = getContractFactory<Ierc20Detailed>(eContractid.IERC20Detailed);

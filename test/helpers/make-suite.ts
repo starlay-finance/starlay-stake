@@ -14,7 +14,7 @@ import {
   getStakedAave,
   getStakedAaveV2,
 } from '../../helpers/contracts-accessors';
-import { AaveIncentivesController } from '../../types/AaveIncentivesController';
+import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
 import { ATokenMock } from '../../types/ATokenMock';
 import { StakedAaveV2 } from '../../types/StakedAaveV2';
@@ -36,7 +36,7 @@ export interface TestEnv {
   deployer: SignerWithAddress;
   users: SignerWithAddress[];
   aaveToken: MintableErc20;
-  aaveIncentivesController: AaveIncentivesController;
+  aaveIncentivesController: IncentivesController;
   stakedAave: StakedAave;
   aDaiMock: ATokenMock;
   aWethMock: ATokenMock;
@@ -55,7 +55,7 @@ const testEnv: TestEnv = {
   aaveToken: {} as MintableErc20,
   stakedAave: {} as StakedAave,
   stakedAaveV2: {} as StakedAaveV2,
-  aaveIncentivesController: {} as AaveIncentivesController,
+  aaveIncentivesController: {} as IncentivesController,
   aDaiMock: {} as ATokenMock,
   aWethMock: {} as ATokenMock,
 } as TestEnv;

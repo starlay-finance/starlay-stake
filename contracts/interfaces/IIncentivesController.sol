@@ -2,7 +2,7 @@
 pragma solidity 0.7.5;
 pragma experimental ABIEncoderV2;
 
-interface IAaveIncentivesController {
+interface IIncentivesController {
   function handleAction(
     address asset,
     uint256 userBalance,
