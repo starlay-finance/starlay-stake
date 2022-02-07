@@ -38,7 +38,7 @@ const buildTestEnv = async (deployer: Signer, vaultOfRewards: Signer, restWallet
 
   await testDeployStakedRayV2(layToken, deployer, vaultOfRewards, restWallets);
 
-  const { aaveIncentivesControllerProxy: incentivesControllerProxy } = await testDeployStakedRayV1(
+  const { incentivesControllerProxy } = await testDeployStakedRayV1(
     layToken,
     deployer,
     vaultOfRewards,
