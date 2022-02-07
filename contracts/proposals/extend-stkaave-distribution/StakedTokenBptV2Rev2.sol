@@ -449,9 +449,9 @@ contract ERC20 is Context, IERC20 {
   ) internal virtual {}
 }
 
-// File contracts/interfaces/IStakedAave.sol
+// File contracts/interfaces/IStakedLay.sol
 
-interface IStakedAave {
+interface IStakedLay {
   function stake(address to, uint256 amount) external;
 
   function redeem(address to, uint256 amount) external;
@@ -1492,7 +1492,7 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
  * @author Aave
  **/
 contract StakedTokenBptRev2 is
-  IStakedAave,
+  IStakedLay,
   GovernancePowerWithSnapshot,
   VersionedInitializable,
   DistributionManager

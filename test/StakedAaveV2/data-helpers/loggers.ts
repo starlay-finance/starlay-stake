@@ -1,40 +1,40 @@
 import { tEthereumAddress } from '../../../helpers/types';
 import { MintableErc20 } from '../../../types/MintableErc20';
-import { StakedAave } from '../../../types/StakedAave';
+import { StakedLay } from '../../../types/StakedLay';
 
-export const logAaveTokenBalanceOf = async (
+export const logLayTokenBalanceOf = async (
   account: tEthereumAddress,
-  aaveToken: MintableErc20
+  token: MintableErc20
 ) => {
   console.log(
-    `[aaveToken.balanceOf(${account})]: ${(await aaveToken.balanceOf(account)).toString()}`
+    `[token.balanceOf(${account})]: ${(await token.balanceOf(account)).toString()}`
   );
 };
 
-export const logStakedAaveBalanceOf = async (
+export const logStakedTokenBalanceOf = async (
   staker: tEthereumAddress,
-  stakedAaveV2: StakedAave
+  stakedLayV2: StakedLay
 ) => {
   console.log(
-    `[stakedAaveV2.balanceOf(${staker})]: ${(await stakedAaveV2.balanceOf(staker)).toString()}`
+    `[stakedLayV2.balanceOf(${staker})]: ${(await stakedLayV2.balanceOf(staker)).toString()}`
   );
 };
 
 export const logGetStakeTotalRewardsBalance = async (
   staker: tEthereumAddress,
-  stakedAaveV2: StakedAave
+  stakedLayV2: StakedLay
 ) => {
   console.log(
-    `[stakedAaveV2.getTotalRewardsBalance(${staker})]: ${(
-      await stakedAaveV2.getTotalRewardsBalance(staker)
+    `[stakedLayV2.getTotalRewardsBalance(${staker})]: ${(
+      await stakedLayV2.getTotalRewardsBalance(staker)
     ).toString()}`
   );
 };
 
-export const logRewardPerStakedAave = async (stakedAaveV2: StakedAave) => {
+export const logRewardPerStakedToken = async (stakedLayV2: StakedLay) => {
   console.log(
-    `[stakedAaveV2.getRewardPerStakedAave()]: ${(
-      await stakedAaveV2.getRewardPerStakedAave()
+    `[stakedLayV2.getRewardPerStakedAave()]: ${(
+      await stakedLayV2.getRewardPerStakedAave()
     ).toString()}`
   );
 };

@@ -3,25 +3,25 @@ import {
   PSM_STAKER_PREMIUM,
   COOLDOWN_SECONDS,
   UNSTAKE_WINDOW,
-  STAKED_AAVE_NAME,
-  STAKED_AAVE_SYMBOL,
-  STAKED_AAVE_DECIMALS,
+  STAKED_TOKEN_NAME,
+  STAKED_TOKEN_SYMBOL,
+  STAKED_TOKEN_DECIMALS,
   MAX_UINT_AMOUNT,
 } from '../../helpers/constants';
 import {
   deployInitializableAdminUpgradeabilityProxy,
-  deployAaveIncentivesController,
-  deployStakedAave,
+  deployIncentivesController,
+  deployStakedLay,
   deployMockTransferHook,
-  deployStakedAaveV2,
+  deployStakedLayV2,
 } from '../../helpers/contracts-accessors';
 import { insertContractAddressInDb } from '../../helpers/contracts-helpers';
 import { waitForTx } from '../../helpers/misc-utils';
 import { eContractid } from '../../helpers/types';
 import { MintableErc20 } from '../../types/MintableErc20';
 
-export const testDeployAaveStakeV1 = async (
-  aaveToken: MintableErc20,
+export const testDeployStakedRayV1 = async (
+  token: MintableErc20,
   deployer: Signer,
   vaultOfRewards: Signer,
   restWallets: Signer[]
@@ -29,24 +29,24 @@ export const testDeployAaveStakeV1 = async (
   const proxyAdmin = await restWallets[0].getAddress();
   const emissionManager = await deployer.getAddress();
 
-  const stakedToken = aaveToken.address;
-  const rewardsToken = aaveToken.address;
+  const stakedToken = token.address;
+  const rewardsToken = token.address;
 
   const vaultOfRewardsAddress = await vaultOfRewards.getAddress();
 
-  const aaveIncentivesControllerProxy = await deployInitializableAdminUpgradeabilityProxy();
-  const stakedAaveProxy = await deployInitializableAdminUpgradeabilityProxy();
+  const incentivesControllerProxy = await deployInitializableAdminUpgradeabilityProxy();
+  const stakedLayProxy = await deployInitializableAdminUpgradeabilityProxy();
 
-  const aaveIncentivesControllerImplementation = await deployAaveIncentivesController([
-    aaveToken.address,
+  const incentivesControllerImplementation = await deployIncentivesController([
+    token.address,
     vaultOfRewardsAddress,
-    stakedAaveProxy.address,
+    stakedLayProxy.address,
     PSM_STAKER_PREMIUM,
     emissionManager,
     (1000 * 60 * 60).toString(),
   ]);
 
-  const stakedAaveImpl = await deployStakedAave([
+  const stakedLayImpl = await deployStakedLay([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -58,65 +58,65 @@ export const testDeployAaveStakeV1 = async (
 
   const mockTransferHook = await deployMockTransferHook();
 
-  const stakedAaveEncodedInitialize = stakedAaveImpl.interface.encodeFunctionData('initialize', [
+  const stakedLayEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize', [
     mockTransferHook.address,
-    STAKED_AAVE_NAME,
-    STAKED_AAVE_SYMBOL,
-    STAKED_AAVE_DECIMALS,
+    STAKED_TOKEN_NAME,
+    STAKED_TOKEN_SYMBOL,
+    STAKED_TOKEN_DECIMALS,
   ]);
-  await stakedAaveProxy['initialize(address,address,bytes)'](
-    stakedAaveImpl.address,
+  await stakedLayProxy['initialize(address,address,bytes)'](
+    stakedLayImpl.address,
     proxyAdmin,
-    stakedAaveEncodedInitialize
+    stakedLayEncodedInitialize
   );
   await waitForTx(
-    await aaveToken.connect(vaultOfRewards).approve(stakedAaveProxy.address, MAX_UINT_AMOUNT)
+    await token.connect(vaultOfRewards).approve(stakedLayProxy.address, MAX_UINT_AMOUNT)
   );
-  await insertContractAddressInDb(eContractid.StakedAave, stakedAaveProxy.address);
+  await insertContractAddressInDb(eContractid.StakedLay, stakedLayProxy.address);
 
-  const peiEncodedInitialize = aaveIncentivesControllerImplementation.interface.encodeFunctionData(
+  const peiEncodedInitialize = incentivesControllerImplementation.interface.encodeFunctionData(
     'initialize'
   );
-  await aaveIncentivesControllerProxy['initialize(address,address,bytes)'](
-    aaveIncentivesControllerImplementation.address,
+  await incentivesControllerProxy['initialize(address,address,bytes)'](
+    incentivesControllerImplementation.address,
     proxyAdmin,
     peiEncodedInitialize
   );
   await waitForTx(
-    await aaveToken
+    await token
       .connect(vaultOfRewards)
-      .approve(aaveIncentivesControllerProxy.address, MAX_UINT_AMOUNT)
+      .approve(incentivesControllerProxy.address, MAX_UINT_AMOUNT)
   );
   await insertContractAddressInDb(
     eContractid.IncentivesController,
-    aaveIncentivesControllerProxy.address
+    incentivesControllerProxy.address
   );
 
   return {
-    aaveIncentivesControllerProxy,
-    stakedAaveProxy,
+    incentivesControllerProxy,
+    stakedLayProxy,
   };
 };
 
-export const testDeployAaveStakeV2 = async (
-  aaveToken: MintableErc20,
+export const testDeployStakedRayV2 = async (
+  token: MintableErc20,
   deployer: Signer,
   vaultOfRewards: Signer,
   restWallets: Signer[]
 ) => {
-  const stakedToken = aaveToken.address;
-  const rewardsToken = aaveToken.address;
+  const stakedToken = token.address;
+  const rewardsToken = token.address;
   const emissionManager = await deployer.getAddress();
   const vaultOfRewardsAddress = await vaultOfRewards.getAddress();
 
-  const { stakedAaveProxy } = await testDeployAaveStakeV1(
-    aaveToken,
+  const { stakedLayProxy } = await testDeployStakedRayV1(
+    token,
     deployer,
     vaultOfRewards,
     restWallets
   );
 
-  const stakedAaveImpl = await deployStakedAaveV2([
+  const stakedLayImpl = await deployStakedLayV2([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -126,15 +126,15 @@ export const testDeployAaveStakeV2 = async (
     (1000 * 60 * 60).toString(),
   ]);
 
-  const stakedAaveEncodedInitialize = stakedAaveImpl.interface.encodeFunctionData('initialize');
+  const stakedLayEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize');
 
-  await stakedAaveProxy
+  await stakedLayProxy
     .connect(restWallets[0])
-    .upgradeToAndCall(stakedAaveImpl.address, stakedAaveEncodedInitialize);
+    .upgradeToAndCall(stakedLayImpl.address, stakedLayEncodedInitialize);
 
-  await insertContractAddressInDb(eContractid.StakedAaveV2, stakedAaveProxy.address);
+  await insertContractAddressInDb(eContractid.StakedLayV2, stakedLayProxy.address);
 
   return {
-    stakedAaveProxy,
+    stakedLayProxy,
   };
 };

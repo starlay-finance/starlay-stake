@@ -3,21 +3,21 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { eContractid, eEthereumNetwork } from '../../helpers/types';
 import { checkVerification } from '../../helpers/etherscan-verification';
-import { getAaveAdminPerNetwork } from '../../helpers/constants';
+import { getAdminPerNetwork } from '../../helpers/constants';
 
 task('common-deployment', 'Deployment in for Main, Kovan networks')
-  .addFlag('verify', 'Verify StakedAave and InitializableAdminUpgradeabilityProxy contract.')
+  .addFlag('verify', 'Verify StakedToken and InitializableAdminUpgradeabilityProxy contract.')
   .addOptionalParam(
     'vaultAddress',
-    'Use AaveIncentivesVault address by param instead of configuration.'
+    'Use IncentivesVault address by param instead of configuration.'
   )
-  .addOptionalParam('aaveAddress', 'Use AaveToken address by param instead of configuration.')
-  .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
+  .addOptionalParam('tokenAddress', 'Use LayToken address by param instead of configuration.')
+  .setAction(async ({ verify, vaultAddress, tokenAddress }, localBRE) => {
     const DRE: HardhatRuntimeEnvironment = await localBRE.run('set-dre');
     const network = DRE.network.name as eEthereumNetwork;
-    const aaveAdmin = getAaveAdminPerNetwork(network);
+    const admin = getAdminPerNetwork(network);
 
-    if (!aaveAdmin) {
+    if (!admin) {
       throw Error(
         'The --admin parameter must be set. Set an Ethereum address as --admin parameter input.'
       );
@@ -28,11 +28,11 @@ task('common-deployment', 'Deployment in for Main, Kovan networks')
       checkVerification();
     }
 
-    await DRE.run(`deploy-${eContractid.StakedAave}`, { verify, vaultAddress, aaveAddress });
+    await DRE.run(`deploy-${eContractid.StakedLay}`, { verify, vaultAddress, tokenAddress });
 
-    await DRE.run(`initialize-${eContractid.StakedAave}`, {
-      admin: aaveAdmin,
+    await DRE.run(`initialize-${eContractid.StakedLay}`, {
+      admin: admin,
     });
 
-    console.log(`\n✔️ Finished the deployment of the Aave Token ${network} Enviroment. ✔️`);
+    console.log(`\n✔️ Finished the deployment of the Lay Token ${network} Enviroment. ✔️`);
   });

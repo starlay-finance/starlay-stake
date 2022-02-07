@@ -8,10 +8,10 @@ import { MAX_UINT_AMOUNT } from '../../helpers/constants';
 
 task('propose-vault-approval', 'Create some proposals and votes')
   .addParam('rewardsVaultController')
-  .addParam('aaveProxy')
-  .addParam('stkAaveProxy')
+  .addParam('layProxy')
+  .addParam('stakedLayProxy')
   .addParam('stkBptProxy')
-  .addParam('aaveGovernance')
+  .addParam('governance')
   .addParam('shortExecutor')
   .addParam('ipfsHash')
   .addFlag('defender')
@@ -19,12 +19,12 @@ task('propose-vault-approval', 'Create some proposals and votes')
     async (
       {
         rewardsVaultController,
-        aaveGovernance,
+        governance,
         shortExecutor,
         defender,
-        stkAaveProxy,
+        stakedLayProxy,
         stkBptProxy,
-        aaveProxy,
+        layProxy,
         ipfsHash,
       },
       localBRE: any
@@ -39,19 +39,19 @@ task('propose-vault-approval', 'Create some proposals and votes')
         proposer = signer;
       }
 
-      // Calldata for StkAave approval
-      const payloadForStkAaveApproval = DRE.ethers.utils.defaultAbiCoder.encode(
+      // Calldata for StakedLay approval
+      const payloadForStakedLayApproval = DRE.ethers.utils.defaultAbiCoder.encode(
         ['address', 'address', 'uint256'],
-        [aaveProxy, stkAaveProxy, MAX_UINT_AMOUNT]
+        [layProxy, stakedLayProxy, MAX_UINT_AMOUNT]
       );
       // Calldata for StkBpt approval
       const payloadForStkBPTApproval = DRE.ethers.utils.defaultAbiCoder.encode(
         ['address', 'address', 'uint256'],
-        [aaveProxy, stkBptProxy, MAX_UINT_AMOUNT]
+        [layProxy, stkBptProxy, MAX_UINT_AMOUNT]
       );
 
       const executeSignature = 'approve(address,address,uint256)';
-      const gov = await IAaveGovernanceV2__factory.connect(aaveGovernance, proposer);
+      const gov = await IAaveGovernanceV2__factory.connect(governance, proposer);
 
       try {
         const tx = await gov.create(
@@ -59,7 +59,7 @@ task('propose-vault-approval', 'Create some proposals and votes')
           [rewardsVaultController, rewardsVaultController],
           ['0', '0'],
           [executeSignature, executeSignature],
-          [payloadForStkAaveApproval, payloadForStkBPTApproval],
+          [payloadForStakedLayApproval, payloadForStkBPTApproval],
           [false, false],
           ipfsHash,
           { gasLimit: 1000000 }

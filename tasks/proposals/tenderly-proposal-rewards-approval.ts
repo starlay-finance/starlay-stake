@@ -4,7 +4,6 @@ import {
   IAaveGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
-  StakedAaveV2__factory,
 } from '../../types';
 import { advanceBlockTo, DRE, increaseTimeTenderly, latestBlock } from '../../helpers/misc-utils';
 import { logError } from '../../helpers/tenderly-utils';
@@ -27,56 +26,56 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
     }
 
     const {
-      AAVE_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-      AAVE_GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
+      RAY_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+      GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
       REWARDS_VAULT = '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
-      AAVE_STAKE = '0x4da27a545c0c5B758a6BA100e3a049001de870f5',
+      RAY_STAKE = '0x4da27a545c0c5B758a6BA100e3a049001de870f5',
       STK_BPT_STAKE = '0xa1116930326D21fB917d5A27F1E9943A9595fb47',
     } = process.env;
 
-    if (!AAVE_TOKEN || !AAVE_GOVERNANCE_V2) {
+    if (!RAY_TOKEN || !GOVERNANCE_V2) {
       throw new Error('You have not set correctly the .env file, make sure to read the README.md');
     }
 
     const VOTING_DURATION = 19200;
 
-    const AAVE_WHALE = '0x25f2226b597e8f9514b3f68f00f494cf4f286491';
-    const AAVE_WHALE_2 = '0xbe0eb53f46cd790cd13851d5eff43d12404d33e8';
+    const WHALE = '0x25f2226b597e8f9514b3f68f00f494cf4f286491';
+    const WHALE_2 = '0xbe0eb53f46cd790cd13851d5eff43d12404d33e8';
 
     const ethers = DRE.ethers;
 
-    // Send ether to the AAVE_WHALE, which is a non payable contract via selfdestruct
+    // Send ether to the LAY_WHALE, which is a non payable contract via selfdestruct
     const selfDestructContract = await new SelfdestructTransfer__factory(proposer).deploy();
     await selfDestructContract.deployTransaction.wait();
     await (
-      await selfDestructContract.destroyAndTransfer(AAVE_WHALE, {
+      await selfDestructContract.destroyAndTransfer(WHALE, {
         value: ethers.utils.parseEther('0.1'),
       })
     ).wait();
 
     // Impersonating holders
-    const whale2 = ethers.provider.getSigner(AAVE_WHALE_2);
-    const whale = ethers.provider.getSigner(AAVE_WHALE);
+    const whale2 = ethers.provider.getSigner(WHALE_2);
+    const whale = ethers.provider.getSigner(WHALE);
 
     // Initialize contracts and tokens
     const gov = (await ethers.getContractAt(
       'IAaveGovernanceV2',
-      AAVE_GOVERNANCE_V2,
+      GOVERNANCE_V2,
       proposer
     )) as IAaveGovernanceV2;
 
-    const aave = Erc20__factory.connect(AAVE_TOKEN, whale);
+    const layToken = Erc20__factory.connect(RAY_TOKEN, whale);
 
     console.log('- Prior proposal:');
     console.log('- Rewards Vault Allowance');
-    console.log('  - StakedAave', formatEther(await aave.allowance(REWARDS_VAULT, AAVE_STAKE)));
-    console.log('  - StakedBPT', formatEther(await aave.allowance(REWARDS_VAULT, STK_BPT_STAKE)));
+    console.log('  - StakedLay', formatEther(await layToken.allowance(REWARDS_VAULT, RAY_STAKE)));
+    console.log('  - StakedBPT', formatEther(await layToken.allowance(REWARDS_VAULT, STK_BPT_STAKE)));
 
-    // Transfer enough AAVE to proposer
-    await (await aave.transfer(await proposer.getAddress(), parseEther('2000000'))).wait();
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
+    await (await layToken.transfer(await proposer.getAddress(), parseEther('2000000'))).wait();
+    // Transfer enough LAY to proposer
     await (
-      await aave.connect(whale2).transfer(await proposer.getAddress(), parseEther('1200000'))
+      await layToken.connect(whale2).transfer(await proposer.getAddress(), parseEther('1200000'))
     ).wait();
 
     await advanceBlockTo((await latestBlock()) + 10);
@@ -116,6 +115,6 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
     console.log('');
     console.log('- Proposal executed:');
     console.log('- Rewards Vault Allowance');
-    console.log('  - StakedAave', formatEther(await aave.allowance(REWARDS_VAULT, AAVE_STAKE)));
-    console.log('  - StakedBPT', formatEther(await aave.allowance(REWARDS_VAULT, STK_BPT_STAKE)));
+    console.log('  - StakedLay', formatEther(await layToken.allowance(REWARDS_VAULT, RAY_STAKE)));
+    console.log('  - StakedBPT', formatEther(await layToken.allowance(REWARDS_VAULT, STK_BPT_STAKE)));
   });

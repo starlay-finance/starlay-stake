@@ -5,7 +5,7 @@ pragma experimental ABIEncoderV2;
 import {ERC20} from '@aave/aave-token/contracts/open-zeppelin/ERC20.sol';
 
 import {IERC20} from '../interfaces/IERC20.sol';
-import {IStakedAave} from '../interfaces/IStakedAave.sol';
+import {IStakedLay} from '../interfaces/IStakedLay.sol';
 import {ITransferHook} from '../interfaces/ITransferHook.sol';
 
 import {DistributionTypes} from '../lib/DistributionTypes.sol';
@@ -22,7 +22,7 @@ import {GovernancePowerWithSnapshot} from '../lib/GovernancePowerWithSnapshot.so
  * @author Aave
  **/
 contract StakedTokenV2 is
-  IStakedAave,
+  IStakedLay,
   GovernancePowerWithSnapshot,
   VersionedInitializable,
   DistributionManager
@@ -419,7 +419,7 @@ contract StakedTokenV2 is
       DelegationType.PROPOSITION_POWER
     );
 
-    // caching the aave governance address to avoid multiple state loads
+    // caching the governance address to avoid multiple state loads
     ITransferHook aaveGovernance = _aaveGovernance;
     if (aaveGovernance != ITransferHook(0)) {
       aaveGovernance.onTransfer(from, to, amount);

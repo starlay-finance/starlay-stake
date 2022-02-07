@@ -6,24 +6,24 @@ import { tEthereumAddress } from '../../helpers/types';
 import chai from 'chai';
 // @ts-ignore
 import bignumberChai from 'chai-bignumber';
-import { StakedAave } from '../../types/StakedAave';
+import { StakedLay } from '../../types/StakedLay';
 import {
-  getAaveIncentivesController,
+  getIncentivesController,
   getATokenMock,
   getMintableErc20,
-  getStakedAave,
-  getStakedAaveV2,
+  getStakedLay,
+  getStakedLayV2,
 } from '../../helpers/contracts-accessors';
 import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
 import { ATokenMock } from '../../types/ATokenMock';
-import { StakedAaveV2 } from '../../types/StakedAaveV2';
+import { StakedLayV2 } from '../../types/StakedLayV2';
 
 chai.use(bignumberChai());
 
-export let stakedAaveInitializeTimestamp = 0;
-export const setStakedAaveInitializeTimestamp = (timestamp: number) => {
-  stakedAaveInitializeTimestamp = timestamp;
+export let stakedTokenInitializeTimestamp = 0;
+export const setStakedTokenInitializeTimestamp = (timestamp: number) => {
+  stakedTokenInitializeTimestamp = timestamp;
 };
 
 export interface SignerWithAddress {
@@ -31,13 +31,13 @@ export interface SignerWithAddress {
   address: tEthereumAddress;
 }
 export interface TestEnv {
-  stakedAaveV2: StakedAaveV2;
+  stakedTokenV2: StakedLayV2;
   rewardsVault: SignerWithAddress;
   deployer: SignerWithAddress;
   users: SignerWithAddress[];
-  aaveToken: MintableErc20;
-  aaveIncentivesController: IncentivesController;
-  stakedAave: StakedAave;
+  layToken: MintableErc20;
+  incentivesController: IncentivesController;
+  stakedToken: StakedLay;
   aDaiMock: ATokenMock;
   aWethMock: ATokenMock;
 }
@@ -52,10 +52,10 @@ const setBuidlerevmSnapshotId = (id: string) => {
 const testEnv: TestEnv = {
   deployer: {} as SignerWithAddress,
   users: [] as SignerWithAddress[],
-  aaveToken: {} as MintableErc20,
-  stakedAave: {} as StakedAave,
-  stakedAaveV2: {} as StakedAaveV2,
-  aaveIncentivesController: {} as IncentivesController,
+  layToken: {} as MintableErc20,
+  stakedToken: {} as StakedLay,
+  stakedTokenV2: {} as StakedLayV2,
+  incentivesController: {} as IncentivesController,
   aDaiMock: {} as ATokenMock,
   aWethMock: {} as ATokenMock,
 } as TestEnv;
@@ -80,10 +80,10 @@ export async function initializeMakeSuite() {
   }
   testEnv.deployer = deployer;
   testEnv.rewardsVault = rewardsVault;
-  testEnv.stakedAave = await getStakedAave();
-  testEnv.stakedAaveV2 = await getStakedAaveV2();
-  testEnv.aaveIncentivesController = await getAaveIncentivesController();
-  testEnv.aaveToken = await getMintableErc20();
+  testEnv.stakedToken = await getStakedLay();
+  testEnv.stakedTokenV2 = await getStakedLayV2();
+  testEnv.incentivesController = await getIncentivesController();
+  testEnv.layToken = await getMintableErc20();
   testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
   testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });
 }

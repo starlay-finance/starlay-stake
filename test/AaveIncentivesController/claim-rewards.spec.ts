@@ -69,7 +69,7 @@ const getRewardsBalanceScenarios: ScenarioAction[] = [
   },
 ];
 
-makeSuite('AaveIncentivesController claimRewards tests', (testEnv) => {
+makeSuite('IncentivesController claimRewards tests', (testEnv) => {
   for (const {
     caseName,
     amountToClaim: _amountToClaim,
@@ -80,10 +80,10 @@ makeSuite('AaveIncentivesController claimRewards tests', (testEnv) => {
     let amountToClaim = _amountToClaim;
     it(caseName, async () => {
       await increaseTimeAndMine(100);
-      const { aaveIncentivesController, stakedAave, aaveToken, aDaiMock } = testEnv;
+      const { incentivesController, stakedToken, layToken, aDaiMock } = testEnv;
 
-      const distributionEndTimestamp = await aaveIncentivesController.DISTRIBUTION_END();
-      const userAddress = await aaveIncentivesController.signer.getAddress();
+      const distributionEndTimestamp = await incentivesController.DISTRIBUTION_END();
+      const userAddress = await incentivesController.signer.getAddress();
 
       const underlyingAsset = aDaiMock.address;
       const stakedByUser = 22 * caseName.length;
@@ -91,31 +91,31 @@ makeSuite('AaveIncentivesController claimRewards tests', (testEnv) => {
 
       // update emissionPerSecond in advance to not affect user calculations
       if (emissionPerSecond) {
-        await aaveIncentivesController.configureAssets([
+        await incentivesController.configureAssets([
           { emissionPerSecond, underlyingAsset, totalStaked },
         ]);
       }
 
       const destinationAddress = to || userAddress;
 
-      const destinationAddressBalanceBefore = await (toStake ? stakedAave : aaveToken).balanceOf(
+      const destinationAddressBalanceBefore = await (toStake ? stakedToken : layToken).balanceOf(
         destinationAddress
       );
       await aDaiMock.setUserBalanceAndSupply(stakedByUser, totalStaked);
-      const unclaimedRewardsBefore = await aaveIncentivesController.getUserUnclaimedRewards(
+      const unclaimedRewardsBefore = await incentivesController.getUserUnclaimedRewards(
         userAddress
       );
       const userIndexBefore = await getUserIndex(
-        aaveIncentivesController,
+        incentivesController,
         userAddress,
         underlyingAsset
       );
       const assetDataBefore = (
-        await getAssetsData(aaveIncentivesController, [{ underlyingAsset }])
+        await getAssetsData(incentivesController, [{ underlyingAsset }])
       )[0];
 
       const claimRewardsReceipt = await waitForTx(
-        await aaveIncentivesController.claimRewards(
+        await incentivesController.claimRewards(
           [underlyingAsset],
           amountToClaim,
           destinationAddress,
@@ -126,19 +126,19 @@ makeSuite('AaveIncentivesController claimRewards tests', (testEnv) => {
       const actionBlockTimestamp = await getBlockTimestamp(claimRewardsReceipt.blockNumber);
 
       const userIndexAfter = await getUserIndex(
-        aaveIncentivesController,
+        incentivesController,
         userAddress,
         underlyingAsset
       );
       const assetDataAfter = (
-        await getAssetsData(aaveIncentivesController, [{ underlyingAsset }])
+        await getAssetsData(incentivesController, [{ underlyingAsset }])
       )[0];
 
-      const unclaimedRewardsAfter = await aaveIncentivesController.getUserUnclaimedRewards(
+      const unclaimedRewardsAfter = await incentivesController.getUserUnclaimedRewards(
         userAddress
       );
 
-      const destinationAddressBalanceAfter = await (toStake ? stakedAave : aaveToken).balanceOf(
+      const destinationAddressBalanceAfter = await (toStake ? stakedToken : layToken).balanceOf(
         destinationAddress
       );
 
