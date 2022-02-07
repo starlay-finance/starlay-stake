@@ -81,17 +81,11 @@
       "pre-commit": "pretty-quick --staged --pattern 'contracts/**/*.sol' --pattern 'helpers/**/*.ts'  --pattern 'test/**/*.ts' --pattern 'tasks/**/*.ts'"
     }
   },
-  "author": "Aave",
-  "contributors": [
-    "Ernesto Boado <ernesto@aave.com>",
-    "Emilio Frangella <emilio@aave.com>",
-    "Andrey Kozlov <andrey@aave.com>",
-    "David Racero <david.k@aave.com>"
-  ],
+  "author": "Starlay",
   "license": "AGPL-3.0",
   "dependencies": {},
   "keywords": [
-    "aave",
+    "starlay",
     "stake",
     "token",
     "safety",
