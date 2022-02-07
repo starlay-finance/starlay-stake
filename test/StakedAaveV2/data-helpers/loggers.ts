@@ -2,7 +2,7 @@ import { tEthereumAddress } from '../../../helpers/types';
 import { MintableErc20 } from '../../../types/MintableErc20';
 import { StakedLay } from '../../../types/StakedLay';
 
-export const logAaveTokenBalanceOf = async (
+export const logLayTokenBalanceOf = async (
   account: tEthereumAddress,
   token: MintableErc20
 ) => {
@@ -11,7 +11,7 @@ export const logAaveTokenBalanceOf = async (
   );
 };
 
-export const logStakedAaveBalanceOf = async (
+export const logStakedTokenBalanceOf = async (
   staker: tEthereumAddress,
   stakedLayV2: StakedLay
 ) => {

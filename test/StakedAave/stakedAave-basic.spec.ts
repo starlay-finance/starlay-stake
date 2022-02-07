@@ -13,7 +13,6 @@ import BigNumber from 'bignumber.js';
 import { compareRewardsAtAction } from './data-helpers/reward';
 import { getUserIndex } from '../DistributionManager/data-helpers/asset-user-data';
 import { getRewards } from '../DistributionManager/data-helpers/base-math';
-import { logAaveTokenBalanceOf } from './data-helpers/loggers';
 
 const { expect } = require('chai');
 
