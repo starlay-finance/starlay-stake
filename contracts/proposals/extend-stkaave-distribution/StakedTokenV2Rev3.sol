@@ -874,11 +874,11 @@ interface IDistributionManager {
 }
 
 /**
- * @title AaveDistributionManager
+ * @title DistributionManager
  * @notice Accounting contract to manage multiple staking distributions
  * @author Aave
  **/
-contract AaveDistributionManager is IDistributionManager {
+contract DistributionManager is IDistributionManager {
   using SafeMath for uint256;
 
   struct AssetData {
@@ -1450,7 +1450,7 @@ contract StakedTokenV2Rev3 is
   IStakedAave,
   GovernancePowerWithSnapshot,
   VersionedInitializable,
-  AaveDistributionManager
+  DistributionManager
 {
   using SafeMath for uint256;
   using SafeERC20 for IERC20;
@@ -1510,7 +1510,7 @@ contract StakedTokenV2Rev3 is
     string memory symbol,
     uint8 decimals,
     address governance
-  ) public ERC20(name, symbol) AaveDistributionManager(emissionManager, distributionDuration) {
+  ) public ERC20(name, symbol) DistributionManager(emissionManager, distributionDuration) {
     STAKED_TOKEN = stakedToken;
     REWARD_TOKEN = rewardToken;
     COOLDOWN_SECONDS = cooldownSeconds;

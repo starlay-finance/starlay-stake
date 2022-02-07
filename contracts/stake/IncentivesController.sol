@@ -7,20 +7,20 @@ import {SafeMath} from '../lib/SafeMath.sol';
 
 import {IERC20} from '../interfaces/IERC20.sol';
 import {IAToken} from '../interfaces/IAToken.sol';
-import {IAaveIncentivesController} from '../interfaces/IAaveIncentivesController.sol';
+import {IIncentivesController} from '../interfaces/IIncentivesController.sol';
 import {IStakedAave} from '../interfaces/IStakedAave.sol';
 import {VersionedInitializable} from '../utils/VersionedInitializable.sol';
-import {AaveDistributionManager} from './AaveDistributionManager.sol';
+import {DistributionManager} from './DistributionManager.sol';
 
 /**
- * @title AaveIncentivesController
+ * @title IncentivesController
  * @notice Distributor contract for rewards to the Aave protocol
  * @author Aave
  **/
-contract AaveIncentivesController is
-  IAaveIncentivesController,
+contract IncentivesController is
+  IIncentivesController,
   VersionedInitializable,
-  AaveDistributionManager
+  DistributionManager
 {
   using SafeMath for uint256;
   uint256 public constant REVISION = 1;
@@ -43,7 +43,7 @@ contract AaveIncentivesController is
     uint256 extraPsmReward,
     address emissionManager,
     uint128 distributionDuration
-  ) public AaveDistributionManager(emissionManager, distributionDuration) {
+  ) public DistributionManager(emissionManager, distributionDuration) {
     REWARD_TOKEN = rewardToken;
     REWARDS_VAULT = rewardsVault;
     PSM = psm;

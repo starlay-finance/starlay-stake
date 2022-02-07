@@ -7,11 +7,11 @@ import {DistributionTypes} from '../lib/DistributionTypes.sol';
 import {IDistributionManager} from '../interfaces/IDistributionManager.sol';
 
 /**
- * @title AaveDistributionManager
+ * @title DistributionManager
  * @notice Accounting contract to manage multiple staking distributions
- * @author Aave
+ * @author Starlay
  **/
-contract AaveDistributionManager is IDistributionManager {
+contract DistributionManager is IDistributionManager {
   using SafeMath for uint256;
 
   struct AssetData {
@@ -68,7 +68,7 @@ contract AaveDistributionManager is IDistributionManager {
 
   /**
    * @dev Updates the state of one distribution, mainly rewards index and timestamp
-   * @param underlyingAsset The address used as key in the distribution, for example sAAVE or the aTokens addresses on Aave
+   * @param underlyingAsset The address used as key in the distribution, for example sAAVE or the aTokens addresses on Aave // TODO: modify
    * @param assetConfig Storage pointer to the distribution's config
    * @param totalStaked Current total of staked assets for this distribution
    * @return The new distribution index

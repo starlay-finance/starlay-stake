@@ -13,7 +13,7 @@ import {SafeMath} from '../lib/SafeMath.sol';
 import {SafeERC20} from '../lib/SafeERC20.sol';
 
 import {VersionedInitializable} from '../utils/VersionedInitializable.sol';
-import {AaveDistributionManager} from './AaveDistributionManager.sol';
+import {DistributionManager} from './DistributionManager.sol';
 import {GovernancePowerWithSnapshot} from '../lib/GovernancePowerWithSnapshot.sol';
 
 /**
@@ -25,7 +25,7 @@ contract StakedTokenV3 is
   IStakedAave,
   GovernancePowerWithSnapshot,
   VersionedInitializable,
-  AaveDistributionManager
+  DistributionManager
 {
   using SafeMath for uint256;
   using SafeERC20 for IERC20;
@@ -85,7 +85,7 @@ contract StakedTokenV3 is
     string memory symbol,
     uint8 decimals,
     address governance
-  ) public ERC20(name, symbol) AaveDistributionManager(emissionManager, distributionDuration) {
+  ) public ERC20(name, symbol) DistributionManager(emissionManager, distributionDuration) {
     STAKED_TOKEN = stakedToken;
     REWARD_TOKEN = rewardToken;
     COOLDOWN_SECONDS = cooldownSeconds;

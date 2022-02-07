@@ -9,7 +9,7 @@ import {ERC20WithSnapshot} from '../lib/ERC20WithSnapshot.sol';
 import {SafeERC20} from '../lib/SafeERC20.sol';
 import {VersionedInitializable} from '../utils/VersionedInitializable.sol';
 import {DistributionTypes} from '../lib/DistributionTypes.sol';
-import {AaveDistributionManager} from './AaveDistributionManager.sol';
+import {DistributionManager} from './DistributionManager.sol';
 import {SafeMath} from '../lib/SafeMath.sol';
 
 /**
@@ -21,7 +21,7 @@ contract StakedToken is
   IStakedAave,
   ERC20WithSnapshot,
   VersionedInitializable,
-  AaveDistributionManager
+  DistributionManager
 {
   using SafeMath for uint256;
   using SafeERC20 for IERC20;
@@ -63,7 +63,7 @@ contract StakedToken is
   )
     public
     ERC20WithSnapshot(name, symbol, decimals)
-    AaveDistributionManager(emissionManager, distributionDuration)
+    DistributionManager(emissionManager, distributionDuration)
   {
     STAKED_TOKEN = stakedToken;
     REWARD_TOKEN = rewardToken;
