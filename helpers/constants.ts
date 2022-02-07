@@ -54,6 +54,8 @@ export const getAaveTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork
       [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0xe4483afcf0d612c011679C76B61F5b0d27bAF93C',
       [eEthereumNetwork.main]: '0x9c0435779F5E52CEC404D957C9bAa6f7d674C8bA',
+      [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
       [eAstarNetwork.shibuya]: '0x58f1aa7B5C1F4B4d5334c5b00D547F68Fa0424F0' // Dummy
     },
     network
@@ -66,6 +68,8 @@ export const getCooldownSecondsPerNetwork = (network: eEthereumNetwork | eAstarN
       [eEthereumNetwork.hardhat]: COOLDOWN_SECONDS,
       [eEthereumNetwork.kovan]: '21600', // 8h
       [eEthereumNetwork.main]: '864000', // 10d
+      [eAstarNetwork.astar]: COOLDOWN_SECONDS, // Dummy
+      [eAstarNetwork.shiden]: COOLDOWN_SECONDS, // Dummy
       [eAstarNetwork.shibuya]: COOLDOWN_SECONDS // Dummy
     },
     network
@@ -78,6 +82,8 @@ export const getUnstakeWindowPerNetwork = (network: eEthereumNetwork | eAstarNet
       [eEthereumNetwork.hardhat]: UNSTAKE_WINDOW,
       [eEthereumNetwork.kovan]: '10800', // 4h
       [eEthereumNetwork.main]: '172800', // 2d
+      [eAstarNetwork.astar]: UNSTAKE_WINDOW, // Dummy
+      [eAstarNetwork.shiden]: UNSTAKE_WINDOW, // Dummy
       [eAstarNetwork.shibuya]: UNSTAKE_WINDOW // Dummy
     },
     network
@@ -91,6 +97,8 @@ export const getAaveAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork
       [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x8134929c3dcb1b8b82f27f53424b959fb82182f2', // Aave Governance
       [eEthereumNetwork.main]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52', // Aave Governance
+      [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
       [eAstarNetwork.shibuya]: ZERO_ADDRESS // Dummy
     },
     network
@@ -103,6 +111,8 @@ export const getDistributionDurationPerNetwork = (network: eEthereumNetwork | eA
       [eEthereumNetwork.hardhat]: DISTRIBUTION_DURATION,
       [eEthereumNetwork.kovan]: '864000',
       [eEthereumNetwork.main]: '12960000', // 5 months (30 days) in seconds
+      [eAstarNetwork.astar]: DISTRIBUTION_DURATION, // Dummy
+      [eAstarNetwork.shiden]: DISTRIBUTION_DURATION, // Dummy
       [eAstarNetwork.shibuya]: DISTRIBUTION_DURATION
     },
     network
@@ -119,6 +129,8 @@ export const getAaveIncentivesVaultPerNetwork = (network: eEthereumNetwork | eAs
       [eEthereumNetwork.hardhat]: '',
       [eEthereumNetwork.kovan]: '',
       [eEthereumNetwork.main]: '0x253f7b06c1d60c1fbbc9d82c301327eb86e3ba81',
+      [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
       [eAstarNetwork.shibuya]: ZERO_ADDRESS // Dummy
     },
     network
