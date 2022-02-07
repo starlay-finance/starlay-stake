@@ -117,7 +117,7 @@ const configureAssetScenarios: ScenarioAction[] = [
   },
 ];
 
-makeSuite('AaveIncentivesController configureAssets', (testEnv: TestEnv) => {
+makeSuite('IncentivesController configureAssets', (testEnv: TestEnv) => {
   // custom checks
   it('Tries to submit config updates not from emission manager', async () => {
     const { incentivesController, users } = testEnv;

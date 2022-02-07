@@ -6,7 +6,7 @@ import { makeSuite } from '../helpers/make-suite';
 import { deployIncentivesController } from '../../helpers/contracts-accessors';
 import { RANDOM_ADDRESSES } from '../../helpers/constants';
 
-makeSuite('AaveIncentivesController constructor tests', () => {
+makeSuite('IncentivesController constructor tests', () => {
   it('should assign correct params', async () => {
     const peiEmissionManager = RANDOM_ADDRESSES[1];
     const rewardToken = RANDOM_ADDRESSES[3];

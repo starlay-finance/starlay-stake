@@ -50,7 +50,7 @@ const handleActionScenarios: ScenarioAction[] = [
   },
 ];
 
-makeSuite('AaveIncentivesController handleAction tests', (testEnv) => {
+makeSuite('IncentivesController handleAction tests', (testEnv) => {
   for (const {
     caseName,
     totalSupply,

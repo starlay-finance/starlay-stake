@@ -6,8 +6,8 @@ import { COOLDOWN_SECONDS, UNSTAKE_WINDOW } from '../../helpers/constants';
 
 const { expect } = require('chai');
 
-makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
-  it('User 1 stakes 50 AAVE', async () => {
+makeSuite('StakedToken. Transfers', (testEnv: TestEnv) => {
+  it('User 1 stakes 50 Token', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const staker = users[1];
@@ -20,7 +20,7 @@ makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
     await compareRewardsAtAction(stakedToken, staker.address, actions);
   });
 
-  it('User 1 transfers 50 SAAVE to User 5', async () => {
+  it('User 1 transfers 50 sToken to User 5', async () => {
     const { stakedToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50').toString();
     const sender = users[1];
@@ -29,14 +29,14 @@ makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
     await compareRewardsAtTransfer(stakedToken, sender, receiver, amount, true, false);
   });
 
-  it('User 5 transfers 50 SAAVE to himself', async () => {
+  it('User 5 transfers 50 sToken to himself', async () => {
     const { stakedToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const sender = users[5];
     await compareRewardsAtTransfer(stakedToken, sender, sender, amount, true, true);
   });
 
-  it('User 5 transfers 50 SAAVE to user 2, with rewards not enabled', async () => {
+  it('User 5 transfers 50 sToken to user 2, with rewards not enabled', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const sender = users[5];
@@ -51,7 +51,7 @@ makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
     await compareRewardsAtTransfer(stakedToken, sender, receiver, amount, false, false, assetConfig);
   });
 
-  it('User 4 stakes and transfers 50 SAAVE to user 2, with rewards not enabled', async () => {
+  it('User 4 stakes and transfers 50 sToken to user 2, with rewards not enabled', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const sender = users[3];

@@ -15,7 +15,7 @@ import { deployDoubleTransferHelper } from '../../helpers/contracts-accessors';
 
 chai.use(solidity);
 
-makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
+makeSuite('StakedTokenV2. Power Delegations', (testEnv: TestEnv) => {
   let firstActionBlockNumber = 0;
   let secondActionBlockNumber = 0;
 
@@ -93,7 +93,7 @@ makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
     ).to.be.revertedWith('INVALID_DELEGATEE');
   });
 
-  it('User 1 stakes 2 AAVE; checks voting and proposition power of user 2 and 3', async () => {
+  it('User 1 stakes 2 Token; checks voting and proposition power of user 2 and 3', async () => {
     const { users, layToken, stakedTokenV2 } = testEnv;
     const user1 = users[1];
     const user2 = users[2];

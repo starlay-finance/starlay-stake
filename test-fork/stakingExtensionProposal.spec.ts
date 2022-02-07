@@ -66,7 +66,7 @@ const DAI_TOKEN = '0x6b175474e89094c44da98b954eedeac495271d0f';
 const DAI_HOLDER = '0x72aabd13090af25dbb804f84de6280c697ed1150';
 const BPT_WHALE = '0xc1c3f183b71f52b4f5f8f0dd8eb023cdafd2fc93';
 
-describe('Proposal: Extend Staked Aave distribution', () => {
+describe('Proposal: Extend Staked Lay distribution', () => {
   let ethers;
 
   let whale: JsonRpcSigner;
@@ -148,7 +148,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
     try {
       const balance = await layToken.balanceOf(proposer.address);
-      console.log('AAVE Balance proposer', formatEther(balance));
+      console.log('Token Balance proposer', formatEther(balance));
       const propositionPower = await govToken.getPowerAtBlock(
         proposer.address,
         ((await latestBlock()) - 1).toString(),
@@ -226,7 +226,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     expect(proposalState).to.be.equal(7);
   });
 
-  it('Users should be able to stake AAVE', async () => {
+  it('Users should be able to stake Lay', async () => {
     const amount = parseEther('10');
     await waitForTx(await layToken.connect(proposer).approve(stakedLayV2.address, amount));
     await expect(stakedLayV2.connect(proposer).stake(proposer.address, amount)).to.emit(
@@ -235,7 +235,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     );
   });
 
-  it('Users should be able to redeem stkAave', async () => {
+  it('Users should be able to redeem stakedLay', async () => {
     const amount = parseEther('1');
     await increaseTimeAndMineTenderly(48600);
 
@@ -254,7 +254,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     }
   });
 
-  it('Users should be able to stake Aave Pool BPT', async () => {
+  it('Users should be able to stake Lay Pool BPT', async () => {
     const amount = parseEther('10');
     await waitForTx(await layBpt.connect(proposer).approve(bptStakeV2.address, amount));
     await expect(bptStakeV2.connect(proposer).stake(proposer.address, amount)).to.emit(
@@ -263,7 +263,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     );
   });
 
-  it('Users should be able to redeem AAVE via redeem stkBpt', async () => {
+  it('Users should be able to redeem Lay via redeem stkBpt', async () => {
     const amount = parseEther('1');
     await increaseTimeAndMineTenderly(48600);
 
@@ -282,7 +282,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     }
   });
 
-  it('Users should be able to transfer stkAave', async () => {
+  it('Users should be able to transfer StakedLay', async () => {
     await expect(stakedLayV2.transfer(whale._address, parseEther('1'))).emit(
       stakedLayV2,
       'Transfer'
@@ -293,13 +293,13 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     await expect(bptStakeV2.transfer(whale._address, parseEther('1'))).emit(bptStakeV2, 'Transfer');
   });
 
-  it('Staked Aave Distribution End should be extended', async () => {
+  it('Staked Lay Distribution End should be extended', async () => {
     const implDistributionEnd = await stakedTokenV2Revision3Implementation.DISTRIBUTION_END();
     const proxyDistributionEnd = await stakedLayV2.DISTRIBUTION_END();
 
     expect(implDistributionEnd).to.be.eq(proxyDistributionEnd, 'DISTRIBUTION_END SHOULD MATCH');
   });
-  it('Staked Aave revision should be 3', async () => {
+  it('Staked Lay revision should be 3', async () => {
     const revisionImpl = await stakedTokenV2Revision3Implementation.REVISION();
     const revisionProxy = await stakedLayV2.REVISION();
 

@@ -16,7 +16,7 @@ import { getRewards } from '../DistributionManager/data-helpers/base-math';
 
 const { expect } = require('chai');
 
-makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
+makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
   it('Initial configuration after initialize() is correct', async () => {
     const { stakedTokenV2, layToken, rewardsVault } = testEnv;
 
@@ -55,7 +55,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     );
   });
 
-  it('User 1 stakes 50 AAVE: receives 50 SAAVE, StakedAave balance of AAVE is 50 and his rewards to claim are 0', async () => {
+  it('User 1 stakes 50 Token: receives 50 sToken, StakedToken balance of Token is 50 and his rewards to claim are 0', async () => {
     const {
       stakedTokenV2,
       layToken,
@@ -87,7 +87,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     expect((await layToken.balanceOf(stakedTokenV2.address)).toString()).to.be.equal(amount);
   });
 
-  it('User 1 stakes 20 AAVE more: his total SAAVE balance increases, StakedAave balance of Aave increases and his reward until now get accumulated', async () => {
+  it('User 1 stakes 20 Token more: his total sToken balance increases, StakedToken balance of Token increases and his reward until now get accumulated', async () => {
     const {
       stakedTokenV2,
       layToken,
@@ -187,7 +187,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     );
   });
 
-  it('User 6 stakes 50 AAVE, with the rewards not enabled', async () => {
+  it('User 6 stakes 50 Token, with the rewards not enabled', async () => {
     const { stakedTokenV2, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const sixStaker = users[5];
@@ -218,7 +218,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     expect(rewardsBalance).to.be.equal('0');
   });
 
-  it('User 6 stakes 30 AAVE more, with the rewards not enabled', async () => {
+  it('User 6 stakes 30 Token more, with the rewards not enabled', async () => {
     const { stakedTokenV2, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('30');
     const staker = users[1];

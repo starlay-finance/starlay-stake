@@ -69,7 +69,7 @@ const getRewardsBalanceScenarios: ScenarioAction[] = [
   },
 ];
 
-makeSuite('AaveIncentivesController claimRewards tests', (testEnv) => {
+makeSuite('IncentivesController claimRewards tests', (testEnv) => {
   for (const {
     caseName,
     amountToClaim: _amountToClaim,
