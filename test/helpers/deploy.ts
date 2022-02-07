@@ -3,9 +3,9 @@ import {
   PSM_STAKER_PREMIUM,
   COOLDOWN_SECONDS,
   UNSTAKE_WINDOW,
-  STAKED_AAVE_NAME,
-  STAKED_AAVE_SYMBOL,
-  STAKED_AAVE_DECIMALS,
+  STAKED_TOKEN_NAME,
+  STAKED_TOKEN_SYMBOL,
+  STAKED_TOKEN_DECIMALS,
   MAX_UINT_AMOUNT,
 } from '../../helpers/constants';
 import {
@@ -60,9 +60,9 @@ export const testDeployStakedAaveV1 = async (
 
   const stakedAaveEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize', [
     mockTransferHook.address,
-    STAKED_AAVE_NAME,
-    STAKED_AAVE_SYMBOL,
-    STAKED_AAVE_DECIMALS,
+    STAKED_TOKEN_NAME,
+    STAKED_TOKEN_SYMBOL,
+    STAKED_TOKEN_DECIMALS,
   ]);
   await stakedAaveProxy['initialize(address,address,bytes)'](
     stakedLayImpl.address,

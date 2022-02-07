@@ -35,12 +35,12 @@ task('no-exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fo
     }
 
     const {
-      AAVE_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-      AAVE_GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
+      RAY_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+      GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
       AAVE_LONG_EXECUTOR = '0x61910ecd7e8e942136ce7fe7943f956cea1cc2f7', // mainnet
     } = process.env;
 
-    if (!AAVE_TOKEN || !AAVE_GOVERNANCE_V2 || !AAVE_LONG_EXECUTOR) {
+    if (!RAY_TOKEN || !GOVERNANCE_V2 || !AAVE_LONG_EXECUTOR) {
       throw new Error('You have not set correctly the .env file, make sure to read the README.md');
     }
 
@@ -94,11 +94,11 @@ task('no-exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fo
     // Initialize contracts and tokens
     const gov = (await ethers.getContractAt(
       'IAaveGovernanceV2',
-      AAVE_GOVERNANCE_V2,
+      GOVERNANCE_V2,
       proposer
     )) as IAaveGovernanceV2;
 
-    const aave = Erc20__factory.connect(AAVE_TOKEN, whale);
+    const aave = Erc20__factory.connect(RAY_TOKEN, whale);
     const aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
     const bptStakeV2 = StakedLayV2__factory.connect(STK_BPT_STAKE, proposer);
 

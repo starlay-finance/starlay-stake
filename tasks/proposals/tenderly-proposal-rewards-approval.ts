@@ -26,14 +26,14 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
     }
 
     const {
-      AAVE_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
-      AAVE_GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
+      RAY_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+      GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
       REWARDS_VAULT = '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
       AAVE_STAKE = '0x4da27a545c0c5B758a6BA100e3a049001de870f5',
       STK_BPT_STAKE = '0xa1116930326D21fB917d5A27F1E9943A9595fb47',
     } = process.env;
 
-    if (!AAVE_TOKEN || !AAVE_GOVERNANCE_V2) {
+    if (!RAY_TOKEN || !GOVERNANCE_V2) {
       throw new Error('You have not set correctly the .env file, make sure to read the README.md');
     }
 
@@ -60,11 +60,11 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
     // Initialize contracts and tokens
     const gov = (await ethers.getContractAt(
       'IAaveGovernanceV2',
-      AAVE_GOVERNANCE_V2,
+      GOVERNANCE_V2,
       proposer
     )) as IAaveGovernanceV2;
 
-    const aave = Erc20__factory.connect(AAVE_TOKEN, whale);
+    const aave = Erc20__factory.connect(RAY_TOKEN, whale);
 
     console.log('- Prior proposal:');
     console.log('- Rewards Vault Allowance');

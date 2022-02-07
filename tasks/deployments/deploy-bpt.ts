@@ -8,7 +8,7 @@ import { verifyContract } from '../../helpers/etherscan-verification';
 import {
   UPGRADABLE_CRP_FACTORY,
   WETH,
-  AAVE_TOKEN,
+  RAY_TOKEN,
   RESERVE_CONTROLER,
   REWARDS_VAULT,
   SHORT_EXECUTOR,
@@ -18,7 +18,7 @@ import {
   LONG_EXECUTOR,
   MAX_UINT_AMOUNT,
   PROXY_CRP_ADMIN,
-  AAVE_GOVERNANCE_V2,
+  GOVERNANCE_V2,
 } from '../../helpers/constants';
 import {
   getCRPFactoryContract,
@@ -79,7 +79,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
     console.log(`\n- CRP deployment`);
 
     const CRPFactory = await getCRPFactoryContract(UPGRADABLE_CRP_FACTORY);
-    const aave = await getERC20Contract(AAVE_TOKEN);
+    const aave = await getERC20Contract(RAY_TOKEN);
     const weth = await getERC20Contract(WETH);
 
     await waitForTx(
@@ -88,7 +88,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
         {
           poolTokenSymbol: 'ABPT',
           poolTokenName: 'Aave Balance Pool Token',
-          constituentTokens: [AAVE_TOKEN, WETH],
+          constituentTokens: [RAY_TOKEN, WETH],
           tokenBalances: [INIT_LAY_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
           tokenWeights: [LAY_WEIGHT, WETH_WEIGHT],
           swapFee: SWAP_FEE,
@@ -132,7 +132,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
     const stakedBPS = await deployStakedTokenV3(
       [
         CRPool.address,
-        AAVE_TOKEN,
+        RAY_TOKEN,
         COOLDOWN_SECONDS,
         UNSTAKE_WINDOW,
         REWARDS_VAULT,
@@ -141,7 +141,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
         'Starley stakedToken',
         'stkToken',
         '18',
-        AAVE_GOVERNANCE_V2,
+        GOVERNANCE_V2,
       ],
       true,
       signer

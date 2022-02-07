@@ -13,7 +13,7 @@ import {
 import {
   UPGRADABLE_CRP_FACTORY,
   WETH,
-  AAVE_TOKEN,
+  RAY_TOKEN,
   RESERVE_CONTROLER,
   REWARDS_VAULT,
   SHORT_EXECUTOR,
@@ -21,7 +21,7 @@ import {
   BPOOL_FACTORY,
   CRP_IMPLEMENTATION,
   LONG_EXECUTOR,
-  AAVE_GOVERNANCE_V2,
+  GOVERNANCE_V2,
   PROXY_CRP_ADMIN,
 } from '../../helpers/constants';
 import {
@@ -97,7 +97,7 @@ rawBRE.run('set-dre').then(async () => {
       await initializeMakeSuite();
       await impersonateAccountsHardhat([MULTI_SIG, WETH_HOLDER, SHORT_EXECUTOR]);
       deployer = testEnv.users[2];
-      layToken = await getERC20Contract(AAVE_TOKEN);
+      layToken = await getERC20Contract(RAY_TOKEN);
       weth = await getERC20Contract(WETH);
       ReserveController = await getController(RESERVE_CONTROLER);
       CRPFactory = await getCRPFactoryContract(UPGRADABLE_CRP_FACTORY);
@@ -131,7 +131,7 @@ rawBRE.run('set-dre').then(async () => {
           {
             poolTokenSymbol: 'ABPT',
             poolTokenName: 'Aave Balance Pool Token',
-            constituentTokens: [AAVE_TOKEN, WETH],
+            constituentTokens: [RAY_TOKEN, WETH],
             tokenBalances: [INIT_LAY_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
             tokenWeights: [LAY_WEIGHT, WETH_WEIGHT],
             swapFee: SWAP_FEE,
@@ -215,7 +215,7 @@ rawBRE.run('set-dre').then(async () => {
         await BPool.connect(holderSigner).swapExactAmountIn(
           WETH,
           SOLD_WETH,
-          AAVE_TOKEN,
+          RAY_TOKEN,
           parseEther('0.00001'),
           parseEther('0.0005').mul(INIT_LAY_PRICE)
         )
@@ -226,7 +226,7 @@ rawBRE.run('set-dre').then(async () => {
       const SOLD_AAVE = parseEther('0.005');
       await waitForTx(
         await BPool.connect(holderSigner).swapExactAmountIn(
-          AAVE_TOKEN,
+          RAY_TOKEN,
           SOLD_AAVE,
           WETH,
           parseEther('0.0002'),
@@ -239,7 +239,7 @@ rawBRE.run('set-dre').then(async () => {
       const { deployer } = testEnv;
       stakedBPS = await deployStakedTokenV3([
         CRPool.address,
-        AAVE_TOKEN,
+        RAY_TOKEN,
         COOLDOWN_SECONDS,
         UNSTAKE_WINDOW,
         REWARDS_VAULT,

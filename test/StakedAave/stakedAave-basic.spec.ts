@@ -3,9 +3,9 @@ import {
   COOLDOWN_SECONDS,
   UNSTAKE_WINDOW,
   MAX_UINT_AMOUNT,
-  STAKED_AAVE_NAME,
-  STAKED_AAVE_SYMBOL,
-  STAKED_AAVE_DECIMALS,
+  STAKED_TOKEN_NAME,
+  STAKED_TOKEN_SYMBOL,
+  STAKED_TOKEN_DECIMALS,
 } from '../../helpers/constants';
 import { waitForTx, timeLatest, advanceBlock, increaseTimeAndMine } from '../../helpers/misc-utils';
 import { ethers } from 'ethers';
@@ -20,9 +20,9 @@ makeSuite('StakedAave. Basics', (testEnv: TestEnv) => {
   it('Initial configuration after initialize() is correct', async () => {
     const { stakedToken, layToken, rewardsVault } = testEnv;
 
-    expect(await stakedToken.name()).to.be.equal(STAKED_AAVE_NAME);
-    expect(await stakedToken.symbol()).to.be.equal(STAKED_AAVE_SYMBOL);
-    expect(await stakedToken.decimals()).to.be.equal(STAKED_AAVE_DECIMALS);
+    expect(await stakedToken.name()).to.be.equal(STAKED_TOKEN_NAME);
+    expect(await stakedToken.symbol()).to.be.equal(STAKED_TOKEN_SYMBOL);
+    expect(await stakedToken.decimals()).to.be.equal(STAKED_TOKEN_DECIMALS);
     expect(await stakedToken.REVISION()).to.be.equal(1);
     expect(await stakedToken.STAKED_TOKEN()).to.be.equal(layToken.address);
     expect(await stakedToken.REWARD_TOKEN()).to.be.equal(layToken.address);

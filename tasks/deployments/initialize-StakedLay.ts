@@ -3,9 +3,9 @@ import { eContractid } from '../../helpers/types';
 import { waitForTx } from '../../helpers/misc-utils';
 import {
   ZERO_ADDRESS,
-  STAKED_AAVE_NAME,
-  STAKED_AAVE_SYMBOL,
-  STAKED_AAVE_DECIMALS,
+  STAKED_TOKEN_NAME,
+  STAKED_TOKEN_SYMBOL,
+  STAKED_TOKEN_DECIMALS,
 } from '../../helpers/constants';
 import {
   getStakedLayImpl,
@@ -38,9 +38,9 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
 
     const encodedInitializeStakedAave = stakedLayImpl.interface.encodeFunctionData('initialize', [
       ZERO_ADDRESS,
-      STAKED_AAVE_NAME,
-      STAKED_AAVE_SYMBOL,
-      STAKED_AAVE_DECIMALS,
+      STAKED_TOKEN_NAME,
+      STAKED_TOKEN_SYMBOL,
+      STAKED_TOKEN_DECIMALS,
     ]);
 
     await waitForTx(
