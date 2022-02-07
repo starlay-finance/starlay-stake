@@ -12,7 +12,7 @@ import BigNumber from 'bignumber.js';
 
 const { expect } = require('chai');
 
-makeSuite('StakedAave. Redeem', (testEnv: TestEnv) => {
+makeSuite('StakedToken. Redeem', (testEnv: TestEnv) => {
   it('Reverts trying to redeem 0 amount', async () => {
     const { stakedToken, users } = testEnv;
 
@@ -24,7 +24,7 @@ makeSuite('StakedAave. Redeem', (testEnv: TestEnv) => {
     ).to.be.revertedWith('INVALID_ZERO_AMOUNT');
   });
 
-  it('User 1 stakes 50 AAVE', async () => {
+  it('User 1 stakes 50 Token', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const staker = users[1];
@@ -128,7 +128,7 @@ makeSuite('StakedAave. Redeem', (testEnv: TestEnv) => {
     );
   });
 
-  it('User 4 stakes 50 AAVE, activates the cooldown and redeems half of the amount', async () => {
+  it('User 4 stakes 50 Token, activates the cooldown and redeems half of the amount', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const staker = users[5];
@@ -154,7 +154,7 @@ makeSuite('StakedAave. Redeem', (testEnv: TestEnv) => {
     );
   });
 
-  it('User 5 stakes 50 AAVE, activates the cooldown and redeems with rewards not enabled', async () => {
+  it('User 5 stakes 50 Token, activates the cooldown and redeems with rewards not enabled', async () => {
     const { stakedToken, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const staker = users[5];
