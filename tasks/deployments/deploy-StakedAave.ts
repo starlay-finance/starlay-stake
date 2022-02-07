@@ -1,6 +1,6 @@
 import { task } from 'hardhat/config';
 
-import { eContractid, eEthereumNetwork, tEthereumAddress } from '../../helpers/types';
+import { eAstarNetwork, eContractid, eEthereumNetwork, tEthereumAddress } from '../../helpers/types';
 import { registerContractInJsonDb } from '../../helpers/contracts-helpers';
 import {
   getAaveTokenPerNetwork,
@@ -37,7 +37,7 @@ task(`deploy-${StakedAave}`, `Deploys the ${StakedAave} contract`)
       throw new Error('INVALID_CHAIN_ID');
     }
 
-    const network = localBRE.network.name as eEthereumNetwork;
+    const network = localBRE.network.name as eEthereumNetwork | eAstarNetwork;
 
     console.log(`\n- ${StakedAave} deployment`);
 
