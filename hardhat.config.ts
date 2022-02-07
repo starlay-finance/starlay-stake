@@ -77,8 +77,8 @@ const getAstarNetworkConfig = (networkName: eAstarNetwork, networkId: number) =>
   return {
     ...defaultNetworkConfig,
     url: BWARE_LABS_KEY
-      ? `https://shibuya-api.bwarelabs.com/${BWARE_LABS_KEY}`
-      : 'https://rpc.shibuya.astar.network:8545',
+      ? `https://${networkName}-api.bwarelabs.com/${BWARE_LABS_KEY}`
+      : `https://rpc.${networkName === eAstarNetwork.astar ? `astar` : `${networkName}.astar`}.network:8545`,
     chainId: networkId,
   };
 };
@@ -121,6 +121,8 @@ const config: HardhatUserConfig = {
     tenderly: getCommonNetworkConfig(eEthereumNetwork.tenderly, 3030),
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
+    astar: getAstarNetworkConfig(eAstarNetwork.astar, 592),
+    shiden: getAstarNetworkConfig(eAstarNetwork.shiden, 336),
     shibuya: getAstarNetworkConfig(eAstarNetwork.shibuya, 81),
     hardhat: {
       hardfork: 'istanbul',
