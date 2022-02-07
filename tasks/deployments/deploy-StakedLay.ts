@@ -19,13 +19,13 @@ import { checkVerification } from '../../helpers/etherscan-verification';
 const { StakedLay, StakedLayImpl } = eContractid;
 
 task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
-  .addFlag('verify', 'Verify StakedAave contract via Etherscan API.')
+  .addFlag('verify', 'Verify StakedToken contract via Etherscan API.')
   .addOptionalParam(
     'vaultAddress',
-    'Use AaveIncentivesVault address by param instead of configuration.'
+    'Use IncentivesVault address by param instead of configuration.'
   )
-  .addOptionalParam('aaveAddress', 'Use AaveToken address by param instead of configuration.')
-  .setAction(async ({ verify, vaultAddress, aaveAddress }, localBRE) => {
+  .addOptionalParam('tokenAddress', 'Use LayToken address by param instead of configuration.')
+  .setAction(async ({ verify, vaultAddress, tokenAddress }, localBRE) => {
     await localBRE.run('set-dre');
 
     // If Etherscan verification is enabled, check needed enviroments to prevent loss of gas in failed deployments.
@@ -44,8 +44,8 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     console.log(`\tDeploying ${StakedLay} implementation ...`);
     const stakedLayImpl = await deployStakedLay(
       [
-        aaveAddress || getAaveTokenPerNetwork(network),
-        aaveAddress || getAaveTokenPerNetwork(network),
+        tokenAddress || getAaveTokenPerNetwork(network),
+        tokenAddress || getAaveTokenPerNetwork(network),
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
         vaultAddress || getAaveIncentivesVaultPerNetwork(network),
@@ -58,8 +58,8 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     await registerContractInJsonDb(StakedLayImpl, stakedLayImpl);
 
     console.log(`\tDeploying ${StakedLay} Transparent Proxy ...`);
-    const stakedAaveProxy = await deployInitializableAdminUpgradeabilityProxy(verify);
-    await registerContractInJsonDb(StakedLay, stakedAaveProxy);
+    const stakedTokenProxy = await deployInitializableAdminUpgradeabilityProxy(verify);
+    await registerContractInJsonDb(StakedLay, stakedTokenProxy);
 
     console.log(`\tFinished ${StakedLay} proxy and implementation deployment`);
   });

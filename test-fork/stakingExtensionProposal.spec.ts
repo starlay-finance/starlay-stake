@@ -165,11 +165,11 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     // Submit proposal
     proposalId = await gov.getProposalsCount();
 
-    const { stkAaveImpl, stkBptImpl }: { [key: string]: string } = await DRE.run(
+    const { staledTokenImpl, stkBptImpl }: { [key: string]: string } = await DRE.run(
       'proposal-stk-extensions'
     );
 
-    stkLayImplAddress = stkAaveImpl;
+    stkLayImplAddress = staledTokenImpl;
     stkBptImplAddress = stkBptImpl;
 
     stakedTokenV2Revision3Implementation = StakedTokenV2Rev3__factory.connect(

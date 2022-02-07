@@ -16,10 +16,10 @@ const { StakedLay } = eContractid;
 
 task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
   .addParam('admin', `The address to be added as an Admin role in ${StakedLay} Transparent Proxy.`)
-  .setAction(async ({ admin: aaveAdmin }, localBRE) => {
+  .setAction(async ({ admin: layAdmin }, localBRE) => {
     await localBRE.run('set-dre');
 
-    if (!aaveAdmin) {
+    if (!layAdmin) {
       throw new Error(
         `Missing --admin parameter to add the Admin Role to ${StakedLay} Transparent Proxy`
       );
@@ -34,9 +34,9 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
     const stakedLayImpl = await getStakedLayImpl();
     const stakedLayProxy = await getStakedLayProxy();
 
-    console.log('\tInitializing StakedAave');
+    console.log('\tInitializing StakedLay');
 
-    const encodedInitializeStakedAave = stakedLayImpl.interface.encodeFunctionData('initialize', [
+    const encodedInitializeStakedLay = stakedLayImpl.interface.encodeFunctionData('initialize', [
       ZERO_ADDRESS,
       STAKED_TOKEN_NAME,
       STAKED_TOKEN_SYMBOL,
@@ -46,10 +46,10 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
     await waitForTx(
       await stakedLayProxy.functions['initialize(address,address,bytes)'](
         stakedLayImpl.address,
-        aaveAdmin,
-        encodedInitializeStakedAave
+        layAdmin,
+        encodedInitializeStakedLay
       )
     );
 
-    console.log('\tFinished Starley Token and Transparent Proxy initialization');
+    console.log('\tFinished Lay Token and Transparent Proxy initialization');
   });

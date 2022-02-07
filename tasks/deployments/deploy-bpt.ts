@@ -79,15 +79,15 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
     console.log(`\n- CRP deployment`);
 
     const CRPFactory = await getCRPFactoryContract(UPGRADABLE_CRP_FACTORY);
-    const aave = await getERC20Contract(RAY_TOKEN);
+    const layToken = await getERC20Contract(RAY_TOKEN);
     const weth = await getERC20Contract(WETH);
 
     await waitForTx(
       await CRPFactory.connect(signer).newCrp(
         BPOOL_FACTORY,
         {
-          poolTokenSymbol: 'ABPT',
-          poolTokenName: 'Aave Balance Pool Token',
+          poolTokenSymbol: 'LBPT',
+          poolTokenName: 'Lay Balance Pool Token',
           constituentTokens: [RAY_TOKEN, WETH],
           tokenBalances: [INIT_LAY_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
           tokenWeights: [LAY_WEIGHT, WETH_WEIGHT],
@@ -121,8 +121,8 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
       });
     }
     const CRPool = await getCRPContract(CRPAddress);
-    console.log('APPROVING AAVE', CRPAddress);
-    await waitForTx(await aave.connect(signer).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT));
+    console.log('APPROVING LAY', CRPAddress);
+    await waitForTx(await layToken.connect(signer).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT));
     console.log('APPROVING WETH', CRPAddress);
     await waitForTx(await weth.connect(signer).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT));
     console.log('CREATING POOL', CRPAddress);

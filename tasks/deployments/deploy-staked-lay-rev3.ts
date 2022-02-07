@@ -4,7 +4,7 @@ import { deployStakedTokenV2Revision3 } from '../../helpers/contracts-accessors'
 import { getDefenderRelaySigner } from '../../helpers/defender-utils';
 import { DRE } from '../../helpers/misc-utils';
 
-task('deploy-staked-aave-rev3', 'Deploy implementation')
+task('deploy-staked-lay-rev3', 'Deploy implementation')
   .addFlag('defender')
   .setAction(async ({ defender }, localBRE: any) => {
     await localBRE.run('set-dre');
@@ -18,8 +18,8 @@ task('deploy-staked-aave-rev3', 'Deploy implementation')
       deployer = signer;
     }
 
-    // Deploy StkAave V2 Revision 3 implementation
-    const stakedAaveV2Revision3Implementation = await deployStakedTokenV2Revision3(
+    // Deploy StakedToken V2 Revision 3 implementation
+    const stakedTokenV2Revision3Implementation = await deployStakedTokenV2Revision3(
       [
         '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
         '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
@@ -37,5 +37,5 @@ task('deploy-staked-aave-rev3', 'Deploy implementation')
       deployer
     );
 
-    return stakedAaveV2Revision3Implementation.address;
+    return stakedTokenV2Revision3Implementation.address;
   });

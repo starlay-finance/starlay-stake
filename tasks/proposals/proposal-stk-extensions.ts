@@ -4,10 +4,10 @@ import { Signer } from 'ethers';
 import { getDefenderRelaySigner } from '../../helpers/defender-utils';
 
 task('proposal-stk-extensions', 'Deploy implementations and create proposal')
-  .addOptionalParam('stkaaveimpl')
+  .addOptionalParam('staledTokenImpl')
   .addOptionalParam('stkbptimpl')
   .addFlag('defender')
-  .setAction(async ({ defender, stkaaveimpl, stkbptimpl }, localBRE: any) => {
+  .setAction(async ({ defender, staledTokenImpl, stkbptimpl }, localBRE: any) => {
     await localBRE.run('set-dre');
 
     let deployer: Signer;
@@ -32,8 +32,8 @@ task('proposal-stk-extensions', 'Deploy implementations and create proposal')
     const STAKED_TOKEN = '0x4da27a545c0c5B758a6BA100e3a049001de870f5';
     const STK_BPT_STAKE = '0xa1116930326D21fB917d5A27F1E9943A9595fb47';
 
-    if (!stkaaveimpl) {
-      stkaaveimpl = await DRE.run('deploy-staked-aave-rev3', { defender: !!defender });
+    if (!staledTokenImpl) {
+      staledTokenImpl = await DRE.run('deploy-staked-lay-rev3', { defender: !!defender });
     }
     if (!stkbptimpl) {
       stkbptimpl = await DRE.run('deploy-staked-bpt-rev2', { defender: !!defender });
@@ -41,7 +41,7 @@ task('proposal-stk-extensions', 'Deploy implementations and create proposal')
 
     await DRE.run('propose-extension', {
       stakedTokenProxy: STAKED_TOKEN,
-      stakedTokenImpl: stkaaveimpl,
+      stakedTokenImpl: staledTokenImpl,
       stkBptProxy: STK_BPT_STAKE,
       stkBptImpl: stkbptimpl,
       governance: GOVERNANCE_V2,
@@ -51,7 +51,7 @@ task('proposal-stk-extensions', 'Deploy implementations and create proposal')
     });
 
     return {
-      stkaaveimpl,
+      staledTokenImpl,
       stkbptimpl,
     };
   });

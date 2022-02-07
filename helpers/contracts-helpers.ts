@@ -128,7 +128,7 @@ export const getContract = async <ContractType extends Contract>(
 
 export const buildPermitParams = (
   chainId: number,
-  aaveToken: tEthereumAddress,
+  token: tEthereumAddress,
   owner: tEthereumAddress,
   spender: tEthereumAddress,
   nonce: number,
@@ -155,7 +155,7 @@ export const buildPermitParams = (
     name: 'Staked Lay',
     version: '1',
     chainId: chainId,
-    verifyingContract: aaveToken,
+    verifyingContract: token,
   },
   message: {
     owner,
@@ -168,7 +168,7 @@ export const buildPermitParams = (
 
 export const buildDelegateByTypeParams = (
   chainId: number,
-  aaveToken: tEthereumAddress,
+  token: tEthereumAddress,
   delegatee: tEthereumAddress,
   type: string,
   nonce: string,
@@ -193,7 +193,7 @@ export const buildDelegateByTypeParams = (
     name: 'Staked Lay',
     version: '1',
     chainId: chainId,
-    verifyingContract: aaveToken,
+    verifyingContract: token,
   },
   message: {
     delegatee,
@@ -205,7 +205,7 @@ export const buildDelegateByTypeParams = (
 
 export const buildDelegateParams = (
   chainId: number,
-  aaveToken: tEthereumAddress,
+  token: tEthereumAddress,
   delegatee: tEthereumAddress,
   nonce: string,
   expiry: string
@@ -228,7 +228,7 @@ export const buildDelegateParams = (
     name: 'Staked Lay',
     version: '1',
     chainId: chainId,
-    verifyingContract: aaveToken,
+    verifyingContract: token,
   },
   message: {
     delegatee,
