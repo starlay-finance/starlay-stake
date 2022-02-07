@@ -367,17 +367,17 @@ export const deployDoubleTransferHelper = async (aaveToken: tEthereumAddress, ve
 
 export const getMintableErc20 = getContractFactory<MintableErc20>(eContractid.MintableErc20);
 
-export const getStakedAave = getContractFactory<StakedLay>(eContractid.StakedLay);
-export const getStakedAaveV2 = getContractFactory<StakedLayV2>(eContractid.StakedLayV2);
+export const getStakedLay = getContractFactory<StakedLay>(eContractid.StakedLay);
+export const getStakedLayV2 = getContractFactory<StakedLayV2>(eContractid.StakedLayV2);
 
-export const getStakedAaveProxy = async (address?: tEthereumAddress) => {
+export const getStakedLayProxy = async (address?: tEthereumAddress) => {
   return await getContract<InitializableAdminUpgradeabilityProxy>(
     eContractid.InitializableAdminUpgradeabilityProxy,
     address || (await getDb().get(`${eContractid.StakedLay}.${DRE.network.name}`).value()).address
   );
 };
 
-export const getStakedAaveImpl = async (address?: tEthereumAddress) => {
+export const getStakedLayImpl = async (address?: tEthereumAddress) => {
   return await getContract<StakedLay>(
     eContractid.StakedLay,
     address ||
@@ -400,7 +400,7 @@ export const getStakedTokenV3 = async (address?: tEthereumAddress) => {
   );
 };
 
-export const getAaveIncentivesController = getContractFactory<IncentivesController>(
+export const getIncentivesController = getContractFactory<IncentivesController>(
   eContractid.IncentivesController
 );
 

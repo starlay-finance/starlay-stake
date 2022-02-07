@@ -8,11 +8,11 @@ import chai from 'chai';
 import bignumberChai from 'chai-bignumber';
 import { StakedLay } from '../../types/StakedLay';
 import {
-  getAaveIncentivesController,
+  getIncentivesController,
   getATokenMock,
   getMintableErc20,
-  getStakedAave,
-  getStakedAaveV2,
+  getStakedLay,
+  getStakedLayV2,
 } from '../../helpers/contracts-accessors';
 import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
@@ -80,9 +80,9 @@ export async function initializeMakeSuite() {
   }
   testEnv.deployer = deployer;
   testEnv.rewardsVault = rewardsVault;
-  testEnv.stakedToken = await getStakedAave();
-  testEnv.stakedTokenV2 = await getStakedAaveV2();
-  testEnv.incentivesController = await getAaveIncentivesController();
+  testEnv.stakedToken = await getStakedLay();
+  testEnv.stakedTokenV2 = await getStakedLayV2();
+  testEnv.incentivesController = await getIncentivesController();
   testEnv.layToken = await getMintableErc20();
   testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
   testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });

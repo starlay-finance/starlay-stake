@@ -8,9 +8,8 @@ import {
   STAKED_AAVE_DECIMALS,
 } from '../../helpers/constants';
 import {
-  getStakedAave,
-  getStakedAaveImpl,
-  getStakedAaveProxy,
+  getStakedLayImpl,
+  getStakedLayProxy,
 } from '../../helpers/contracts-accessors';
 
 const { StakedLay } = eContractid;
@@ -32,8 +31,8 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
 
     console.log(`\n- ${StakedLay} initialization`);
 
-    const stakedLayImpl = await getStakedAaveImpl();
-    const stakedAaveProxy = await getStakedAaveProxy();
+    const stakedLayImpl = await getStakedLayImpl();
+    const stakedLayProxy = await getStakedLayProxy();
 
     console.log('\tInitializing StakedAave');
 
@@ -45,7 +44,7 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
     ]);
 
     await waitForTx(
-      await stakedAaveProxy.functions['initialize(address,address,bytes)'](
+      await stakedLayProxy.functions['initialize(address,address,bytes)'](
         stakedLayImpl.address,
         aaveAdmin,
         encodedInitializeStakedAave
