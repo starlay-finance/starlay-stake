@@ -39,7 +39,7 @@ task('propose-vault-approval', 'Create some proposals and votes')
         proposer = signer;
       }
 
-      // Calldata for StkAave approval
+      // Calldata for StakedLay approval
       const payloadForStkAaveApproval = DRE.ethers.utils.defaultAbiCoder.encode(
         ['address', 'address', 'uint256'],
         [aaveProxy, stkAaveProxy, MAX_UINT_AMOUNT]

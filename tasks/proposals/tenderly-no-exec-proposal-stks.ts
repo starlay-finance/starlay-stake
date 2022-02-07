@@ -54,7 +54,7 @@ task('no-exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fo
 
     const ethers = DRE.ethers;
 
-    // Send ether to the AAVE_WHALE, which is a non payable contract via selfdestruct
+    // Send ether to the LAY_WHALE, which is a non payable contract via selfdestruct
     const selfDestructContract = await new SelfdestructTransfer__factory(proposer).deploy();
     await selfDestructContract.deployTransaction.wait();
     await (
@@ -102,7 +102,7 @@ task('no-exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fo
     const aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
     const bptStakeV2 = StakedLayV2__factory.connect(STK_BPT_STAKE, proposer);
 
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
     await (await aave.transfer(await proposer.getAddress(), parseEther('100'))).wait();
 
     await advanceBlockTo((await latestBlock()) + 10);

@@ -44,7 +44,7 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
 
     const ethers = DRE.ethers;
 
-    // Send ether to the AAVE_WHALE, which is a non payable contract via selfdestruct
+    // Send ether to the LAY_WHALE, which is a non payable contract via selfdestruct
     const selfDestructContract = await new SelfdestructTransfer__factory(proposer).deploy();
     await selfDestructContract.deployTransaction.wait();
     await (
@@ -71,9 +71,9 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
     console.log('  - StakedAave', formatEther(await aave.allowance(REWARDS_VAULT, AAVE_STAKE)));
     console.log('  - StakedBPT', formatEther(await aave.allowance(REWARDS_VAULT, STK_BPT_STAKE)));
 
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
     await (await aave.transfer(await proposer.getAddress(), parseEther('2000000'))).wait();
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
     await (
       await aave.connect(whale2).transfer(await proposer.getAddress(), parseEther('1200000'))
     ).wait();

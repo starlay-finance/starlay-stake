@@ -125,7 +125,7 @@ makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
     await increaseTimeAndMine(
       receiverCooldown.add(COOLDOWN_SECONDS).add(UNSTAKE_WINDOW).add(1).toNumber()
     );
-    // Transfer staked aave from sender to receiver, it will also transfer the cooldown status from sender to the receiver
+    // Transfer staked lay from sender to receiver, it will also transfer the cooldown status from sender to the receiver
     await compareRewardsAtTransfer(stakedToken, sender, receiver, amount, false, false, assetConfig);
 
     // Receiver cooldown should be set to zero
@@ -153,7 +153,7 @@ makeSuite('StakedAave. Transfers', (testEnv: TestEnv) => {
     await stakedToken.connect(receiver.signer).cooldown();
     const receiverCooldown = await (await stakedToken.stakersCooldowns(receiver.address)).toString();
 
-    // Transfer staked aave from sender to receiver, it will also transfer the cooldown status from sender to the receiver
+    // Transfer staked lay from sender to receiver, it will also transfer the cooldown status from sender to the receiver
     await compareRewardsAtTransfer(stakedToken, sender, receiver, amount, false, false, assetConfig);
 
     // Receiver cooldown should be like before

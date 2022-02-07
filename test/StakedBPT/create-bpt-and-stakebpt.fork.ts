@@ -48,7 +48,6 @@ import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-wit
 const { expect } = require('chai');
 
 const WETH_HOLDER = '0x1840c62fD7e2396e470377e6B2a833F3A1E96221';
-// const AAVE_WETH_HOLDER = '0x7d439999e63b75618b9c6c69d6efed0c2bc295c8';
 const MULTI_SIG = '0xC4E1A298c0D712fcF6Dd9124075b27177336f752';
 const PROXY_CRP_ADMIHN = LONG_EXECUTOR;
 const REWARDS_RECEIVER = '0xdd5ce83026f622d574ADa5e71D0a1f34700fA854'; // random

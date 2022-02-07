@@ -419,7 +419,7 @@ contract StakedTokenV2 is
       DelegationType.PROPOSITION_POWER
     );
 
-    // caching the aave governance address to avoid multiple state loads
+    // caching the governance address to avoid multiple state loads
     ITransferHook aaveGovernance = _aaveGovernance;
     if (aaveGovernance != ITransferHook(0)) {
       aaveGovernance.onTransfer(from, to, amount);

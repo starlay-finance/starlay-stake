@@ -90,7 +90,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     ethers = DRE.ethers;
     [proposer] = await DRE.ethers.getSigners();
 
-    // Send ether to the AAVE_WHALE, which is a non payable contract via selfdestruct
+    // Send ether to the LAY_WHALE, which is a non payable contract via selfdestruct
     const selfDestructContract = await new SelfdestructTransfer__factory(proposer).deploy();
     await (
       await selfDestructContract.destroyAndTransfer(AAVE_WHALE, {
@@ -132,13 +132,13 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     dai = Erc20__factory.connect(DAI_TOKEN, daiHolder);
     aDAI = Erc20__factory.connect(aTokenAddress, proposer);
 
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
     await (await layToken.transfer(proposer.address, parseEther('2000000'))).wait();
-    // Transfer enough AAVE to proposer
+    // Transfer enough LAY to proposer
     await (await layToken.connect(whale2).transfer(proposer.address, parseEther('1200000'))).wait();
     // Transfer DAI to repay future DAI loan
     await (await dai.transfer(proposer.address, parseEther('100000'))).wait();
-    // Transfer Aave BPT pool shares to proposer
+    // Transfer LAY BPT pool shares to proposer
     await (await layBpt.transfer(proposer.address, parseEther('100'))).wait();
   });
 

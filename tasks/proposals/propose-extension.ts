@@ -62,7 +62,7 @@ task('propose-extension', 'Create some proposals and votes')
         throw '[hh-task][propose-extension] ipfsHash param is missing';
       }
 
-      // Calldata for StkAave implementation
+      // Calldata for StakedLay implementation
       const payloadStkAave = StakedTokenV2Rev3__factory.connect(
         stkAaveImpl,
         proposer
