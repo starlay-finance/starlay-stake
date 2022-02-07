@@ -21,9 +21,9 @@ import { StakedLayV2 } from '../../types/StakedLayV2';
 
 chai.use(bignumberChai());
 
-export let stakedAaveInitializeTimestamp = 0;
-export const setStakedAaveInitializeTimestamp = (timestamp: number) => {
-  stakedAaveInitializeTimestamp = timestamp;
+export let stakedTokenInitializeTimestamp = 0;
+export const setStakedTokenInitializeTimestamp = (timestamp: number) => {
+  stakedTokenInitializeTimestamp = timestamp;
 };
 
 export interface SignerWithAddress {

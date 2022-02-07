@@ -92,15 +92,15 @@ makeSuite('StakedAave V2. Redeem', (testEnv: TestEnv) => {
     const remainingCooldown = startedCooldownAt.plus(COOLDOWN_SECONDS).minus(currentTime);
 
     await increaseTimeAndMine(remainingCooldown.plus(1).toNumber());
-    const aaveBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    const stakedAaveBalanceBefore = (await stakedTokenV2.balanceOf(staker.address)).toString();
+    const tokenBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    const stakedTokenBalanceBefore = (await stakedTokenV2.balanceOf(staker.address)).toString();
     await stakedTokenV2.connect(staker.signer).redeem(staker.address, amount);
-    const aaveBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    const stakedAaveBalanceAfter = (await stakedTokenV2.balanceOf(staker.address)).toString();
-    expect(aaveBalanceAfter.minus(stakedAaveBalanceBefore).toString()).to.be.equal(
-      aaveBalanceBefore.toString()
+    const tokenBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    const stakedTokenBalanceAfter = (await stakedTokenV2.balanceOf(staker.address)).toString();
+    expect(tokenBalanceAfter.minus(stakedTokenBalanceBefore).toString()).to.be.equal(
+      tokenBalanceBefore.toString()
     );
-    expect(stakedAaveBalanceAfter).to.be.equal('0');
+    expect(stakedTokenBalanceAfter).to.be.equal('0');
   });
 
   it('User 1 activates the cooldown again, and redeems within the unstake period', async () => {
@@ -120,11 +120,11 @@ makeSuite('StakedAave V2. Redeem', (testEnv: TestEnv) => {
     const remainingCooldown = startedCooldownAt.plus(COOLDOWN_SECONDS).minus(currentTime);
 
     await increaseTimeAndMine(remainingCooldown.plus(1).toNumber());
-    const aaveBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    const tokenBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
     await stakedTokenV2.connect(staker.signer).redeem(staker.address, amount);
-    const aaveBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    expect(aaveBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
-      aaveBalanceBefore.toString()
+    const tokenBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    expect(tokenBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
+      tokenBalanceBefore.toString()
     );
   });
 
@@ -144,13 +144,13 @@ makeSuite('StakedAave V2. Redeem', (testEnv: TestEnv) => {
       cooldownActivationTimestamp.plus(new BigNumber(COOLDOWN_SECONDS).plus(1)).toNumber()
     );
 
-    const aaveBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    const tokenBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
     await stakedTokenV2
       .connect(staker.signer)
       .redeem(staker.address, ethers.utils.parseEther('50').div(2));
-    const aaveBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    expect(aaveBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
-      aaveBalanceBefore.div(2).toFixed()
+    const tokenBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    expect(tokenBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
+      tokenBalanceBefore.div(2).toFixed()
     );
   });
 
@@ -170,11 +170,11 @@ makeSuite('StakedAave V2. Redeem', (testEnv: TestEnv) => {
       cooldownActivationTimestamp.plus(new BigNumber(COOLDOWN_SECONDS).plus(1)).toNumber()
     );
 
-    const aaveBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    const tokenBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
     await stakedTokenV2.connect(staker.signer).redeem(staker.address, amount);
-    const aaveBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    expect(aaveBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
-      aaveBalanceBefore.toString()
+    const tokenBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
+    expect(tokenBalanceBefore.minus(amount.toString()).toString()).to.be.equal(
+      tokenBalanceAfter.toString()
     );
   });
 });

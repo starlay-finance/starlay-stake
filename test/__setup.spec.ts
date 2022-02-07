@@ -5,25 +5,25 @@ import { initializeMakeSuite } from './helpers/make-suite';
 import { deployMintableErc20, deployATokenMock } from '../helpers/contracts-accessors';
 import { waitForTx } from '../helpers/misc-utils';
 import { MintableErc20 } from '../types/MintableErc20';
-import { testDeployStakedRayV2, testDeployStakedAaveV1 } from './helpers/deploy';
+import { testDeployStakedRayV2, testDeployStakedRayV1 } from './helpers/deploy';
 
-const topUpWalletsWithAave = async (
+const topUpWalletsWithLay = async (
   wallets: Signer[],
-  aaveToken: MintableErc20,
+  layToken: MintableErc20,
   amount: string
 ) => {
   for (const wallet of wallets) {
-    await waitForTx(await aaveToken.connect(wallet).mint(amount));
+    await waitForTx(await layToken.connect(wallet).mint(amount));
   }
 };
 
 const buildTestEnv = async (deployer: Signer, vaultOfRewards: Signer, restWallets: Signer[]) => {
   console.time('setup');
 
-  const aaveToken = await deployMintableErc20(['Lay', 'lay', 18]);
+  const layToken = await deployMintableErc20(['Lay', 'lay', 18]);
 
-  await waitForTx(await aaveToken.connect(vaultOfRewards).mint(ethers.utils.parseEther('1000000')));
-  await topUpWalletsWithAave(
+  await waitForTx(await layToken.connect(vaultOfRewards).mint(ethers.utils.parseEther('1000000')));
+  await topUpWalletsWithLay(
     [
       restWallets[0],
       restWallets[1],
@@ -32,21 +32,21 @@ const buildTestEnv = async (deployer: Signer, vaultOfRewards: Signer, restWallet
       restWallets[4],
       restWallets[5],
     ],
-    aaveToken,
+    layToken,
     ethers.utils.parseEther('100').toString()
   );
 
-  await testDeployStakedRayV2(aaveToken, deployer, vaultOfRewards, restWallets);
+  await testDeployStakedRayV2(layToken, deployer, vaultOfRewards, restWallets);
 
-  const { aaveIncentivesControllerProxy } = await testDeployStakedAaveV1(
-    aaveToken,
+  const { aaveIncentivesControllerProxy: incentivesControllerProxy } = await testDeployStakedRayV1(
+    layToken,
     deployer,
     vaultOfRewards,
     restWallets
   );
 
-  await deployATokenMock(aaveIncentivesControllerProxy.address, 'lDai');
-  await deployATokenMock(aaveIncentivesControllerProxy.address, 'lWeth');
+  await deployATokenMock(incentivesControllerProxy.address, 'lDai');
+  await deployATokenMock(incentivesControllerProxy.address, 'lWeth');
 
   console.timeEnd('setup');
 };

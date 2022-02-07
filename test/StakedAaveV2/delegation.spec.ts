@@ -73,19 +73,19 @@ makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
       layToken,
       stakedTokenV2,
     } = testEnv;
-    const aaveBalance = parseEther('1');
+    const tokenBalance = parseEther('1');
 
     // Stake
     await waitForTx(
-      await layToken.connect(user.signer).approve(stakedTokenV2.address, aaveBalance)
+      await layToken.connect(user.signer).approve(stakedTokenV2.address, tokenBalance)
     );
-    await waitForTx(await stakedTokenV2.connect(user.signer).stake(user.address, aaveBalance));
+    await waitForTx(await stakedTokenV2.connect(user.signer).stake(user.address, tokenBalance));
 
     // Track current power
     const priorPowerUser = await stakedTokenV2.getPowerCurrent(user.address, '0');
     const priorPowerUserZeroAddress = await stakedTokenV2.getPowerCurrent(ZERO_ADDRESS, '0');
 
-    expect(priorPowerUser).to.be.equal(aaveBalance, 'user power should equal balance');
+    expect(priorPowerUser).to.be.equal(tokenBalance, 'user power should equal balance');
     expect(priorPowerUserZeroAddress).to.be.equal('0', 'zero address should have zero power');
 
     await expect(
@@ -99,18 +99,18 @@ makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
     const user2 = users[2];
     const user3 = users[3];
 
-    const aaveBalance = parseEther('2');
+    const tokenBalance = parseEther('2');
     const expectedStaked = parseEther('2');
 
     // Stake
     await waitForTx(
-      await layToken.connect(user1.signer).approve(stakedTokenV2.address, aaveBalance)
+      await layToken.connect(user1.signer).approve(stakedTokenV2.address, tokenBalance)
     );
     const tx = await waitForTx(
-      await stakedTokenV2.connect(user1.signer).stake(user1.address, aaveBalance)
+      await stakedTokenV2.connect(user1.signer).stake(user1.address, tokenBalance)
     );
 
-    const stkAaveBalanceAfterMigration = await stakedTokenV2.balanceOf(user1.address);
+    const stkTokenBalanceAfterMigration = await stakedTokenV2.balanceOf(user1.address);
 
     firstActionBlockNumber = tx.blockNumber;
 
@@ -128,41 +128,41 @@ makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
 
     expect(user2PropPower).to.be.equal('0', 'Invalid prop power for user 2');
     expect(user2VotingPower).to.be.equal(
-      stkAaveBalanceAfterMigration,
+      stkTokenBalanceAfterMigration,
       'Invalid voting power for user 2'
     );
 
     expect(user3PropPower).to.be.equal(
-      stkAaveBalanceAfterMigration,
+      stkTokenBalanceAfterMigration,
       'Invalid prop power for user 3'
     );
     expect(user3VotingPower).to.be.equal('0', 'Invalid voting power for user 3');
 
-    expect(expectedStaked).to.be.equal(stkAaveBalanceAfterMigration);
+    expect(expectedStaked).to.be.equal(stkTokenBalanceAfterMigration);
   });
 
   it('User 2 stakes 2 LEND; checks voting and proposition power of user 2', async () => {
     const { users, layToken, stakedTokenV2 } = testEnv;
     const user2 = users[2];
 
-    const aaveBalance = parseEther('2');
-    const expectedStkAaveBalanceAfterStake = parseEther('2');
+    const tokenBalance = parseEther('2');
+    const expectedStkTokenBalanceAfterStake = parseEther('2');
 
     // Stake
     await waitForTx(
-      await layToken.connect(user2.signer).approve(stakedTokenV2.address, aaveBalance)
+      await layToken.connect(user2.signer).approve(stakedTokenV2.address, tokenBalance)
     );
-    await waitForTx(await stakedTokenV2.connect(user2.signer).stake(user2.address, aaveBalance));
+    await waitForTx(await stakedTokenV2.connect(user2.signer).stake(user2.address, tokenBalance));
 
     const user2VotingPower = await stakedTokenV2.getPowerCurrent(user2.address, '0');
     const user2PropPower = await stakedTokenV2.getPowerCurrent(user2.address, '1');
 
     expect(user2PropPower).to.be.equal(
-      expectedStkAaveBalanceAfterStake,
+      expectedStkTokenBalanceAfterStake,
       'Invalid prop power for user 2'
     );
     expect(user2VotingPower).to.be.equal(
-      expectedStkAaveBalanceAfterStake.mul('2'),
+      expectedStkTokenBalanceAfterStake.mul('2'),
       'Invalid voting power for user 2'
     );
   });
@@ -171,24 +171,24 @@ makeSuite('StakedAaveV2. Power Delegations', (testEnv: TestEnv) => {
     const { users, layToken, stakedTokenV2 } = testEnv;
     const user3 = users[3];
 
-    const aaveBalance = parseEther('2');
-    const expectedStkAaveBalanceAfterStake = parseEther('2');
+    const tokenBalance = parseEther('2');
+    const expectedStkTokenBalanceAfterStake = parseEther('2');
 
     // Stake
     await waitForTx(
-      await layToken.connect(user3.signer).approve(stakedTokenV2.address, aaveBalance)
+      await layToken.connect(user3.signer).approve(stakedTokenV2.address, tokenBalance)
     );
-    await waitForTx(await stakedTokenV2.connect(user3.signer).stake(user3.address, aaveBalance));
+    await waitForTx(await stakedTokenV2.connect(user3.signer).stake(user3.address, tokenBalance));
 
     const user3VotingPower = await stakedTokenV2.getPowerCurrent(user3.address, '0');
     const user3PropPower = await stakedTokenV2.getPowerCurrent(user3.address, '1');
 
     expect(user3PropPower.toString()).to.be.equal(
-      expectedStkAaveBalanceAfterStake.mul('2').toString(),
+      expectedStkTokenBalanceAfterStake.mul('2').toString(),
       'Invalid prop power for user 3'
     );
     expect(user3VotingPower.toString()).to.be.equal(
-      expectedStkAaveBalanceAfterStake.toString(),
+      expectedStkTokenBalanceAfterStake.toString(),
       'Invalid voting power for user 3'
     );
   });

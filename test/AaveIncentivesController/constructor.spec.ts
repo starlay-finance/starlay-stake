@@ -15,7 +15,7 @@ makeSuite('AaveIncentivesController constructor tests', () => {
     const extraPsmReward = '100';
     const distributionDuration = '100';
 
-    const aaveIncentivesController = await deployIncentivesController([
+    const incentivesController = await deployIncentivesController([
       rewardToken,
       rewardsVault,
       psm,
@@ -23,16 +23,16 @@ makeSuite('AaveIncentivesController constructor tests', () => {
       peiEmissionManager,
       distributionDuration,
     ]);
-    await expect(await aaveIncentivesController.REWARD_TOKEN()).to.be.equal(rewardToken);
-    await expect(await aaveIncentivesController.REWARDS_VAULT()).to.be.equal(rewardsVault);
-    await expect(await aaveIncentivesController.PSM()).to.be.equal(psm);
-    await expect((await aaveIncentivesController.EXTRA_PSM_REWARD()).toString()).to.be.equal(
+    await expect(await incentivesController.REWARD_TOKEN()).to.be.equal(rewardToken);
+    await expect(await incentivesController.REWARDS_VAULT()).to.be.equal(rewardsVault);
+    await expect(await incentivesController.PSM()).to.be.equal(psm);
+    await expect((await incentivesController.EXTRA_PSM_REWARD()).toString()).to.be.equal(
       extraPsmReward
     );
-    await expect((await aaveIncentivesController.EMISSION_MANAGER()).toString()).to.be.equal(
+    await expect((await incentivesController.EMISSION_MANAGER()).toString()).to.be.equal(
       peiEmissionManager
     );
-    await expect((await aaveIncentivesController.DISTRIBUTION_END()).toString()).to.be.equal(
+    await expect((await incentivesController.DISTRIBUTION_END()).toString()).to.be.equal(
       (await timeLatest()).plus(distributionDuration).toString()
     );
   });

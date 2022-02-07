@@ -164,7 +164,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     const underlyingAsset = stakedTokenV2.address;
 
     const userBalance = await stakedTokenV2.balanceOf(userAddress);
-    const userAaveBalance = await layToken.balanceOf(userAddress);
+    const userTokenBalance = await layToken.balanceOf(userAddress);
     const userRewards = await stakedTokenV2.stakerRewardsToClaim(userAddress);
     // Get index before actions
     const userIndexBefore = await getUserIndex(stakedTokenV2, userAddress, underlyingAsset);
@@ -180,10 +180,10 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
       userIndexAfter,
       userIndexBefore
     ).toString();
-    const userAaveBalanceAfterAction = (await layToken.balanceOf(userAddress)).toString();
+    const userTokenBalanceAfterAction = (await layToken.balanceOf(userAddress)).toString();
 
-    expect(userAaveBalanceAfterAction).to.be.equal(
-      userAaveBalance.add(userRewards).add(expectedAccruedRewards).toString()
+    expect(userTokenBalanceAfterAction).to.be.equal(
+      userTokenBalance.add(userRewards).add(expectedAccruedRewards).toString()
     );
   });
 
