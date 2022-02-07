@@ -16,7 +16,7 @@ import {
 } from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
 
-const { StakedLay, StakedAaveImpl } = eContractid;
+const { StakedLay, StakedLayImpl } = eContractid;
 
 task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
   .addFlag('verify', 'Verify StakedAave contract via Etherscan API.')
@@ -42,7 +42,7 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     console.log(`\n- ${StakedLay} deployment`);
 
     console.log(`\tDeploying ${StakedLay} implementation ...`);
-    const stakedAaveImpl = await deployStakedAave(
+    const stakedLayImpl = await deployStakedAave(
       [
         aaveAddress || getAaveTokenPerNetwork(network),
         aaveAddress || getAaveTokenPerNetwork(network),
@@ -54,8 +54,8 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
       ],
       false // disable verify due not supported by current buidler etherscan plugin
     );
-    await stakedAaveImpl.deployTransaction.wait();
-    await registerContractInJsonDb(StakedAaveImpl, stakedAaveImpl);
+    await stakedLayImpl.deployTransaction.wait();
+    await registerContractInJsonDb(StakedLayImpl, stakedLayImpl);
 
     console.log(`\tDeploying ${StakedLay} Transparent Proxy ...`);
     const stakedAaveProxy = await deployInitializableAdminUpgradeabilityProxy(verify);

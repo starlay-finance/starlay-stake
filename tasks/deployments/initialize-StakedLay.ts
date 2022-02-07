@@ -32,12 +32,12 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
 
     console.log(`\n- ${StakedLay} initialization`);
 
-    const stakedAaveImpl = await getStakedAaveImpl();
+    const stakedLayImpl = await getStakedAaveImpl();
     const stakedAaveProxy = await getStakedAaveProxy();
 
     console.log('\tInitializing StakedAave');
 
-    const encodedInitializeStakedAave = stakedAaveImpl.interface.encodeFunctionData('initialize', [
+    const encodedInitializeStakedAave = stakedLayImpl.interface.encodeFunctionData('initialize', [
       ZERO_ADDRESS,
       STAKED_AAVE_NAME,
       STAKED_AAVE_SYMBOL,
@@ -46,7 +46,7 @@ task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
 
     await waitForTx(
       await stakedAaveProxy.functions['initialize(address,address,bytes)'](
-        stakedAaveImpl.address,
+        stakedLayImpl.address,
         aaveAdmin,
         encodedInitializeStakedAave
       )

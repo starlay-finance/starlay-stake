@@ -46,7 +46,7 @@ export const testDeployAaveStakeV1 = async (
     (1000 * 60 * 60).toString(),
   ]);
 
-  const stakedAaveImpl = await deployStakedAave([
+  const stakedLayImpl = await deployStakedAave([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -58,14 +58,14 @@ export const testDeployAaveStakeV1 = async (
 
   const mockTransferHook = await deployMockTransferHook();
 
-  const stakedAaveEncodedInitialize = stakedAaveImpl.interface.encodeFunctionData('initialize', [
+  const stakedAaveEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize', [
     mockTransferHook.address,
     STAKED_AAVE_NAME,
     STAKED_AAVE_SYMBOL,
     STAKED_AAVE_DECIMALS,
   ]);
   await stakedAaveProxy['initialize(address,address,bytes)'](
-    stakedAaveImpl.address,
+    stakedLayImpl.address,
     proxyAdmin,
     stakedAaveEncodedInitialize
   );
@@ -116,7 +116,7 @@ export const testDeployAaveStakeV2 = async (
     restWallets
   );
 
-  const stakedAaveImpl = await deployStakedAaveV2([
+  const stakedLayImpl = await deployStakedAaveV2([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -126,11 +126,11 @@ export const testDeployAaveStakeV2 = async (
     (1000 * 60 * 60).toString(),
   ]);
 
-  const stakedAaveEncodedInitialize = stakedAaveImpl.interface.encodeFunctionData('initialize');
+  const stakedAaveEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize');
 
   await stakedAaveProxy
     .connect(restWallets[0])
-    .upgradeToAndCall(stakedAaveImpl.address, stakedAaveEncodedInitialize);
+    .upgradeToAndCall(stakedLayImpl.address, stakedAaveEncodedInitialize);
 
   await insertContractAddressInDb(eContractid.StakedLayV2, stakedAaveProxy.address);
 

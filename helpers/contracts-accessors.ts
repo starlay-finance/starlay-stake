@@ -381,7 +381,7 @@ export const getStakedAaveImpl = async (address?: tEthereumAddress) => {
   return await getContract<StakedLay>(
     eContractid.StakedLay,
     address ||
-      (await getDb().get(`${eContractid.StakedAaveImpl}.${DRE.network.name}`).value()).address
+      (await getDb().get(`${eContractid.StakedLayImpl}.${DRE.network.name}`).value()).address
   );
 };
 

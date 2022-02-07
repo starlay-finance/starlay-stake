@@ -17,7 +17,7 @@ export enum eAstarNetwork {
 export enum eContractid {
   DistributionManager = 'DistributionManager',
   StakedLay = 'StakedLay',
-  StakedAaveImpl = 'StakedAaveImpl',
+  StakedLayImpl = 'StakedLayImpl',
   IncentivesController = 'IncentivesController',
   IERC20Detailed = 'IERC20Detailed',
   AdminUpgradeabilityProxy = 'AdminUpgradeabilityProxy',
