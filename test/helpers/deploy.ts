@@ -20,7 +20,7 @@ import { waitForTx } from '../../helpers/misc-utils';
 import { eContractid } from '../../helpers/types';
 import { MintableErc20 } from '../../types/MintableErc20';
 
-export const testDeployAaveStakeV1 = async (
+export const testDeployStakedAaveV1 = async (
   aaveToken: MintableErc20,
   deployer: Signer,
   vaultOfRewards: Signer,
@@ -98,7 +98,7 @@ export const testDeployAaveStakeV1 = async (
   };
 };
 
-export const testDeployAaveStakeV2 = async (
+export const testDeployStakedRayV2 = async (
   aaveToken: MintableErc20,
   deployer: Signer,
   vaultOfRewards: Signer,
@@ -109,7 +109,7 @@ export const testDeployAaveStakeV2 = async (
   const emissionManager = await deployer.getAddress();
   const vaultOfRewardsAddress = await vaultOfRewards.getAddress();
 
-  const { stakedAaveProxy } = await testDeployAaveStakeV1(
+  const { stakedAaveProxy } = await testDeployStakedAaveV1(
     aaveToken,
     deployer,
     vaultOfRewards,

@@ -44,7 +44,6 @@ import { IAaveGovernanceV2 } from '../../types/IAaveGovernanceV2';
 import { IControllerAaveEcosystemReserve } from '../../types/IControllerAaveEcosystemReserve';
 import { parse } from 'path';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address';
-import { testDeployAaveStakeV1 } from '../helpers/deploy';
 
 const { expect } = require('chai');
 

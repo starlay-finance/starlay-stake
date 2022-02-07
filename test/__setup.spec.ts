@@ -5,7 +5,7 @@ import { initializeMakeSuite } from './helpers/make-suite';
 import { deployMintableErc20, deployATokenMock } from '../helpers/contracts-accessors';
 import { waitForTx } from '../helpers/misc-utils';
 import { MintableErc20 } from '../types/MintableErc20';
-import { testDeployAaveStakeV2, testDeployAaveStakeV1 } from './helpers/deploy';
+import { testDeployStakedRayV2, testDeployStakedAaveV1 } from './helpers/deploy';
 
 const topUpWalletsWithAave = async (
   wallets: Signer[],
@@ -36,9 +36,9 @@ const buildTestEnv = async (deployer: Signer, vaultOfRewards: Signer, restWallet
     ethers.utils.parseEther('100').toString()
   );
 
-  await testDeployAaveStakeV2(aaveToken, deployer, vaultOfRewards, restWallets);
+  await testDeployStakedRayV2(aaveToken, deployer, vaultOfRewards, restWallets);
 
-  const { aaveIncentivesControllerProxy } = await testDeployAaveStakeV1(
+  const { aaveIncentivesControllerProxy } = await testDeployStakedAaveV1(
     aaveToken,
     deployer,
     vaultOfRewards,
