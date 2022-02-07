@@ -6,5 +6,5 @@ import { StakedLay } from '../../types/StakedLay';
 task('dev-deployment', 'Deployment in hardhat').setAction(async (_, localBRE) => {
   const DRE: HardhatRuntimeEnvironment = await localBRE.run('set-dre');
 
-  const aaveStake = (await DRE.run(`deploy-${eContractid.StakedLay}`)) as StakedLay;
+  const stakedLay = (await DRE.run(`deploy-${eContractid.StakedLay}`)) as StakedLay;
 });

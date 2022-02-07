@@ -22,14 +22,14 @@ task('proposal-stk-extensions', 'Deploy implementations and create proposal')
     const {
       IPFS_HASH = '0x4d4a4bda3036f8da3f6911941df8c185f0e4ec248de44b44253dae5a4798a001', 
       GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
-      AAVE_LONG_EXECUTOR = '0x61910ecd7e8e942136ce7fe7943f956cea1cc2f7', // mainnet
+      LONG_EXECUTOR = '0x61910ecd7e8e942136ce7fe7943f956cea1cc2f7', // mainnet
     } = process.env;
 
-    if (!IPFS_HASH || !GOVERNANCE_V2 || !AAVE_LONG_EXECUTOR) {
+    if (!IPFS_HASH || !GOVERNANCE_V2 || !LONG_EXECUTOR) {
       throw new Error('You have not set correctly the .env file, make sure to read the README.md');
     }
 
-    const AAVE_STAKE = '0x4da27a545c0c5B758a6BA100e3a049001de870f5';
+    const STAKED_TOKEN = '0x4da27a545c0c5B758a6BA100e3a049001de870f5';
     const STK_BPT_STAKE = '0xa1116930326D21fB917d5A27F1E9943A9595fb47';
 
     if (!stkaaveimpl) {
@@ -40,12 +40,12 @@ task('proposal-stk-extensions', 'Deploy implementations and create proposal')
     }
 
     await DRE.run('propose-extension', {
-      stkAaveProxy: AAVE_STAKE,
-      stkAaveImpl: stkaaveimpl,
+      stakedTokenProxy: STAKED_TOKEN,
+      stakedTokenImpl: stkaaveimpl,
       stkBptProxy: STK_BPT_STAKE,
       stkBptImpl: stkbptimpl,
-      aaveGovernance: GOVERNANCE_V2,
-      longExecutor: AAVE_LONG_EXECUTOR,
+      governance: GOVERNANCE_V2,
+      longExecutor: LONG_EXECUTOR,
       ipfsHash: IPFS_HASH,
       defender: !!defender,
     });

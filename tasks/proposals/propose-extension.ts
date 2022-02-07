@@ -11,22 +11,22 @@ import { DRE } from '../../helpers/misc-utils';
 import { logError } from '../../helpers/tenderly-utils';
 
 task('propose-extension', 'Create some proposals and votes')
-  .addParam('stkAaveProxy')
-  .addParam('stkAaveImpl')
+  .addParam('stakedTokenProxy')
+  .addParam('stakedTokenImpl')
   .addParam('stkBptProxy')
   .addParam('stkBptImpl')
-  .addParam('aaveGovernance')
+  .addParam('governance')
   .addParam('longExecutor')
   .addParam('ipfsHash')
   .addFlag('defender')
   .setAction(
     async (
       {
-        aaveGovernance,
+        governance,
         longExecutor,
         defender,
-        stkAaveProxy,
-        stkAaveImpl,
+        stakedTokenProxy,
+        stakedTokenImpl,
         stkBptProxy,
         stkBptImpl,
         ipfsHash
@@ -43,8 +43,8 @@ task('propose-extension', 'Create some proposals and votes')
         proposer = signer;
       }
 
-      if (!stkAaveImpl) {
-        throw '[hh-task][propose-extension] stkAaveImpl param is missing';
+      if (!stakedTokenImpl) {
+        throw '[hh-task][propose-extension] stakedTokenImpl param is missing';
       }
       if (!stkBptImpl) {
         throw '[hh-task][propose-extension] stkBptImpl param is missing';
@@ -52,8 +52,8 @@ task('propose-extension', 'Create some proposals and votes')
       if (!longExecutor) {
         throw '[hh-task][propose-extension] longExecutor param is missing';
       }
-      if (!stkAaveProxy) {
-        throw '[hh-task][propose-extension] stkAaveProxy param is missing';
+      if (!stakedTokenProxy) {
+        throw '[hh-task][propose-extension] stakedTokenProxy param is missing';
       }
       if (!stkBptProxy) {
         throw '[hh-task][propose-extension] stkBptProxy param is missing';
@@ -63,13 +63,13 @@ task('propose-extension', 'Create some proposals and votes')
       }
 
       // Calldata for StakedLay implementation
-      const payloadStkAave = StakedTokenV2Rev3__factory.connect(
-        stkAaveImpl,
+      const payloadStkToken = StakedTokenV2Rev3__factory.connect(
+        stakedTokenImpl,
         proposer
       ).interface.encodeFunctionData('initialize');
-      const callDataStkAave = DRE.ethers.utils.defaultAbiCoder.encode(
+      const callDataStkToken = DRE.ethers.utils.defaultAbiCoder.encode(
         ['address', 'bytes'],
-        [stkAaveImpl, payloadStkAave]
+        [stakedTokenImpl, payloadStkToken]
       );
 
       // Calldata for StkBpt implementation
@@ -83,15 +83,15 @@ task('propose-extension', 'Create some proposals and votes')
         [stkBptImpl, payloadStkBpt]
       );
       const executeSignature = 'upgradeToAndCall(address,bytes)';
-      const gov = await IAaveGovernanceV2__factory.connect(aaveGovernance, proposer);
+      const gov = await IAaveGovernanceV2__factory.connect(governance, proposer);
 
       try {
         const tx = await gov.create(
           longExecutor,
-          [stkAaveProxy, stkBptProxy],
+          [stakedTokenProxy, stkBptProxy],
           ['0', '0'],
           [executeSignature, executeSignature],
-          [callDataStkAave, callDataStkBpt],
+          [callDataStkToken, callDataStkBpt],
           [false, false],
           ipfsHash,
           { gasLimit: 1000000 }
