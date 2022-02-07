@@ -56,7 +56,7 @@ const RESERVER_ALLOWANCE = parseEther('100000');
 
 const LAY_WEIGHT = parseEther('40'); // 80 %
 const WETH_WEIGHT = parseEther('10'); // 20 %
-const INIT_LAY_PRICE = 502; // 1 ETH = 5.14 AAVE
+const INIT_LAY_PRICE = 502; // 1 ETH = 5.14 LAY
 const PRICE_PRECISION = 100;
 const INIT_TOKEN_SUPPLY_DIVIDER = 100;
 
@@ -65,13 +65,13 @@ const INIT_LAY_POOL_SUPPLY = LAY_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER);
 const INIT_WETH_POOL_SUPPLY = WETH_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER)
   .div(INIT_LAY_PRICE)
   .mul(PRICE_PRECISION);
-// Requirement: 1000 BPT = aprox 1 AAVE. 500 shares for 0.4 AAVE + 0.1 AAVE worth of WETH
+// Requirement: 1000 BPT = aprox 1 LAY. 500 shares for 0.4 LAY + 0.1 LAY worth of WETH
 const INIT_SHARE_SUPPLY = INIT_LAY_POOL_SUPPLY.mul(10).div(8).mul(1000);
 // 0.1 %
 const SWAP_FEE = parseEther('0.04');
 const INFINITE_APPROVAL_AMOUNT = parseEther('100000000000');
 console.log(INIT_WETH_POOL_SUPPLY.toString());
-// Staked AAVE
+// Staked LAY
 const COOLDOWN_SECONDS = '864000'; // 10 days
 const UNSTAKE_WINDOW = '172800'; // 2 days
 const DISTRIBUTION_DURATION = '15780000'; // 6 month
@@ -130,7 +130,7 @@ rawBRE.run('set-dre').then(async () => {
           BPOOL_FACTORY,
           {
             poolTokenSymbol: 'ABPT',
-            poolTokenName: 'Aave Balance Pool Token',
+            poolTokenName: 'Lay Balance Pool Token',
             constituentTokens: [RAY_TOKEN, WETH],
             tokenBalances: [INIT_LAY_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
             tokenWeights: [LAY_WEIGHT, WETH_WEIGHT],
@@ -162,7 +162,7 @@ rawBRE.run('set-dre').then(async () => {
     it('Gives control to multisig', async () => {
       await waitForTx(await CRPool.connect(deployer.signer).setController(MULTI_SIG));
     });
-    it('Creates the smart Pool: 80/20 AAVE/ETH', async () => {
+    it('Creates the smart Pool: 80/20 LAY/ETH', async () => {
       await waitForTx(
         await layToken.connect(holderSigner).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT)
       );
@@ -202,14 +202,14 @@ rawBRE.run('set-dre').then(async () => {
       );
       expect(await BPShares.balanceOf(MULTI_SIG)).to.be.equal(INIT_SHARE_SUPPLY.add(BOUGHT_SHARES));
     });
-    it('Let a user make a swap Weth => Aave', async () => {
+    it('Let a user make a swap Weth => Lay', async () => {
       await waitForTx(
         await layToken.connect(holderSigner).approve(BPool.address, INFINITE_APPROVAL_AMOUNT)
       );
       await waitForTx(
         await weth.connect(holderSigner).approve(BPool.address, INFINITE_APPROVAL_AMOUNT)
       );
-      // swapping weth for aave. Price is currently 1 AAVE = 10 ETH
+      // swapping weth for lay. Price is currently 1 LAY = 10 ETH
       const SOLD_WETH = parseEther('0.0004');
       await waitForTx(
         await BPool.connect(holderSigner).swapExactAmountIn(
@@ -222,18 +222,18 @@ rawBRE.run('set-dre').then(async () => {
       );
       expect(await weth.balanceOf(MULTI_SIG)).to.be.equal(holderWethBalance.sub(SOLD_WETH));
     });
-    it('Let a user make a swap AAVE => WETH', async () => {
-      const SOLD_AAVE = parseEther('0.005');
+    it('Let a user make a swap LAY => WETH', async () => {
+      const SOLD_LAY = parseEther('0.005');
       await waitForTx(
         await BPool.connect(holderSigner).swapExactAmountIn(
           RAY_TOKEN,
-          SOLD_AAVE,
+          SOLD_LAY,
           WETH,
           parseEther('0.0002'),
           parseEther('100')
         )
       );
-      expect(await layToken.balanceOf(MULTI_SIG)).to.be.equal(holderLayBalance.sub(SOLD_AAVE));
+      expect(await layToken.balanceOf(MULTI_SIG)).to.be.equal(holderLayBalance.sub(SOLD_LAY));
     });
     it('Creates the staked token overlay', async () => {
       const { deployer } = testEnv;
@@ -245,8 +245,8 @@ rawBRE.run('set-dre').then(async () => {
         REWARDS_VAULT,
         EMISSION_MANAGER,
         DISTRIBUTION_DURATION,
-        'staked AAVE/ETH BPT',
-        'stkABPT',
+        'staked LAY/ETH BPT',
+        'stkLBPT',
         '18',
         zeroAddress(),
       ]);
