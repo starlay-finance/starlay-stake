@@ -83,10 +83,9 @@ rawBRE.run('set-dre').then(async () => {
     let CRPFactory: IcrpFactory;
     let CRPool: IConfigurableRightsPool; // Configurable Smart Pool
     let BPShares: MintableErc20; // Configurable Smart pool, token interface
-    let aave: MintableErc20;
+    let layToken: MintableErc20;
     let weth: MintableErc20;
     let BPool: IbPool; // BPool
-    let gov: IAaveGovernanceV2;
     let ReserveController: IControllerAaveEcosystemReserve;
     let stakedBPS: StakedTokenV3; // bptshare
     let deployerSigner: ethers.providers.JsonRpcSigner;
@@ -94,18 +93,14 @@ rawBRE.run('set-dre').then(async () => {
     let wethHolderSigner: ethers.providers.JsonRpcSigner;
     let shortExecutorSigner: ethers.providers.JsonRpcSigner;
     let holderWethBalance: ethers.BigNumber;
-    let holderAaveBalance: ethers.BigNumber;
+    let holderLayBalance: ethers.BigNumber;
     let deployer = testEnv.users[2];
     before(async () => {
       await initializeMakeSuite();
       await impersonateAccountsHardhat([MULTI_SIG, WETH_HOLDER, SHORT_EXECUTOR]);
       deployer = testEnv.users[2];
-      aave = await getERC20Contract(AAVE_TOKEN);
+      layToken = await getERC20Contract(AAVE_TOKEN);
       weth = await getERC20Contract(WETH);
-      gov = (await rawBRE.ethers.getContractAt(
-        'IAaveGovernanceV2',
-        AAVE_GOVERNANCE_V2
-      )) as IAaveGovernanceV2;
       ReserveController = await getController(RESERVE_CONTROLER);
       CRPFactory = await getCRPFactoryContract(UPGRADABLE_CRP_FACTORY);
       holderSigner = DRE.ethers.provider.getSigner(MULTI_SIG);
@@ -121,7 +116,7 @@ rawBRE.run('set-dre').then(async () => {
     });
     beforeEach(async () => {
       holderWethBalance = await weth.balanceOf(MULTI_SIG);
-      holderAaveBalance = await aave.balanceOf(MULTI_SIG);
+      holderLayBalance = await layToken.balanceOf(MULTI_SIG);
     });
     it('Creates a new CRP', async () => {
       let CRPAddress = zeroAddress();
@@ -171,7 +166,7 @@ rawBRE.run('set-dre').then(async () => {
     });
     it('Creates the smart Pool: 80/20 AAVE/ETH', async () => {
       await waitForTx(
-        await aave.connect(holderSigner).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT)
+        await layToken.connect(holderSigner).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT)
       );
       await waitForTx(
         await weth.connect(holderSigner).approve(CRPool.address, INFINITE_APPROVAL_AMOUNT)
@@ -189,8 +184,8 @@ rawBRE.run('set-dre').then(async () => {
 
       expect(await BPShares.balanceOf(MULTI_SIG)).to.be.equal(INIT_SHARE_SUPPLY);
       expect(await BPShares.totalSupply()).to.be.equal(INIT_SHARE_SUPPLY);
-      expect(await aave.balanceOf(MULTI_SIG)).to.be.equal(
-        holderAaveBalance.sub(INIT_AAVE_POOL_SUPPLY)
+      expect(await layToken.balanceOf(MULTI_SIG)).to.be.equal(
+        holderLayBalance.sub(INIT_AAVE_POOL_SUPPLY)
       );
       expect(await weth.balanceOf(MULTI_SIG)).to.be.equal(
         holderWethBalance.sub(INIT_WETH_POOL_SUPPLY)
@@ -211,7 +206,7 @@ rawBRE.run('set-dre').then(async () => {
     });
     it('Let a user make a swap Weth => Aave', async () => {
       await waitForTx(
-        await aave.connect(holderSigner).approve(BPool.address, INFINITE_APPROVAL_AMOUNT)
+        await layToken.connect(holderSigner).approve(BPool.address, INFINITE_APPROVAL_AMOUNT)
       );
       await waitForTx(
         await weth.connect(holderSigner).approve(BPool.address, INFINITE_APPROVAL_AMOUNT)
@@ -240,7 +235,7 @@ rawBRE.run('set-dre').then(async () => {
           parseEther('100')
         )
       );
-      expect(await aave.balanceOf(MULTI_SIG)).to.be.equal(holderAaveBalance.sub(SOLD_AAVE));
+      expect(await layToken.balanceOf(MULTI_SIG)).to.be.equal(holderLayBalance.sub(SOLD_AAVE));
     });
     it('Creates the staked token overlay', async () => {
       const { deployer } = testEnv;
@@ -276,7 +271,7 @@ rawBRE.run('set-dre').then(async () => {
     });
     it('Execute the vault to approve stkBPShares', async () => {
       await ReserveController.connect(shortExecutorSigner).approve(
-        aave.address,
+        layToken.address,
         stakedBPS.address,
         RESERVER_ALLOWANCE
       );
@@ -292,7 +287,7 @@ rawBRE.run('set-dre').then(async () => {
       expect(await stakedBPS.balanceOf(MULTI_SIG)).to.be.equal(STAKED_SHARES);
       await increaseTimeAndMine(60 * 60 * 24 * 3);
       await waitForTx(await stakedBPS.connect(holderSigner).claimRewards(REWARDS_RECEIVER, 1));
-      expect(await aave.balanceOf(REWARDS_RECEIVER)).to.be.equal(1);
+      expect(await layToken.balanceOf(REWARDS_RECEIVER)).to.be.equal(1);
     });
   });
 });

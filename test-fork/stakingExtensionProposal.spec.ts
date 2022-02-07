@@ -74,16 +74,16 @@ describe('Proposal: Extend Staked Aave distribution', () => {
   let proposer: SignerWithAddress;
   let gov: IAaveGovernanceV2;
   let pool: ILendingPool;
-  let aave: Erc20;
-  let aaveBpt: Erc20;
+  let layToken: Erc20;
+  let layBpt: Erc20;
   let dai: Erc20;
   let aDAI: Erc20;
   let proposalId: BigNumber;
-  let aaveStakeV2: StakedLayV2;
+  let stakedLayV2: StakedLayV2;
   let bptStakeV2: StakedLayV2;
-  let stkAaveImplAddress: string;
+  let stkLayImplAddress: string;
   let stkBptImplAddress: string;
-  let stakedAaveV2Revision3Implementation: StakedTokenV2Rev3;
+  let stakedTokenV2Revision3Implementation: StakedTokenV2Rev3;
   let stakedBptV2Revision2Implementation: StakedTokenBptRev2;
   before(async () => {
     await rawHRE.run('set-dre');
@@ -125,31 +125,31 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
     const { aTokenAddress } = await pool.getReserveData(DAI_TOKEN);
 
-    aave = Erc20__factory.connect(AAVE_TOKEN, whale);
-    aaveBpt = Erc20__factory.connect(AAVE_BPT_POOL_TOKEN, bptWhale);
-    aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
+    layToken = Erc20__factory.connect(AAVE_TOKEN, whale);
+    layBpt = Erc20__factory.connect(AAVE_BPT_POOL_TOKEN, bptWhale);
+    stakedLayV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
     bptStakeV2 = StakedLayV2__factory.connect(BPT_STAKE, proposer);
     dai = Erc20__factory.connect(DAI_TOKEN, daiHolder);
     aDAI = Erc20__factory.connect(aTokenAddress, proposer);
 
     // Transfer enough AAVE to proposer
-    await (await aave.transfer(proposer.address, parseEther('2000000'))).wait();
+    await (await layToken.transfer(proposer.address, parseEther('2000000'))).wait();
     // Transfer enough AAVE to proposer
-    await (await aave.connect(whale2).transfer(proposer.address, parseEther('1200000'))).wait();
+    await (await layToken.connect(whale2).transfer(proposer.address, parseEther('1200000'))).wait();
     // Transfer DAI to repay future DAI loan
     await (await dai.transfer(proposer.address, parseEther('100000'))).wait();
     // Transfer Aave BPT pool shares to proposer
-    await (await aaveBpt.transfer(proposer.address, parseEther('100'))).wait();
+    await (await layBpt.transfer(proposer.address, parseEther('100'))).wait();
   });
 
   it('Proposal should be created', async () => {
     await advanceBlockTo((await latestBlock()) + 10);
-    const aaveGovToken = IDelegationAwareToken__factory.connect(AAVE_TOKEN, proposer);
+    const govToken = IDelegationAwareToken__factory.connect(AAVE_TOKEN, proposer);
 
     try {
-      const balance = await aave.balanceOf(proposer.address);
+      const balance = await layToken.balanceOf(proposer.address);
       console.log('AAVE Balance proposer', formatEther(balance));
-      const propositionPower = await aaveGovToken.getPowerAtBlock(
+      const propositionPower = await govToken.getPowerAtBlock(
         proposer.address,
         ((await latestBlock()) - 1).toString(),
         '1'
@@ -169,11 +169,11 @@ describe('Proposal: Extend Staked Aave distribution', () => {
       'proposal-stk-extensions'
     );
 
-    stkAaveImplAddress = stkAaveImpl;
+    stkLayImplAddress = stkAaveImpl;
     stkBptImplAddress = stkBptImpl;
 
-    stakedAaveV2Revision3Implementation = StakedTokenV2Rev3__factory.connect(
-      stkAaveImplAddress,
+    stakedTokenV2Revision3Implementation = StakedTokenV2Rev3__factory.connect(
+      stkLayImplAddress,
       proposer
     );
     stakedBptV2Revision2Implementation = StakedTokenBptRev2__factory.connect(
@@ -184,7 +184,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     // Mine block due flash loan voting protection
     await advanceBlockTo((await latestBlock()) + 1);
 
-    const votingPower = await aaveGovToken.getPowerAtBlock(
+    const votingPower = await govToken.getPowerAtBlock(
       proposer.address,
       ((await latestBlock()) - 1).toString(),
       '0'
@@ -228,9 +228,9 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
   it('Users should be able to stake AAVE', async () => {
     const amount = parseEther('10');
-    await waitForTx(await aave.connect(proposer).approve(aaveStakeV2.address, amount));
-    await expect(aaveStakeV2.connect(proposer).stake(proposer.address, amount)).to.emit(
-      aaveStakeV2,
+    await waitForTx(await layToken.connect(proposer).approve(stakedLayV2.address, amount));
+    await expect(stakedLayV2.connect(proposer).stake(proposer.address, amount)).to.emit(
+      stakedLayV2,
       'Staked'
     );
   });
@@ -240,14 +240,14 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     await increaseTimeAndMineTenderly(48600);
 
     try {
-      await waitForTx(await aaveStakeV2.cooldown({ gasLimit: 3000000 }));
+      await waitForTx(await stakedLayV2.cooldown({ gasLimit: 3000000 }));
 
-      const COOLDOWN_SECONDS = await aaveStakeV2.COOLDOWN_SECONDS();
+      const COOLDOWN_SECONDS = await stakedLayV2.COOLDOWN_SECONDS();
       await increaseTimeAndMineTenderly(Number(COOLDOWN_SECONDS.toString()));
 
       await expect(
-        aaveStakeV2.connect(proposer).redeem(proposer.address, amount, { gasLimit: 3000000 })
-      ).to.emit(aaveStakeV2, 'Redeem');
+        stakedLayV2.connect(proposer).redeem(proposer.address, amount, { gasLimit: 3000000 })
+      ).to.emit(stakedLayV2, 'Redeem');
     } catch (error) {
       logError();
       throw error;
@@ -256,7 +256,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
   it('Users should be able to stake Aave Pool BPT', async () => {
     const amount = parseEther('10');
-    await waitForTx(await aaveBpt.connect(proposer).approve(bptStakeV2.address, amount));
+    await waitForTx(await layBpt.connect(proposer).approve(bptStakeV2.address, amount));
     await expect(bptStakeV2.connect(proposer).stake(proposer.address, amount)).to.emit(
       bptStakeV2,
       'Staked'
@@ -283,8 +283,8 @@ describe('Proposal: Extend Staked Aave distribution', () => {
   });
 
   it('Users should be able to transfer stkAave', async () => {
-    await expect(aaveStakeV2.transfer(whale._address, parseEther('1'))).emit(
-      aaveStakeV2,
+    await expect(stakedLayV2.transfer(whale._address, parseEther('1'))).emit(
+      stakedLayV2,
       'Transfer'
     );
   });
@@ -294,14 +294,14 @@ describe('Proposal: Extend Staked Aave distribution', () => {
   });
 
   it('Staked Aave Distribution End should be extended', async () => {
-    const implDistributionEnd = await stakedAaveV2Revision3Implementation.DISTRIBUTION_END();
-    const proxyDistributionEnd = await aaveStakeV2.DISTRIBUTION_END();
+    const implDistributionEnd = await stakedTokenV2Revision3Implementation.DISTRIBUTION_END();
+    const proxyDistributionEnd = await stakedLayV2.DISTRIBUTION_END();
 
     expect(implDistributionEnd).to.be.eq(proxyDistributionEnd, 'DISTRIBUTION_END SHOULD MATCH');
   });
   it('Staked Aave revision should be 3', async () => {
-    const revisionImpl = await stakedAaveV2Revision3Implementation.REVISION();
-    const revisionProxy = await aaveStakeV2.REVISION();
+    const revisionImpl = await stakedTokenV2Revision3Implementation.REVISION();
+    const revisionProxy = await stakedLayV2.REVISION();
 
     expect(revisionImpl).to.be.eq(revisionProxy, 'DISTRIBUTION_END SHOULD MATCH');
     expect(revisionProxy).to.be.eq('3', 'DISTRIBUTION_END SHOULD MATCH');
