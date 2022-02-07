@@ -5,7 +5,7 @@ import { eContractid, eEthereumNetwork } from '../../helpers/types';
 import { checkVerification } from '../../helpers/etherscan-verification';
 import { getAaveAdminPerNetwork } from '../../helpers/constants';
 
-task('common-deployment', 'Deployment in for Main, Kovan and Ropsten networks')
+task('common-deployment', 'Deployment in for Main, Kovan networks')
   .addFlag('verify', 'Verify StakedAave and InitializableAdminUpgradeabilityProxy contract.')
   .addOptionalParam(
     'vaultAddress',

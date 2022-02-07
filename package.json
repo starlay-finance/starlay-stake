@@ -10,7 +10,6 @@
     "run-env": "npm i && tail -f /dev/null",
     "hardhat": "hardhat",
     "hardhat-kovan": "hardhat --network kovan",
-    "hardhat-ropsten": "hardhat --network ropsten",
     "hardhat-main": "hardhat --network main",
     "hardhat:tenderly": "hardhat --network tenderly",
     "hardhat-shibuya": "hardhat --network shibuya",
@@ -30,7 +29,6 @@
     "proposal-extend-stkaave:tenderly:defender": "TENDERLY=true npm run hardhat:tenderly -- proposal-stk-aave-extension:tenderly --defender",
     "coverage": "npm run compile && npx hardhat coverage --testfiles \"test/**/*.spec.ts\"",
     "dev:deployment": "hardhat dev-deployment",
-    "ropsten:deployment": "npm run hardhat-ropsten -- common-deployment --verify",
     "kovan:deployment": "npm run hardhat-kovan -- common-deployment --verify",
     "main:deployment": "npm run hardhat-main -- common-deployment --verify",
     "shibuya:deployment": "npm run hardhat-shibuya -- common-deployment",
@@ -83,17 +81,11 @@
       "pre-commit": "pretty-quick --staged --pattern 'contracts/**/*.sol' --pattern 'helpers/**/*.ts'  --pattern 'test/**/*.ts' --pattern 'tasks/**/*.ts'"
     }
   },
-  "author": "Aave",
-  "contributors": [
-    "Ernesto Boado <ernesto@aave.com>",
-    "Emilio Frangella <emilio@aave.com>",
-    "Andrey Kozlov <andrey@aave.com>",
-    "David Racero <david.k@aave.com>"
-  ],
+  "author": "Starlay",
   "license": "AGPL-3.0",
   "dependencies": {},
   "keywords": [
-    "aave",
+    "starlay",
     "stake",
     "token",
     "safety",
