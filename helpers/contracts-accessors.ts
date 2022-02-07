@@ -43,7 +43,7 @@ export const deployStakedAave = async (
   ],
   verify?: boolean
 ) => {
-  const id = eContractid.StakedAave;
+  const id = eContractid.StakedLay;
   const args: string[] = [
     stakedToken,
     rewardsToken,
@@ -80,7 +80,7 @@ export const deployStakedAaveV2 = async (
   ],
   verify?: boolean
 ) => {
-  const id = eContractid.StakedAaveV2;
+  const id = eContractid.StakedLayV2;
   const args: string[] = [
     stakedToken,
     rewardsToken,
@@ -367,19 +367,19 @@ export const deployDoubleTransferHelper = async (aaveToken: tEthereumAddress, ve
 
 export const getMintableErc20 = getContractFactory<MintableErc20>(eContractid.MintableErc20);
 
-export const getStakedAave = getContractFactory<StakedAave>(eContractid.StakedAave);
-export const getStakedAaveV2 = getContractFactory<StakedAaveV2>(eContractid.StakedAaveV2);
+export const getStakedAave = getContractFactory<StakedAave>(eContractid.StakedLay);
+export const getStakedAaveV2 = getContractFactory<StakedAaveV2>(eContractid.StakedLayV2);
 
 export const getStakedAaveProxy = async (address?: tEthereumAddress) => {
   return await getContract<InitializableAdminUpgradeabilityProxy>(
     eContractid.InitializableAdminUpgradeabilityProxy,
-    address || (await getDb().get(`${eContractid.StakedAave}.${DRE.network.name}`).value()).address
+    address || (await getDb().get(`${eContractid.StakedLay}.${DRE.network.name}`).value()).address
   );
 };
 
 export const getStakedAaveImpl = async (address?: tEthereumAddress) => {
   return await getContract<StakedAave>(
-    eContractid.StakedAave,
+    eContractid.StakedLay,
     address ||
       (await getDb().get(`${eContractid.StakedAaveImpl}.${DRE.network.name}`).value()).address
   );

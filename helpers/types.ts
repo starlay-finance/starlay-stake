@@ -16,7 +16,7 @@ export enum eAstarNetwork {
 
 export enum eContractid {
   DistributionManager = 'DistributionManager',
-  StakedAave = 'StakedAave',
+  StakedLay = 'StakedLay',
   StakedAaveImpl = 'StakedAaveImpl',
   IncentivesController = 'IncentivesController',
   IERC20Detailed = 'IERC20Detailed',
@@ -26,7 +26,7 @@ export enum eContractid {
   LendingPoolMock = 'LendingPoolMock',
   MockTransferHook = 'MockTransferHook',
   ATokenMock = 'ATokenMock',
-  StakedAaveV2 = 'StakedAaveV2',
+  StakedLayV2 = 'StakedLayV2',
   DoubleTransferHelper = 'DoubleTransferHelper',
   ICRPFactory = 'ICRPFactory',
   StakedTokenV2 = 'StakedTokenV2',

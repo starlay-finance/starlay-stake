@@ -3,15 +3,15 @@ pragma solidity 0.7.5;
 pragma experimental ABIEncoderV2;
 
 import {IERC20} from '../interfaces/IERC20.sol';
-import {StakedTokenV2} from './StakedTokenV2.sol';
+import {StakedToken} from './StakedToken.sol';
 
 /**
- * @title StakedAaveV2
- * @notice StakedTokenV2 with AAVE token as staked token
- * @author Aave
+ * @title StakedLay
+ * @notice StakedToken with AAVE token as staked token
+ * @author Starlay
  **/
-contract StakedAaveV2 is StakedTokenV2 {
-  string internal constant NAME = 'Staked LAY';
+contract StakedLay is StakedToken {
+  string internal constant NAME = 'Staked Lay';
   string internal constant SYMBOL = 'sLAY';
   uint8 internal constant DECIMALS = 18;
 
@@ -22,11 +22,10 @@ contract StakedAaveV2 is StakedTokenV2 {
     uint256 unstakeWindow,
     address rewardsVault,
     address emissionManager,
-    uint128 distributionDuration,
-    address governance
+    uint128 distributionDuration
   )
     public
-    StakedTokenV2(
+    StakedToken(
       stakedToken,
       rewardToken,
       cooldownSeconds,
@@ -36,8 +35,7 @@ contract StakedAaveV2 is StakedTokenV2 {
       distributionDuration,
       NAME,
       SYMBOL,
-      DECIMALS,
-      governance
+      DECIMALS
     )
   {}
 }

@@ -16,9 +16,9 @@ import {
 } from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
 
-const { StakedAave, StakedAaveImpl } = eContractid;
+const { StakedLay, StakedAaveImpl } = eContractid;
 
-task(`deploy-${StakedAave}`, `Deploys the ${StakedAave} contract`)
+task(`deploy-StakedLay`, `Deploys the ${StakedLay} contract`)
   .addFlag('verify', 'Verify StakedAave contract via Etherscan API.')
   .addOptionalParam(
     'vaultAddress',
@@ -39,9 +39,9 @@ task(`deploy-${StakedAave}`, `Deploys the ${StakedAave} contract`)
 
     const network = localBRE.network.name as eEthereumNetwork | eAstarNetwork;
 
-    console.log(`\n- ${StakedAave} deployment`);
+    console.log(`\n- ${StakedLay} deployment`);
 
-    console.log(`\tDeploying ${StakedAave} implementation ...`);
+    console.log(`\tDeploying ${StakedLay} implementation ...`);
     const stakedAaveImpl = await deployStakedAave(
       [
         aaveAddress || getAaveTokenPerNetwork(network),
@@ -57,9 +57,9 @@ task(`deploy-${StakedAave}`, `Deploys the ${StakedAave} contract`)
     await stakedAaveImpl.deployTransaction.wait();
     await registerContractInJsonDb(StakedAaveImpl, stakedAaveImpl);
 
-    console.log(`\tDeploying ${StakedAave} Transparent Proxy ...`);
+    console.log(`\tDeploying ${StakedLay} Transparent Proxy ...`);
     const stakedAaveProxy = await deployInitializableAdminUpgradeabilityProxy(verify);
-    await registerContractInJsonDb(StakedAave, stakedAaveProxy);
+    await registerContractInJsonDb(StakedLay, stakedAaveProxy);
 
-    console.log(`\tFinished ${StakedAave} proxy and implementation deployment`);
+    console.log(`\tFinished ${StakedLay} proxy and implementation deployment`);
   });

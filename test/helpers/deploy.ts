@@ -72,7 +72,7 @@ export const testDeployAaveStakeV1 = async (
   await waitForTx(
     await aaveToken.connect(vaultOfRewards).approve(stakedAaveProxy.address, MAX_UINT_AMOUNT)
   );
-  await insertContractAddressInDb(eContractid.StakedAave, stakedAaveProxy.address);
+  await insertContractAddressInDb(eContractid.StakedLay, stakedAaveProxy.address);
 
   const peiEncodedInitialize = aaveIncentivesControllerImplementation.interface.encodeFunctionData(
     'initialize'
@@ -132,7 +132,7 @@ export const testDeployAaveStakeV2 = async (
     .connect(restWallets[0])
     .upgradeToAndCall(stakedAaveImpl.address, stakedAaveEncodedInitialize);
 
-  await insertContractAddressInDb(eContractid.StakedAaveV2, stakedAaveProxy.address);
+  await insertContractAddressInDb(eContractid.StakedLayV2, stakedAaveProxy.address);
 
   return {
     stakedAaveProxy,
