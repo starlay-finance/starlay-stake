@@ -34,10 +34,10 @@ const {
   POOL_CONFIGURATOR = '0x311bb771e4f8952e6da169b425e7e92d6ac45756',
   POOL_DATA_PROVIDER = '0x057835Ad21a177dbdd3090bB1CAE03EaCF78Fc6d',
   ECO_RESERVE = '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
-  AAVE_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
+  LAY_TOKEN = '0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9',
   IPFS_HASH = 'QmT9qk3CRYbFDWpDFYeAv8T8H1gnongwKhh5J68NLkLir6', // WIP
-  AAVE_GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
-  AAVE_LONG_EXECUTOR = '0x61910ecd7e8e942136ce7fe7943f956cea1cc2f7', // mainnet
+  GOVERNANCE_V2 = '0xEC568fffba86c094cf06b22134B23074DFE2252c', // mainnet
+  LONG_EXECUTOR = '0x61910ecd7e8e942136ce7fe7943f956cea1cc2f7', // mainnet
 } = process.env;
 
 if (
@@ -45,22 +45,22 @@ if (
   !POOL_CONFIGURATOR ||
   !POOL_DATA_PROVIDER ||
   !ECO_RESERVE ||
-  !AAVE_TOKEN ||
+  !LAY_TOKEN ||
   !IPFS_HASH ||
-  !AAVE_GOVERNANCE_V2 ||
-  !AAVE_LONG_EXECUTOR
+  !GOVERNANCE_V2 ||
+  !LONG_EXECUTOR
 ) {
   throw new Error('You have not set correctly the .env file, make sure to read the README.md');
 }
 
-const AAVE_LENDING_POOL = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9';
+const LENDING_POOL = '0x7d2768dE32b0b80b7a3454c06BdAc94A69DDc7A9';
 const VOTING_DURATION = 64000;
 
-const AAVE_WHALE = '0x25f2226b597e8f9514b3f68f00f494cf4f286491';
-const AAVE_WHALE_2 = '0xbe0eb53f46cd790cd13851d5eff43d12404d33e8';
+const WHALE = '0x25f2226b597e8f9514b3f68f00f494cf4f286491';
+const WHALE_2 = '0xbe0eb53f46cd790cd13851d5eff43d12404d33e8';
 
-const AAVE_BPT_POOL_TOKEN = '0x41a08648c3766f9f9d85598ff102a08f4ef84f84';
-const AAVE_STAKE = '0x4da27a545c0c5B758a6BA100e3a049001de870f5';
+const BPT_POOL_TOKEN = '0x41a08648c3766f9f9d85598ff102a08f4ef84f84';
+const STAKED_LAY = '0x4da27a545c0c5B758a6BA100e3a049001de870f5';
 const BPT_STAKE = '0xa1116930326D21fB917d5A27F1E9943A9595fb47';
 const DAI_TOKEN = '0x6b175474e89094c44da98b954eedeac495271d0f';
 const DAI_HOLDER = '0x72aabd13090af25dbb804f84de6280c697ed1150';
@@ -93,41 +93,41 @@ describe('Proposal: Extend Staked Aave distribution', () => {
     // Send ether to the LAY_WHALE, which is a non payable contract via selfdestruct
     const selfDestructContract = await new SelfdestructTransfer__factory(proposer).deploy();
     await (
-      await selfDestructContract.destroyAndTransfer(AAVE_WHALE, {
+      await selfDestructContract.destroyAndTransfer(WHALE, {
         value: ethers.utils.parseEther('1'),
       })
     ).wait();
 
     // Impersonating holders
     await impersonateAccountsHardhat([
-      AAVE_WHALE,
-      AAVE_WHALE_2,
+      WHALE,
+      WHALE_2,
       BPT_WHALE,
       ...Object.keys(spendList).map((k) => spendList[k].holder),
     ]);
 
-    const whale2 = ethers.provider.getSigner(AAVE_WHALE_2);
+    const whale2 = ethers.provider.getSigner(WHALE_2);
     const bptWhale = ethers.provider.getSigner(BPT_WHALE);
-    whale = ethers.provider.getSigner(AAVE_WHALE);
+    whale = ethers.provider.getSigner(WHALE);
     daiHolder = ethers.provider.getSigner(DAI_HOLDER);
 
     // Initialize contracts and tokens
     gov = (await ethers.getContractAt(
       'IAaveGovernanceV2',
-      AAVE_GOVERNANCE_V2,
+      GOVERNANCE_V2,
       proposer
     )) as IAaveGovernanceV2;
     pool = (await ethers.getContractAt(
       'ILendingPool',
-      AAVE_LENDING_POOL,
+      LENDING_POOL,
       proposer
     )) as ILendingPool;
 
     const { aTokenAddress } = await pool.getReserveData(DAI_TOKEN);
 
-    layToken = Erc20__factory.connect(AAVE_TOKEN, whale);
-    layBpt = Erc20__factory.connect(AAVE_BPT_POOL_TOKEN, bptWhale);
-    stakedLayV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
+    layToken = Erc20__factory.connect(LAY_TOKEN, whale);
+    layBpt = Erc20__factory.connect(BPT_POOL_TOKEN, bptWhale);
+    stakedLayV2 = StakedLayV2__factory.connect(STAKED_LAY, proposer);
     bptStakeV2 = StakedLayV2__factory.connect(BPT_STAKE, proposer);
     dai = Erc20__factory.connect(DAI_TOKEN, daiHolder);
     aDAI = Erc20__factory.connect(aTokenAddress, proposer);
@@ -144,7 +144,7 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
   it('Proposal should be created', async () => {
     await advanceBlockTo((await latestBlock()) + 10);
-    const govToken = IDelegationAwareToken__factory.connect(AAVE_TOKEN, proposer);
+    const govToken = IDelegationAwareToken__factory.connect(LAY_TOKEN, proposer);
 
     try {
       const balance = await layToken.balanceOf(proposer.address);

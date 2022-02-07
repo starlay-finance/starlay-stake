@@ -37,9 +37,9 @@ import { checkVerification } from '../../helpers/etherscan-verification';
 const { ICRPFactory } = eContractid;
 const INFINITE_APPROVAL_AMOUNT = MAX_UINT_AMOUNT;
 const RESERVER_ALLOWANCE = parseEther('100000');
-const AAVE_WEIGHT = parseEther('40'); // 80 %
+const LAY_WEIGHT = parseEther('40'); // 80 %
 const WETH_WEIGHT = parseEther('10'); // 20 %
-const INIT_AAVE_PRICE = 502; // 1 ETH = 5.02 AAVE
+const INIT_LAY_PRICE = 502; // 1 ETH = 5.02 AAVE
 const PRICE_PRECISION = 100;
 const INIT_TOKEN_SUPPLY_DIVIDER = 100;
 
@@ -49,13 +49,13 @@ const UNSTAKE_WINDOW = '172800'; // 2 days
 const DISTRIBUTION_DURATION = '15780000'; // 6 month
 const EMISSION_MANAGER = SHORT_EXECUTOR;
 
-// INIT AAVE SUPPLY = 40 / 100 = 0.4
-const INIT_AAVE_POOL_SUPPLY = AAVE_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER);
+// INIT LAY SUPPLY = 40 / 100 = 0.4
+const INIT_LAY_POOL_SUPPLY = LAY_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER);
 const INIT_WETH_POOL_SUPPLY = WETH_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER)
-  .div(INIT_AAVE_PRICE)
+  .div(INIT_LAY_PRICE)
   .mul(PRICE_PRECISION);
 // Requirement: 1000 BPT = aprox 1 AAVE. 500 shares for 0.4 AAVE + 0.1 AAVE worth of WETH
-const INIT_SHARE_SUPPLY = INIT_AAVE_POOL_SUPPLY.mul(10).div(8).mul(1000);
+const INIT_SHARE_SUPPLY = INIT_LAY_POOL_SUPPLY.mul(10).div(8).mul(1000);
 // 0.1 %
 const SWAP_FEE = parseEther('0.04');
 
@@ -89,8 +89,8 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
           poolTokenSymbol: 'ABPT',
           poolTokenName: 'Aave Balance Pool Token',
           constituentTokens: [AAVE_TOKEN, WETH],
-          tokenBalances: [INIT_AAVE_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
-          tokenWeights: [AAVE_WEIGHT, WETH_WEIGHT],
+          tokenBalances: [INIT_LAY_POOL_SUPPLY, INIT_WETH_POOL_SUPPLY],
+          tokenWeights: [LAY_WEIGHT, WETH_WEIGHT],
           swapFee: SWAP_FEE,
         },
         {
