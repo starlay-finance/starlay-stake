@@ -3,12 +3,12 @@ import { task } from 'hardhat/config';
 import { eAstarNetwork, eContractid, eEthereumNetwork, tEthereumAddress } from '../../helpers/types';
 import { registerContractInJsonDb } from '../../helpers/contracts-helpers';
 import {
-  getAaveTokenPerNetwork,
+  getTokenPerNetwork,
   getCooldownSecondsPerNetwork,
   getUnstakeWindowPerNetwork,
-  getAaveAdminPerNetwork,
+  getAdminPerNetwork,
   getDistributionDurationPerNetwork,
-  getAaveIncentivesVaultPerNetwork,
+  getIncentivesVaultPerNetwork,
 } from '../../helpers/constants';
 import {
   deployStakedLay,
@@ -44,12 +44,12 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     console.log(`\tDeploying ${StakedLay} implementation ...`);
     const stakedLayImpl = await deployStakedLay(
       [
-        tokenAddress || getAaveTokenPerNetwork(network),
-        tokenAddress || getAaveTokenPerNetwork(network),
+        tokenAddress || getTokenPerNetwork(network),
+        tokenAddress || getTokenPerNetwork(network),
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
-        vaultAddress || getAaveIncentivesVaultPerNetwork(network),
-        getAaveAdminPerNetwork(network),
+        vaultAddress || getIncentivesVaultPerNetwork(network),
+        getAdminPerNetwork(network),
         getDistributionDurationPerNetwork(network),
       ],
       false // disable verify due not supported by current buidler etherscan plugin

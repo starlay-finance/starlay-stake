@@ -3,7 +3,7 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 
 import { eContractid, eEthereumNetwork } from '../../helpers/types';
 import { checkVerification } from '../../helpers/etherscan-verification';
-import { getAaveAdminPerNetwork } from '../../helpers/constants';
+import { getAdminPerNetwork } from '../../helpers/constants';
 
 task('common-deployment', 'Deployment in for Main, Kovan networks')
   .addFlag('verify', 'Verify StakedToken and InitializableAdminUpgradeabilityProxy contract.')
@@ -15,7 +15,7 @@ task('common-deployment', 'Deployment in for Main, Kovan networks')
   .setAction(async ({ verify, vaultAddress, tokenAddress }, localBRE) => {
     const DRE: HardhatRuntimeEnvironment = await localBRE.run('set-dre');
     const network = DRE.network.name as eEthereumNetwork;
-    const admin = getAaveAdminPerNetwork(network);
+    const admin = getAdminPerNetwork(network);
 
     if (!admin) {
       throw Error(

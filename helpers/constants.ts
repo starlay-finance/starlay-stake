@@ -47,7 +47,7 @@ export const RANDOM_ADDRESSES = [
 ];
 
 // AaveToken's proxy
-export const getAaveTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
@@ -90,7 +90,7 @@ export const getUnstakeWindowPerNetwork = (network: eEthereumNetwork | eAstarNet
   );
 
 // AaveProtoGovernance
-export const getAaveAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
@@ -122,7 +122,7 @@ export const getDistributionDurationPerNetwork = (network: eEthereumNetwork | eA
 // refs
 // - https://github.com/aave/genesis-migration
 // - https://github.com/aave/genesis-migration/blob/master/tasks/deployments/1.vault.ts
-export const getAaveIncentivesVaultPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getIncentivesVaultPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: '',
