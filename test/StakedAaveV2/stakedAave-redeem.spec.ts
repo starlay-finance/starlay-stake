@@ -173,8 +173,8 @@ makeSuite('StakedAave V2. Redeem', (testEnv: TestEnv) => {
     const tokenBalanceBefore = new BigNumber((await layToken.balanceOf(staker.address)).toString());
     await stakedTokenV2.connect(staker.signer).redeem(staker.address, amount);
     const tokenBalanceAfter = new BigNumber((await layToken.balanceOf(staker.address)).toString());
-    expect(tokenBalanceBefore.minus(amount.toString()).toString()).to.be.equal(
-      tokenBalanceAfter.toString()
+    expect(tokenBalanceAfter.minus(amount.toString()).toString()).to.be.equal(
+      tokenBalanceBefore.toString()
     );
   });
 });
