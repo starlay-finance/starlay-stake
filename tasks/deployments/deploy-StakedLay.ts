@@ -18,7 +18,7 @@ import { checkVerification } from '../../helpers/etherscan-verification';
 
 const { StakedLay, StakedAaveImpl } = eContractid;
 
-task(`deploy-StakedLay`, `Deploys the ${StakedLay} contract`)
+task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
   .addFlag('verify', 'Verify StakedAave contract via Etherscan API.')
   .addOptionalParam(
     'vaultAddress',

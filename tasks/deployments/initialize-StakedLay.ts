@@ -15,7 +15,7 @@ import {
 
 const { StakedLay } = eContractid;
 
-task(`initialize-StakedLay`, `Initialize the ${StakedLay} proxy contract`)
+task(`initialize-${StakedLay}`, `Initialize the ${StakedLay} proxy contract`)
   .addParam('admin', `The address to be added as an Admin role in ${StakedLay} Transparent Proxy.`)
   .setAction(async ({ admin: aaveAdmin }, localBRE) => {
     await localBRE.run('set-dre');
