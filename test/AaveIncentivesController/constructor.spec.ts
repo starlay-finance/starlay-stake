@@ -3,7 +3,7 @@ import { timeLatest } from '../../helpers/misc-utils';
 const { expect } = require('chai');
 
 import { makeSuite } from '../helpers/make-suite';
-import { deployAaveIncentivesController } from '../../helpers/contracts-accessors';
+import { deployIncentivesController } from '../../helpers/contracts-accessors';
 import { RANDOM_ADDRESSES } from '../../helpers/constants';
 
 makeSuite('AaveIncentivesController constructor tests', () => {
@@ -15,7 +15,7 @@ makeSuite('AaveIncentivesController constructor tests', () => {
     const extraPsmReward = '100';
     const distributionDuration = '100';
 
-    const aaveIncentivesController = await deployAaveIncentivesController([
+    const aaveIncentivesController = await deployIncentivesController([
       rewardToken,
       rewardsVault,
       psm,

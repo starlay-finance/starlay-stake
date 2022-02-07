@@ -23,7 +23,7 @@ import { ZERO_ADDRESS } from './constants';
 import { Signer } from 'ethers';
 import { StakedTokenBptRev2, StakedTokenV2Rev3 } from '../types';
 
-export const deployStakedAave = async (
+export const deployStakedLay = async (
   [
     stakedToken,
     rewardsToken,
@@ -60,7 +60,7 @@ export const deployStakedAave = async (
   return instance;
 };
 
-export const deployStakedAaveV2 = async (
+export const deployStakedLayV2 = async (
   [
     stakedToken,
     rewardsToken,
@@ -298,8 +298,8 @@ export const deployStakedTokenV3 = async (
   return instance;
 };
 
-export const deployAaveIncentivesController = async (
-  [rewardToken, rewardsVault, aavePsm, extraPsmReward, emissionManager, distributionDuration]: [
+export const deployIncentivesController = async (
+  [rewardToken, rewardsVault, psm, extraPsmReward, emissionManager, distributionDuration]: [
     tEthereumAddress,
     tEthereumAddress,
     tEthereumAddress,
@@ -313,7 +313,7 @@ export const deployAaveIncentivesController = async (
   const args: string[] = [
     rewardToken,
     rewardsVault,
-    aavePsm,
+    psm,
     extraPsmReward,
     emissionManager,
     distributionDuration,
@@ -354,9 +354,9 @@ export const deployMockTransferHook = async () =>
 export const deployATokenMock = async (aicAddress: tEthereumAddress, slug: string) =>
   await deployContract<ATokenMock>(eContractid.ATokenMock, [aicAddress], slug);
 
-export const deployDoubleTransferHelper = async (aaveToken: tEthereumAddress, verify?: boolean) => {
+export const deployDoubleTransferHelper = async (token: tEthereumAddress, verify?: boolean) => {
   const id = eContractid.DoubleTransferHelper;
-  const args = [aaveToken];
+  const args = [token];
   const instance = await deployContract<DoubleTransferHelper>(id, args);
   await instance.deployTransaction.wait();
   if (verify) {

@@ -10,10 +10,10 @@ import {
 } from '../../helpers/constants';
 import {
   deployInitializableAdminUpgradeabilityProxy,
-  deployAaveIncentivesController,
-  deployStakedAave,
+  deployIncentivesController,
+  deployStakedLay,
   deployMockTransferHook,
-  deployStakedAaveV2,
+  deployStakedLayV2,
 } from '../../helpers/contracts-accessors';
 import { insertContractAddressInDb } from '../../helpers/contracts-helpers';
 import { waitForTx } from '../../helpers/misc-utils';
@@ -37,7 +37,7 @@ export const testDeployAaveStakeV1 = async (
   const aaveIncentivesControllerProxy = await deployInitializableAdminUpgradeabilityProxy();
   const stakedAaveProxy = await deployInitializableAdminUpgradeabilityProxy();
 
-  const aaveIncentivesControllerImplementation = await deployAaveIncentivesController([
+  const aaveIncentivesControllerImplementation = await deployIncentivesController([
     aaveToken.address,
     vaultOfRewardsAddress,
     stakedAaveProxy.address,
@@ -46,7 +46,7 @@ export const testDeployAaveStakeV1 = async (
     (1000 * 60 * 60).toString(),
   ]);
 
-  const stakedLayImpl = await deployStakedAave([
+  const stakedLayImpl = await deployStakedLay([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -116,7 +116,7 @@ export const testDeployAaveStakeV2 = async (
     restWallets
   );
 
-  const stakedLayImpl = await deployStakedAaveV2([
+  const stakedLayImpl = await deployStakedLayV2([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,

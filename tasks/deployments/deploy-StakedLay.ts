@@ -11,7 +11,7 @@ import {
   getAaveIncentivesVaultPerNetwork,
 } from '../../helpers/constants';
 import {
-  deployStakedAave,
+  deployStakedLay,
   deployInitializableAdminUpgradeabilityProxy,
 } from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
@@ -42,7 +42,7 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     console.log(`\n- ${StakedLay} deployment`);
 
     console.log(`\tDeploying ${StakedLay} implementation ...`);
-    const stakedLayImpl = await deployStakedAave(
+    const stakedLayImpl = await deployStakedLay(
       [
         aaveAddress || getAaveTokenPerNetwork(network),
         aaveAddress || getAaveTokenPerNetwork(network),
