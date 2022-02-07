@@ -4,7 +4,6 @@ import {
   IAaveGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
-  StakedAaveV2__factory,
 } from '../../types';
 import { advanceBlockTo, DRE, increaseTimeTenderly, latestBlock } from '../../helpers/misc-utils';
 import { logError } from '../../helpers/tenderly-utils';

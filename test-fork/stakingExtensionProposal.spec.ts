@@ -15,8 +15,8 @@ import { MAX_UINT_AMOUNT } from '../helpers/constants';
 import { IAaveGovernanceV2 } from '../types/IAaveGovernanceV2';
 import { ILendingPool } from '../types/ILendingPool';
 import {
-  StakedAaveV2,
-  StakedAaveV2__factory,
+  StakedLayV2,
+  StakedLayV2__factory,
   Erc20,
   SelfdestructTransfer__factory,
   Erc20__factory,
@@ -79,8 +79,8 @@ describe('Proposal: Extend Staked Aave distribution', () => {
   let dai: Erc20;
   let aDAI: Erc20;
   let proposalId: BigNumber;
-  let aaveStakeV2: StakedAaveV2;
-  let bptStakeV2: StakedAaveV2;
+  let aaveStakeV2: StakedLayV2;
+  let bptStakeV2: StakedLayV2;
   let stkAaveImplAddress: string;
   let stkBptImplAddress: string;
   let stakedAaveV2Revision3Implementation: StakedTokenV2Rev3;
@@ -127,8 +127,8 @@ describe('Proposal: Extend Staked Aave distribution', () => {
 
     aave = Erc20__factory.connect(AAVE_TOKEN, whale);
     aaveBpt = Erc20__factory.connect(AAVE_BPT_POOL_TOKEN, bptWhale);
-    aaveStakeV2 = StakedAaveV2__factory.connect(AAVE_STAKE, proposer);
-    bptStakeV2 = StakedAaveV2__factory.connect(BPT_STAKE, proposer);
+    aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
+    bptStakeV2 = StakedLayV2__factory.connect(BPT_STAKE, proposer);
     dai = Erc20__factory.connect(DAI_TOKEN, daiHolder);
     aDAI = Erc20__factory.connect(aTokenAddress, proposer);
 

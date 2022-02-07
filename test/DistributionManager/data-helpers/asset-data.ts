@@ -2,7 +2,7 @@ import { BigNumber, BigNumberish } from 'ethers';
 import { comparatorEngine, CompareRules } from '../../helpers/comparator-engine';
 import { getNormalizedDistribution } from '../../helpers/ray-math';
 import { DistributionManager } from '../../../types/DistributionManager';
-import { StakedAave } from '../../../types/StakedAave';
+import { StakedLay } from '../../../types/StakedLay';
 import { IncentivesController } from '../../../types/IncentivesController';
 
 export type AssetUpdateData = {
@@ -17,7 +17,7 @@ export type AssetData = {
 };
 
 export async function getAssetsData<T extends { underlyingAsset: string }>(
-  peiContract: DistributionManager | IncentivesController | StakedAave,
+  peiContract: DistributionManager | IncentivesController | StakedLay,
   assets: T[]
 ) {
   return await Promise.all(

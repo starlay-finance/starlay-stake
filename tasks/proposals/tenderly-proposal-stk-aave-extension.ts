@@ -4,7 +4,7 @@ import {
   IAaveGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
-  StakedAaveV2__factory,
+  StakedLayV2__factory,
 } from '../../types';
 import { advanceBlockTo, DRE, increaseTimeTenderly, latestBlock } from '../../helpers/misc-utils';
 import { logError } from '../../helpers/tenderly-utils';
@@ -67,8 +67,8 @@ task('proposal-stk-aave-extension:tenderly', 'Create proposal at Tenderly')
     )) as IAaveGovernanceV2;
 
     const aave = Erc20__factory.connect(AAVE_TOKEN, whale);
-    const aaveStakeV2 = StakedAaveV2__factory.connect(AAVE_STAKE, proposer);
-    const bptStakeV2 = StakedAaveV2__factory.connect(STK_BPT_STAKE, proposer);
+    const aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
+    const bptStakeV2 = StakedLayV2__factory.connect(STK_BPT_STAKE, proposer);
 
     // Transfer enough AAVE to proposer
     await (await aave.transfer(await proposer.getAddress(), parseEther('2000000'))).wait();

@@ -1,8 +1,8 @@
 import { deployContract, getContractFactory, getContract } from './contracts-helpers';
 import { eContractid, tEthereumAddress } from './types';
 import { MintableErc20 } from '../types/MintableErc20';
-import { StakedAave } from '../types/StakedAave';
-import { StakedAaveV2 } from '../types/StakedAaveV2';
+import { StakedLay } from '../types/StakedLay';
+import { StakedLayV2 } from '../types/StakedLayV2';
 import { IcrpFactory } from '../types/IcrpFactory'; // Configurable right pool factory
 import { IConfigurableRightsPool } from '../types/IConfigurableRightsPool';
 import { IControllerAaveEcosystemReserve } from '../types/IControllerAaveEcosystemReserve';
@@ -53,7 +53,7 @@ export const deployStakedAave = async (
     emissionManager,
     distributionDuration,
   ];
-  const instance = await deployContract<StakedAave>(id, args);
+  const instance = await deployContract<StakedLay>(id, args);
   if (verify) {
     await verifyContract(instance.address, args);
   }
@@ -91,7 +91,7 @@ export const deployStakedAaveV2 = async (
     distributionDuration,
     ZERO_ADDRESS, // gov address
   ];
-  const instance = await deployContract<StakedAaveV2>(id, args);
+  const instance = await deployContract<StakedLayV2>(id, args);
   if (verify) {
     await verifyContract(instance.address, args);
   }
@@ -367,8 +367,8 @@ export const deployDoubleTransferHelper = async (aaveToken: tEthereumAddress, ve
 
 export const getMintableErc20 = getContractFactory<MintableErc20>(eContractid.MintableErc20);
 
-export const getStakedAave = getContractFactory<StakedAave>(eContractid.StakedLay);
-export const getStakedAaveV2 = getContractFactory<StakedAaveV2>(eContractid.StakedLayV2);
+export const getStakedAave = getContractFactory<StakedLay>(eContractid.StakedLay);
+export const getStakedAaveV2 = getContractFactory<StakedLayV2>(eContractid.StakedLayV2);
 
 export const getStakedAaveProxy = async (address?: tEthereumAddress) => {
   return await getContract<InitializableAdminUpgradeabilityProxy>(
@@ -378,7 +378,7 @@ export const getStakedAaveProxy = async (address?: tEthereumAddress) => {
 };
 
 export const getStakedAaveImpl = async (address?: tEthereumAddress) => {
-  return await getContract<StakedAave>(
+  return await getContract<StakedLay>(
     eContractid.StakedLay,
     address ||
       (await getDb().get(`${eContractid.StakedAaveImpl}.${DRE.network.name}`).value()).address

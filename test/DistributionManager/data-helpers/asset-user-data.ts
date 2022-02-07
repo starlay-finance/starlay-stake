@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers';
 import { DistributionManager } from '../../../types/DistributionManager';
-import { StakedAave } from '../../../types/StakedAave';
+import { StakedLay } from '../../../types/StakedLay';
 import { IncentivesController } from '../../../types/IncentivesController';
-import { StakedAaveV2 } from '../../../types/StakedAaveV2';
+import { StakedLayV2 } from '../../../types/StakedLayV2';
 
 export type UserStakeInput = {
   underlyingAsset: string;
@@ -17,8 +17,8 @@ export async function getUserIndex(
   distributionManager:
     | DistributionManager
     | IncentivesController
-    | StakedAave
-    | StakedAaveV2,
+    | StakedLay
+    | StakedLayV2,
   user: string,
   asset: string
 ): Promise<BigNumber> {

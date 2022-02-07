@@ -4,14 +4,14 @@ const ChaiBigNumber = require('chai-bignumber');
 
 import { ethers, ContractTransaction, BigNumberish, BigNumber } from 'ethers';
 
-import { StakedAave } from '../../../types/StakedAave';
+import { StakedLay } from '../../../types/StakedLay';
 
 import { getRewards } from '../../DistributionManager/data-helpers/base-math';
 import { getUserIndex } from '../../DistributionManager/data-helpers/asset-user-data';
 import { eventChecker } from '../../helpers/comparator-engine';
 import { waitForTx, increaseTime } from '../../../helpers/misc-utils';
 import { SignerWithAddress } from '../../helpers/make-suite';
-import { StakedAaveV2 } from '../../../types/StakedAaveV2';
+import { StakedLayV2 } from '../../../types/StakedLayV2';
 import { solidity } from 'ethereum-waffle';
 
 chai.use(solidity);
@@ -22,7 +22,7 @@ type AssetConfig = {
 };
 
 export const compareRewardsAtAction = async (
-  stakedAaveV2: StakedAaveV2,
+  stakedAaveV2: StakedLayV2,
   userAddress: string,
   actions: () => Promise<ContractTransaction>[],
   shouldReward?: boolean,
@@ -92,7 +92,7 @@ export const compareRewardsAtAction = async (
 };
 
 export const compareRewardsAtTransfer = async (
-  stakedAaveV2: StakedAaveV2,
+  stakedAaveV2: StakedLayV2,
   from: SignerWithAddress,
   to: SignerWithAddress,
   amount: BigNumberish,

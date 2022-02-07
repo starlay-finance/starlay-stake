@@ -5,7 +5,7 @@ const { expect, assert } = chai;
 
 import { ethers, ContractTransaction, BigNumberish } from 'ethers';
 
-import { StakedAave } from '../../../types/StakedAave';
+import { StakedLay } from '../../../types/StakedLay';
 
 import { getRewards } from '../../DistributionManager/data-helpers/base-math';
 import { getUserIndex } from '../../DistributionManager/data-helpers/asset-user-data';
@@ -22,7 +22,7 @@ type AssetConfig = {
 };
 
 export const compareRewardsAtAction = async (
-  stakedAave: StakedAave,
+  stakedAave: StakedLay,
   userAddress: string,
   actions: () => Promise<ContractTransaction>[],
   shouldReward?: boolean,
@@ -91,7 +91,7 @@ export const compareRewardsAtAction = async (
 };
 
 export const compareRewardsAtTransfer = async (
-  stakedAave: StakedAave,
+  stakedAave: StakedLay,
   from: SignerWithAddress,
   to: SignerWithAddress,
   amount: BigNumberish,

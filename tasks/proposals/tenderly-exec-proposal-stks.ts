@@ -4,7 +4,7 @@ import {
   IAaveGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
-  StakedAaveV2__factory,
+  StakedLayV2__factory,
 } from '../../types';
 import {
   advanceBlockTo,
@@ -102,8 +102,8 @@ task('exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fork'
     )) as IAaveGovernanceV2;
 
     const aave = Erc20__factory.connect(AAVE_TOKEN, whale);
-    const aaveStakeV2 = StakedAaveV2__factory.connect(AAVE_STAKE, proposer);
-    const bptStakeV2 = StakedAaveV2__factory.connect(STK_BPT_STAKE, proposer);
+    const aaveStakeV2 = StakedLayV2__factory.connect(AAVE_STAKE, proposer);
+    const bptStakeV2 = StakedLayV2__factory.connect(STK_BPT_STAKE, proposer);
 
     // Transfer enough AAVE to proposer
     await (await aave.transfer(await proposer.getAddress(), parseEther('100'))).wait();
@@ -162,7 +162,7 @@ task('exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fork'
       stakeTokenAddress: tEthereumAddress,
       tokenName: string
     ) => {
-      const stakedToken = await StakedAaveV2__factory.connect(stakeTokenAddress, signer);
+      const stakedToken = await StakedLayV2__factory.connect(stakeTokenAddress, signer);
       const underlyingToken = Erc20__factory.connect(await stakedToken.STAKED_TOKEN(), signer);
 
       try {
