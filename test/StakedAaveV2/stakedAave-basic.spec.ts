@@ -19,169 +19,169 @@ const { expect } = require('chai');
 
 makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
   it('Initial configuration after initialize() is correct', async () => {
-    const { stakedAaveV2, aaveToken, rewardsVault } = testEnv;
+    const { stakedTokenV2, layToken, rewardsVault } = testEnv;
 
-    expect(await stakedAaveV2.name()).to.be.equal(STAKED_AAVE_NAME);
-    expect(await stakedAaveV2.symbol()).to.be.equal(STAKED_AAVE_SYMBOL);
-    expect(await stakedAaveV2.decimals()).to.be.equal(STAKED_AAVE_DECIMALS);
-    expect(await stakedAaveV2.REVISION()).to.be.equal(2);
-    expect(await stakedAaveV2.STAKED_TOKEN()).to.be.equal(aaveToken.address);
-    expect(await stakedAaveV2.REWARD_TOKEN()).to.be.equal(aaveToken.address);
-    expect((await stakedAaveV2.COOLDOWN_SECONDS()).toString()).to.be.equal(COOLDOWN_SECONDS);
-    expect((await stakedAaveV2.UNSTAKE_WINDOW()).toString()).to.be.equal(UNSTAKE_WINDOW);
-    expect(await stakedAaveV2.REWARDS_VAULT()).to.be.equal(rewardsVault.address);
+    expect(await stakedTokenV2.name()).to.be.equal(STAKED_AAVE_NAME);
+    expect(await stakedTokenV2.symbol()).to.be.equal(STAKED_AAVE_SYMBOL);
+    expect(await stakedTokenV2.decimals()).to.be.equal(STAKED_AAVE_DECIMALS);
+    expect(await stakedTokenV2.REVISION()).to.be.equal(2);
+    expect(await stakedTokenV2.STAKED_TOKEN()).to.be.equal(layToken.address);
+    expect(await stakedTokenV2.REWARD_TOKEN()).to.be.equal(layToken.address);
+    expect((await stakedTokenV2.COOLDOWN_SECONDS()).toString()).to.be.equal(COOLDOWN_SECONDS);
+    expect((await stakedTokenV2.UNSTAKE_WINDOW()).toString()).to.be.equal(UNSTAKE_WINDOW);
+    expect(await stakedTokenV2.REWARDS_VAULT()).to.be.equal(rewardsVault.address);
   });
 
   it('Reverts trying to stake 0 amount', async () => {
     const {
-      stakedAaveV2,
+      stakedTokenV2,
       users: [, staker],
     } = testEnv;
     const amount = '0';
 
     await expect(
-      stakedAaveV2.connect(staker.signer).stake(staker.address, amount)
+      stakedTokenV2.connect(staker.signer).stake(staker.address, amount)
     ).to.be.revertedWith('INVALID_ZERO_AMOUNT');
   });
 
   it('Reverts trying to activate cooldown with 0 staked amount', async () => {
     const {
-      stakedAaveV2,
+      stakedTokenV2,
       users: [, staker],
     } = testEnv;
     const amount = '0';
 
-    await expect(stakedAaveV2.connect(staker.signer).cooldown()).to.be.revertedWith(
+    await expect(stakedTokenV2.connect(staker.signer).cooldown()).to.be.revertedWith(
       'INVALID_BALANCE_ON_COOLDOWN'
     );
   });
 
   it('User 1 stakes 50 AAVE: receives 50 SAAVE, StakedAave balance of AAVE is 50 and his rewards to claim are 0', async () => {
     const {
-      stakedAaveV2,
-      aaveToken,
+      stakedTokenV2,
+      layToken,
       users: [, staker],
     } = testEnv;
     const amount = ethers.utils.parseEther('50');
 
     const saveBalanceBefore = new BigNumber(
-      (await stakedAaveV2.balanceOf(staker.address)).toString()
+      (await stakedTokenV2.balanceOf(staker.address)).toString()
     );
 
     // Prepare actions for the test case
     const actions = () => [
-      aaveToken.connect(staker.signer).approve(stakedAaveV2.address, amount),
-      stakedAaveV2.connect(staker.signer).stake(staker.address, amount),
+      layToken.connect(staker.signer).approve(stakedTokenV2.address, amount),
+      stakedTokenV2.connect(staker.signer).stake(staker.address, amount),
     ];
 
     // Check rewards
-    await compareRewardsAtAction(stakedAaveV2, staker.address, actions);
+    await compareRewardsAtAction(stakedTokenV2, staker.address, actions);
 
     // Stake token tests
-    expect((await stakedAaveV2.balanceOf(staker.address)).toString()).to.be.equal(
+    expect((await stakedTokenV2.balanceOf(staker.address)).toString()).to.be.equal(
       saveBalanceBefore.plus(amount.toString()).toString()
     );
-    expect((await aaveToken.balanceOf(stakedAaveV2.address)).toString()).to.be.equal(
+    expect((await layToken.balanceOf(stakedTokenV2.address)).toString()).to.be.equal(
       saveBalanceBefore.plus(amount.toString()).toString()
     );
-    expect((await stakedAaveV2.balanceOf(staker.address)).toString()).to.be.equal(amount);
-    expect((await aaveToken.balanceOf(stakedAaveV2.address)).toString()).to.be.equal(amount);
+    expect((await stakedTokenV2.balanceOf(staker.address)).toString()).to.be.equal(amount);
+    expect((await layToken.balanceOf(stakedTokenV2.address)).toString()).to.be.equal(amount);
   });
 
   it('User 1 stakes 20 AAVE more: his total SAAVE balance increases, StakedAave balance of Aave increases and his reward until now get accumulated', async () => {
     const {
-      stakedAaveV2,
-      aaveToken,
+      stakedTokenV2,
+      layToken,
       users: [, staker],
     } = testEnv;
     const amount = ethers.utils.parseEther('20');
 
     const saveBalanceBefore = new BigNumber(
-      (await stakedAaveV2.balanceOf(staker.address)).toString()
+      (await stakedTokenV2.balanceOf(staker.address)).toString()
     );
     const actions = () => [
-      aaveToken.connect(staker.signer).approve(stakedAaveV2.address, amount),
-      stakedAaveV2.connect(staker.signer).stake(staker.address, amount),
+      layToken.connect(staker.signer).approve(stakedTokenV2.address, amount),
+      stakedTokenV2.connect(staker.signer).stake(staker.address, amount),
     ];
 
     // Checks rewards
-    await compareRewardsAtAction(stakedAaveV2, staker.address, actions, true);
+    await compareRewardsAtAction(stakedTokenV2, staker.address, actions, true);
 
     // Extra test checks
-    expect((await stakedAaveV2.balanceOf(staker.address)).toString()).to.be.equal(
+    expect((await stakedTokenV2.balanceOf(staker.address)).toString()).to.be.equal(
       saveBalanceBefore.plus(amount.toString()).toString()
     );
-    expect((await aaveToken.balanceOf(stakedAaveV2.address)).toString()).to.be.equal(
+    expect((await layToken.balanceOf(stakedTokenV2.address)).toString()).to.be.equal(
       saveBalanceBefore.plus(amount.toString()).toString()
     );
   });
 
   it('User 1 claim half rewards ', async () => {
     const {
-      stakedAaveV2,
-      aaveToken,
+      stakedTokenV2,
+      layToken,
       users: [, staker],
     } = testEnv;
     // Increase time for bigger rewards
     await increaseTimeAndMine(1000);
 
-    const halfRewards = (await stakedAaveV2.stakerRewardsToClaim(staker.address)).div(2);
-    const saveUserBalance = await aaveToken.balanceOf(staker.address);
+    const halfRewards = (await stakedTokenV2.stakerRewardsToClaim(staker.address)).div(2);
+    const saveUserBalance = await layToken.balanceOf(staker.address);
 
-    await stakedAaveV2.connect(staker.signer).claimRewards(staker.address, halfRewards);
+    await stakedTokenV2.connect(staker.signer).claimRewards(staker.address, halfRewards);
 
-    const userBalanceAfterActions = await aaveToken.balanceOf(staker.address);
+    const userBalanceAfterActions = await layToken.balanceOf(staker.address);
     expect(userBalanceAfterActions.eq(saveUserBalance.add(halfRewards))).to.be.ok;
   });
 
   it('User 1 tries to claim higher reward than current rewards balance', async () => {
     const {
-      stakedAaveV2,
-      aaveToken,
+      stakedTokenV2,
+      layToken,
       users: [, staker],
     } = testEnv;
 
-    const saveUserBalance = await aaveToken.balanceOf(staker.address);
+    const saveUserBalance = await layToken.balanceOf(staker.address);
 
     // Try to claim more amount than accumulated
     await expect(
-      stakedAaveV2
+      stakedTokenV2
         .connect(staker.signer)
         .claimRewards(staker.address, ethers.utils.parseEther('10000'))
     ).to.be.revertedWith('INVALID_AMOUNT');
 
-    const userBalanceAfterActions = await aaveToken.balanceOf(staker.address);
+    const userBalanceAfterActions = await layToken.balanceOf(staker.address);
     expect(userBalanceAfterActions.eq(saveUserBalance)).to.be.ok;
   });
 
   it('User 1 claim all rewards', async () => {
     const {
-      stakedAaveV2,
-      aaveToken,
+      stakedTokenV2,
+      layToken,
       users: [, staker],
     } = testEnv;
 
     const userAddress = staker.address;
-    const underlyingAsset = stakedAaveV2.address;
+    const underlyingAsset = stakedTokenV2.address;
 
-    const userBalance = await stakedAaveV2.balanceOf(userAddress);
-    const userAaveBalance = await aaveToken.balanceOf(userAddress);
-    const userRewards = await stakedAaveV2.stakerRewardsToClaim(userAddress);
+    const userBalance = await stakedTokenV2.balanceOf(userAddress);
+    const userAaveBalance = await layToken.balanceOf(userAddress);
+    const userRewards = await stakedTokenV2.stakerRewardsToClaim(userAddress);
     // Get index before actions
-    const userIndexBefore = await getUserIndex(stakedAaveV2, userAddress, underlyingAsset);
+    const userIndexBefore = await getUserIndex(stakedTokenV2, userAddress, underlyingAsset);
 
     // Claim rewards
-    await expect(stakedAaveV2.connect(staker.signer).claimRewards(staker.address, MAX_UINT_AMOUNT));
+    await expect(stakedTokenV2.connect(staker.signer).claimRewards(staker.address, MAX_UINT_AMOUNT));
 
     // Get index after actions
-    const userIndexAfter = await getUserIndex(stakedAaveV2, userAddress, underlyingAsset);
+    const userIndexAfter = await getUserIndex(stakedTokenV2, userAddress, underlyingAsset);
 
     const expectedAccruedRewards = getRewards(
       userBalance,
       userIndexAfter,
       userIndexBefore
     ).toString();
-    const userAaveBalanceAfterAction = (await aaveToken.balanceOf(userAddress)).toString();
+    const userAaveBalanceAfterAction = (await layToken.balanceOf(userAddress)).toString();
 
     expect(userAaveBalanceAfterAction).to.be.equal(
       userAaveBalance.add(userRewards).add(expectedAccruedRewards).toString()
@@ -189,7 +189,7 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
   });
 
   it('User 6 stakes 50 AAVE, with the rewards not enabled', async () => {
-    const { stakedAaveV2, aaveToken, users } = testEnv;
+    const { stakedTokenV2, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('50');
     const sixStaker = users[5];
 
@@ -201,31 +201,31 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
 
     // Checks rewards
     const actions = () => [
-      aaveToken.connect(sixStaker.signer).approve(stakedAaveV2.address, amount),
-      stakedAaveV2.connect(sixStaker.signer).stake(sixStaker.address, amount),
+      layToken.connect(sixStaker.signer).approve(stakedTokenV2.address, amount),
+      stakedTokenV2.connect(sixStaker.signer).stake(sixStaker.address, amount),
     ];
 
-    await compareRewardsAtAction(stakedAaveV2, sixStaker.address, actions, false, assetsConfig);
+    await compareRewardsAtAction(stakedTokenV2, sixStaker.address, actions, false, assetsConfig);
 
     // Check expected stake balance for six staker
-    expect((await stakedAaveV2.balanceOf(sixStaker.address)).toString()).to.be.equal(
+    expect((await stakedTokenV2.balanceOf(sixStaker.address)).toString()).to.be.equal(
       amount.toString()
     );
 
     // Expect rewards balance to still be zero
     const rewardsBalance = await (
-      await stakedAaveV2.getTotalRewardsBalance(sixStaker.address)
+      await stakedTokenV2.getTotalRewardsBalance(sixStaker.address)
     ).toString();
     expect(rewardsBalance).to.be.equal('0');
   });
 
   it('User 6 stakes 30 AAVE more, with the rewards not enabled', async () => {
-    const { stakedAaveV2, aaveToken, users } = testEnv;
+    const { stakedTokenV2, layToken, users } = testEnv;
     const amount = ethers.utils.parseEther('30');
     const staker = users[1];
     const sixStaker = users[5];
     const saveBalanceBefore = new BigNumber(
-      (await stakedAaveV2.balanceOf(sixStaker.address)).toString()
+      (await stakedTokenV2.balanceOf(sixStaker.address)).toString()
     );
     // Keep rewards disabled via config
     const assetsConfig = {
@@ -235,34 +235,34 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
 
     // Checks rewards
     const actions = () => [
-      aaveToken.connect(sixStaker.signer).approve(stakedAaveV2.address, amount),
-      stakedAaveV2.connect(sixStaker.signer).stake(sixStaker.address, amount),
+      layToken.connect(sixStaker.signer).approve(stakedTokenV2.address, amount),
+      stakedTokenV2.connect(sixStaker.signer).stake(sixStaker.address, amount),
     ];
 
-    await compareRewardsAtAction(stakedAaveV2, sixStaker.address, actions, false, assetsConfig);
+    await compareRewardsAtAction(stakedTokenV2, sixStaker.address, actions, false, assetsConfig);
 
     // Expect rewards balance to still be zero
     const rewardsBalance = await (
-      await stakedAaveV2.getTotalRewardsBalance(sixStaker.address)
+      await stakedTokenV2.getTotalRewardsBalance(sixStaker.address)
     ).toString();
     expect(rewardsBalance).to.be.equal('0');
   });
 
   it('Validates staker cooldown with stake() while being on valid unstake window', async () => {
-    const { stakedAaveV2, aaveToken, users } = testEnv;
+    const { stakedTokenV2, layToken, users } = testEnv;
     const amount1 = ethers.utils.parseEther('50');
     const amount2 = ethers.utils.parseEther('20');
     const staker = users[4];
 
     // Checks rewards
     const actions = () => [
-      aaveToken.connect(staker.signer).approve(stakedAaveV2.address, amount1.add(amount2)),
-      stakedAaveV2.connect(staker.signer).stake(staker.address, amount1),
+      layToken.connect(staker.signer).approve(stakedTokenV2.address, amount1.add(amount2)),
+      stakedTokenV2.connect(staker.signer).stake(staker.address, amount1),
     ];
 
-    await compareRewardsAtAction(stakedAaveV2, staker.address, actions, false);
+    await compareRewardsAtAction(stakedTokenV2, staker.address, actions, false);
 
-    await stakedAaveV2.connect(staker.signer).cooldown();
+    await stakedTokenV2.connect(staker.signer).cooldown();
 
     const cooldownActivationTimestamp = await timeLatest();
 
@@ -271,16 +271,16 @@ makeSuite('StakedAave V2. Basics', (testEnv: TestEnv) => {
     ); // We fast-forward time to just after the unstake window
 
     const stakerCooldownTimestampBefore = new BigNumber(
-      (await stakedAaveV2.stakersCooldowns(staker.address)).toString()
+      (await stakedTokenV2.stakersCooldowns(staker.address)).toString()
     );
-    await waitForTx(await stakedAaveV2.connect(staker.signer).stake(staker.address, amount2));
+    await waitForTx(await stakedTokenV2.connect(staker.signer).stake(staker.address, amount2));
     const latestTimestamp = await timeLatest();
     const expectedCooldownTimestamp = amount2
       .mul(latestTimestamp.toString())
       .add(amount1.mul(stakerCooldownTimestampBefore.toString()))
       .div(amount2.add(amount1));
     expect(expectedCooldownTimestamp.toString()).to.be.equal(
-      (await stakedAaveV2.stakersCooldowns(staker.address)).toString()
+      (await stakedTokenV2.stakersCooldowns(staker.address)).toString()
     );
   });
 });

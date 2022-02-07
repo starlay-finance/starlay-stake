@@ -61,29 +61,29 @@ makeSuite('AaveIncentivesController handleAction tests', (testEnv) => {
     it(caseName, async () => {
       await increaseTimeAndMine(100);
 
-      const { aaveIncentivesController, users, aDaiMock } = testEnv;
+      const { incentivesController, users, aDaiMock } = testEnv;
       const userAddress = users[1].address;
       const underlyingAsset = aDaiMock.address;
 
       // update emissionPerSecond in advance to not affect user calculations
       if (emissionPerSecond) {
-        await aaveIncentivesController.configureAssets([
+        await incentivesController.configureAssets([
           { emissionPerSecond, underlyingAsset, totalStaked: totalSupply },
         ]);
       }
 
-      const distributionEndTimestamp = await aaveIncentivesController.DISTRIBUTION_END();
+      const distributionEndTimestamp = await incentivesController.DISTRIBUTION_END();
 
-      const rewardsBalanceBefore = await aaveIncentivesController.getUserUnclaimedRewards(
+      const rewardsBalanceBefore = await incentivesController.getUserUnclaimedRewards(
         userAddress
       );
       const userIndexBefore = await getUserIndex(
-        aaveIncentivesController,
+        incentivesController,
         userAddress,
         underlyingAsset
       );
       const assetDataBefore = (
-        await getAssetsData(aaveIncentivesController, [{ underlyingAsset }])
+        await getAssetsData(incentivesController, [{ underlyingAsset }])
       )[0];
 
       if (customTimeMovement) {
@@ -97,12 +97,12 @@ makeSuite('AaveIncentivesController handleAction tests', (testEnv) => {
       const actionBlockTimestamp = await getBlockTimestamp(handleActionReceipt.blockNumber);
 
       const userIndexAfter = await getUserIndex(
-        aaveIncentivesController,
+        incentivesController,
         userAddress,
         underlyingAsset
       );
       const assetDataAfter = (
-        await getAssetsData(aaveIncentivesController, [{ underlyingAsset }])
+        await getAssetsData(incentivesController, [{ underlyingAsset }])
       )[0];
 
       const expectedAccruedRewards = getRewards(
@@ -111,7 +111,7 @@ makeSuite('AaveIncentivesController handleAction tests', (testEnv) => {
         userIndexBefore
       ).toString();
 
-      const rewardsBalanceAfter = await aaveIncentivesController.getUserUnclaimedRewards(
+      const rewardsBalanceAfter = await incentivesController.getUserUnclaimedRewards(
         userAddress
       );
 

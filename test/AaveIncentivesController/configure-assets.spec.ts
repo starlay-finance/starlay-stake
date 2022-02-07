@@ -120,9 +120,9 @@ const configureAssetScenarios: ScenarioAction[] = [
 makeSuite('AaveIncentivesController configureAssets', (testEnv: TestEnv) => {
   // custom checks
   it('Tries to submit config updates not from emission manager', async () => {
-    const { aaveIncentivesController, users } = testEnv;
+    const { incentivesController, users } = testEnv;
     await expect(
-      aaveIncentivesController.connect(users[2].signer).configureAssets([])
+      incentivesController.connect(users[2].signer).configureAssets([])
     ).to.be.revertedWith('ONLY_EMISSION_MANAGER');
   });
 
@@ -130,8 +130,8 @@ makeSuite('AaveIncentivesController configureAssets', (testEnv: TestEnv) => {
   // TODO: add events emission
   for (const { assets, caseName, compareRules, customTimeMovement } of configureAssetScenarios) {
     it(caseName, async () => {
-      const { aaveIncentivesController } = testEnv;
-      const distributionEndTimestamp = await aaveIncentivesController.DISTRIBUTION_END();
+      const { incentivesController } = testEnv;
+      const distributionEndTimestamp = await incentivesController.DISTRIBUTION_END();
 
       const assetConfigsUpdate: AssetUpdateData[] = [];
 
@@ -143,17 +143,17 @@ makeSuite('AaveIncentivesController configureAssets', (testEnv: TestEnv) => {
         assetConfigsUpdate.push({ ...assetConfig, underlyingAsset });
       });
 
-      const assetsConfigBefore = await getAssetsData(aaveIncentivesController, assetConfigsUpdate);
+      const assetsConfigBefore = await getAssetsData(incentivesController, assetConfigsUpdate);
 
       if (customTimeMovement) {
         await increaseTime(customTimeMovement);
       }
 
       const txReceipt = await waitForTx(
-        await aaveIncentivesController.configureAssets(assetConfigsUpdate)
+        await incentivesController.configureAssets(assetConfigsUpdate)
       );
       const configsUpdateBlockTimestamp = await getBlockTimestamp(txReceipt.blockNumber);
-      const assetsConfigAfter = await getAssetsData(aaveIncentivesController, assetConfigsUpdate);
+      const assetsConfigAfter = await getAssetsData(incentivesController, assetConfigsUpdate);
 
       const eventsEmitted = txReceipt.events || [];
 

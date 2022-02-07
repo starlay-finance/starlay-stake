@@ -31,13 +31,13 @@ export interface SignerWithAddress {
   address: tEthereumAddress;
 }
 export interface TestEnv {
-  stakedAaveV2: StakedLayV2;
+  stakedTokenV2: StakedLayV2;
   rewardsVault: SignerWithAddress;
   deployer: SignerWithAddress;
   users: SignerWithAddress[];
-  aaveToken: MintableErc20;
-  aaveIncentivesController: IncentivesController;
-  stakedAave: StakedLay;
+  layToken: MintableErc20;
+  incentivesController: IncentivesController;
+  stakedToken: StakedLay;
   aDaiMock: ATokenMock;
   aWethMock: ATokenMock;
 }
@@ -52,10 +52,10 @@ const setBuidlerevmSnapshotId = (id: string) => {
 const testEnv: TestEnv = {
   deployer: {} as SignerWithAddress,
   users: [] as SignerWithAddress[],
-  aaveToken: {} as MintableErc20,
-  stakedAave: {} as StakedLay,
-  stakedAaveV2: {} as StakedLayV2,
-  aaveIncentivesController: {} as IncentivesController,
+  layToken: {} as MintableErc20,
+  stakedToken: {} as StakedLay,
+  stakedTokenV2: {} as StakedLayV2,
+  incentivesController: {} as IncentivesController,
   aDaiMock: {} as ATokenMock,
   aWethMock: {} as ATokenMock,
 } as TestEnv;
@@ -80,10 +80,10 @@ export async function initializeMakeSuite() {
   }
   testEnv.deployer = deployer;
   testEnv.rewardsVault = rewardsVault;
-  testEnv.stakedAave = await getStakedAave();
-  testEnv.stakedAaveV2 = await getStakedAaveV2();
-  testEnv.aaveIncentivesController = await getAaveIncentivesController();
-  testEnv.aaveToken = await getMintableErc20();
+  testEnv.stakedToken = await getStakedAave();
+  testEnv.stakedTokenV2 = await getStakedAaveV2();
+  testEnv.incentivesController = await getAaveIncentivesController();
+  testEnv.layToken = await getMintableErc20();
   testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
   testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });
 }
