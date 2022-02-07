@@ -39,7 +39,7 @@ const INFINITE_APPROVAL_AMOUNT = MAX_UINT_AMOUNT;
 const RESERVER_ALLOWANCE = parseEther('100000');
 const LAY_WEIGHT = parseEther('40'); // 80 %
 const WETH_WEIGHT = parseEther('10'); // 20 %
-const INIT_LAY_PRICE = 502; // 1 ETH = 5.02 AAVE
+const INIT_LAY_PRICE = 502; // 1 ETH = 5.02 LAY
 const PRICE_PRECISION = 100;
 const INIT_TOKEN_SUPPLY_DIVIDER = 100;
 
@@ -54,13 +54,13 @@ const INIT_LAY_POOL_SUPPLY = LAY_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER);
 const INIT_WETH_POOL_SUPPLY = WETH_WEIGHT.div(INIT_TOKEN_SUPPLY_DIVIDER)
   .div(INIT_LAY_PRICE)
   .mul(PRICE_PRECISION);
-// Requirement: 1000 BPT = aprox 1 AAVE. 500 shares for 0.4 AAVE + 0.1 AAVE worth of WETH
+// Requirement: 1000 BPT = aprox 1 LAY. 500 shares for 0.4 LAY + 0.1 LAY worth of WETH
 const INIT_SHARE_SUPPLY = INIT_LAY_POOL_SUPPLY.mul(10).div(8).mul(1000);
 // 0.1 %
 const SWAP_FEE = parseEther('0.04');
 
-task(`deploy-CRP`, `Deploys the Configurabl Righ Pool AAVE/WETH`)
-  .addFlag('verify', 'Verify StakedAave contract via Etherscan API.')
+task(`deploy-CRP`, `Deploys the Configurabl Righ Pool LAY/WETH`)
+  .addFlag('verify', 'Verify StakedLay contract via Etherscan API.')
   .setAction(async ({ verify }, localBRE) => {
     await localBRE.run('set-dre');
 

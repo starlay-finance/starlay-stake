@@ -82,7 +82,7 @@ task('proposal-stk-aave-extension:tenderly', 'Create proposal at Tenderly')
 
     try {
       const balance = await layToken.balanceOf(await proposer.getAddress());
-      console.log('AAVE Balance proposer', formatEther(balance));
+      console.log('LAY Balance proposer', formatEther(balance));
       const propositionPower = await govToken.getPowerAtBlock(
         await proposer.getAddress(),
         ((await latestBlock()) - 1).toString(),
@@ -138,7 +138,7 @@ task('proposal-stk-aave-extension:tenderly', 'Create proposal at Tenderly')
     }
 
     console.log('- Proposal executed:');
-    console.log('- Aave Stake v2 Distribution End');
+    console.log('- Lay Stake v2 Distribution End');
     console.log('  - Distribution End', await (await stakedLayV2.DISTRIBUTION_END()).toString());
     console.log('  - Revision', await (await stakedLayV2.REVISION()).toString());
     console.log('  - Name', await stakedLayV2.name());
