@@ -36,7 +36,7 @@ contract StakedToken is
   uint256 public immutable UNSTAKE_WINDOW;
 
   /// @notice Address to pull from the rewards, needs to have approved this contract
-  address public immutable REWARDS_VAULT;
+  address public immutable REWARDS_VAULT; // AaveIncentivesVault
 
   mapping(address => uint256) public stakerRewardsToClaim;
   mapping(address => uint256) public stakersCooldowns;
@@ -54,8 +54,8 @@ contract StakedToken is
     IERC20 rewardToken,
     uint256 cooldownSeconds,
     uint256 unstakeWindow,
-    address rewardsVault,
-    address emissionManager,
+    address rewardsVault, // AaveIncentivesVault
+    address emissionManager, // AaveProtoGovernance
     uint128 distributionDuration,
     string memory name,
     string memory symbol,
@@ -69,7 +69,7 @@ contract StakedToken is
     REWARD_TOKEN = rewardToken;
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
-    REWARDS_VAULT = rewardsVault;
+    REWARDS_VAULT = rewardsVault; // AaveIncentivesVault
   }
 
   /**
@@ -164,7 +164,7 @@ contract StakedToken is
 
     stakerRewardsToClaim[msg.sender] = newTotalRewards.sub(amountToClaim, 'INVALID_AMOUNT');
 
-    REWARD_TOKEN.safeTransferFrom(REWARDS_VAULT, to, amountToClaim);
+    REWARD_TOKEN.safeTransferFrom(REWARDS_VAULT, to, amountToClaim); // only location of use REWARDS_VAULT https://docs.openzeppelin.com/contracts/3.x/api/token/erc721#IERC721-safeTransferFrom-address-address-uint256-
 
     emit RewardsClaimed(msg.sender, to, amountToClaim);
   }

@@ -815,9 +815,9 @@ abstract contract VersionedInitializable {
   uint256[50] private ______gap;
 }
 
-// File contracts/interfaces/IAaveDistributionManager.sol
+// File contracts/interfaces/IDistributionManager.sol
 
-interface IAaveDistributionManager {
+interface IDistributionManager {
   function configureAssets(DistributionTypes.AssetConfigInput[] calldata assetsConfigInput)
     external;
 }
@@ -829,7 +829,7 @@ interface IAaveDistributionManager {
  * @notice Accounting contract to manage multiple staking distributions
  * @author Aave
  **/
-contract AaveDistributionManager is IAaveDistributionManager {
+contract AaveDistributionManager is IDistributionManager {
   using SafeMath for uint256;
 
   struct AssetData {

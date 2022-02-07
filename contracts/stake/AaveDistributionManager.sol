@@ -4,14 +4,14 @@ pragma experimental ABIEncoderV2;
 
 import {SafeMath} from '../lib/SafeMath.sol';
 import {DistributionTypes} from '../lib/DistributionTypes.sol';
-import {IAaveDistributionManager} from '../interfaces/IAaveDistributionManager.sol';
+import {IDistributionManager} from '../interfaces/IDistributionManager.sol';
 
 /**
  * @title AaveDistributionManager
  * @notice Accounting contract to manage multiple staking distributions
  * @author Aave
  **/
-contract AaveDistributionManager is IAaveDistributionManager {
+contract AaveDistributionManager is IDistributionManager {
   using SafeMath for uint256;
 
   struct AssetData {
@@ -23,7 +23,7 @@ contract AaveDistributionManager is IAaveDistributionManager {
 
   uint256 public immutable DISTRIBUTION_END;
 
-  address public immutable EMISSION_MANAGER;
+  address public immutable EMISSION_MANAGER; // AaveProtoGovernance
 
   uint8 public constant PRECISION = 18;
 
@@ -35,7 +35,7 @@ contract AaveDistributionManager is IAaveDistributionManager {
 
   constructor(address emissionManager, uint256 distributionDuration) public {
     DISTRIBUTION_END = block.timestamp.add(distributionDuration);
-    EMISSION_MANAGER = emissionManager;
+    EMISSION_MANAGER = emissionManager; // AaveProtoGovernance
   }
 
   /**
@@ -46,7 +46,7 @@ contract AaveDistributionManager is IAaveDistributionManager {
     external
     override
   {
-    require(msg.sender == EMISSION_MANAGER, 'ONLY_EMISSION_MANAGER');
+    require(msg.sender == EMISSION_MANAGER, 'ONLY_EMISSION_MANAGER'); // only location of use EMISSION_MANAGER
 
     for (uint256 i = 0; i < assetsConfigInput.length; i++) {
       AssetData storage assetConfig = assets[assetsConfigInput[i].underlyingAsset];
