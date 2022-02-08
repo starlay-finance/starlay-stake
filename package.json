@@ -42,7 +42,6 @@
     "prepublishOnly": "npm run compile"
   },
   "devDependencies": {
-    "@aave/aave-token": "^1.0.4",
     "@aave/protocol-v2": "^1.0.2-fat.3",
     "@nomiclabs/hardhat-ethers": "^2.0.1",
     "@nomiclabs/hardhat-etherscan": "^2.1.0",
