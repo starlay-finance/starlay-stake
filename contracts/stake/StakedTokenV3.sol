@@ -91,7 +91,7 @@ contract StakedTokenV3 is
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
     REWARDS_VAULT = rewardsVault;
-    _aaveGovernance = ITransferHook(governance);
+    _governance = ITransferHook(governance);
     ERC20._setupDecimals(decimals);
   }
 
@@ -430,9 +430,9 @@ contract StakedTokenV3 is
     );
 
     // caching the governance address to avoid multiple state loads
-    ITransferHook aaveGovernance = _aaveGovernance;
-    if (aaveGovernance != ITransferHook(0)) {
-      aaveGovernance.onTransfer(from, to, amount);
+    ITransferHook governance = _governance;
+    if (governance != ITransferHook(0)) {
+      governance.onTransfer(from, to, amount);
     }
   }
 

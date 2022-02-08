@@ -1469,18 +1469,18 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
    * @dev The following storage layout points to the prior StakedToken.sol implementation:
    * _snapshots => _votingSnapshots
    * _snapshotsCounts =>  _votingSnapshotsCounts
-   * _aaveGovernance => _aaveGovernance
+   * _governance => _governance
    */
   mapping(address => mapping(uint256 => Snapshot)) public _votingSnapshots;
   mapping(address => uint256) public _votingSnapshotsCounts;
 
-  /// @dev reference to the Aave governance contract to call (if initialized) on _beforeTokenTransfer
-  /// !!! IMPORTANT The Aave governance is considered a trustable contract, being its responsibility
+  /// @dev reference to the governance contract to call (if initialized) on _beforeTokenTransfer
+  /// !!! IMPORTANT The governance is considered a trustable contract, being its responsibility
   /// to control all potential reentrancies by calling back the this contract
-  ITransferHook public _aaveGovernance;
+  ITransferHook public _governance;
 
-  function _setAaveGovernance(ITransferHook aaveGovernance) internal virtual {
-    _aaveGovernance = aaveGovernance;
+  function _setGovernance(ITransferHook governance) internal virtual {
+    _governance = governance;
   }
 }
 
@@ -1561,7 +1561,7 @@ contract StakedTokenBptRev2 is
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
     REWARDS_VAULT = rewardsVault;
-    _aaveGovernance = ITransferHook(governance);
+    _governance = ITransferHook(governance);
     ERC20._setupDecimals(decimals);
   }
 
@@ -1898,10 +1898,10 @@ contract StakedTokenBptRev2 is
       DelegationType.PROPOSITION_POWER
     );
 
-    // caching the aave governance address to avoid multiple state loads
-    ITransferHook aaveGovernance = _aaveGovernance;
-    if (aaveGovernance != ITransferHook(0)) {
-      aaveGovernance.onTransfer(from, to, amount);
+    // caching the governance address to avoid multiple state loads
+    ITransferHook governance = _governance;
+    if (governance != ITransferHook(0)) {
+      governance.onTransfer(from, to, amount);
     }
   }
 
