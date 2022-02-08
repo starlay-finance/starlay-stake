@@ -27,11 +27,3 @@ export const logGetStakeTotalRewardsBalance = async (
     ).toString()}`
   );
 };
-
-export const logRewardPerStakedToken = async (stakedLay: StakedLay) => {
-  console.log(
-    `[stakedLay.getRewardPerStakedAave()]: ${(
-      await stakedLay.getRewardPerStakedAave()
-    ).toString()}`
-  );
-};
