@@ -1,6 +1,6 @@
 // Sources flattened with hardhat v2.0.8 https://hardhat.org
 
-// File @aave/aave-token/contracts/open-zeppelin/Context.sol@v1.0.4
+// File @pj/pj-token/contracts/open-zeppelin/Context.sol@v1.0.4
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.5;
@@ -111,7 +111,7 @@ interface IERC20 {
   event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-// File @aave/aave-token/contracts/open-zeppelin/ERC20.sol@v1.0.4
+// File @pj/pj-token/contracts/open-zeppelin/ERC20.sol@v1.0.4
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -1075,7 +1075,7 @@ interface IERC20Detailed is IERC20 {
   function decimals() external view returns (uint8);
 }
 
-// File @aave/aave-token/contracts/interfaces/IGovernancePowerDelegationToken.sol@v1.0.4
+// File @pj/pj-token/contracts/interfaces/IGovernancePowerDelegationToken.sol@v1.0.4
 
 interface IGovernancePowerDelegationToken {
   enum DelegationType {VOTING_POWER, PROPOSITION_POWER}
@@ -1150,7 +1150,7 @@ interface IGovernancePowerDelegationToken {
   function totalSupplyAt(uint256 blockNumber) external view virtual returns (uint256);
 }
 
-// File @aave/aave-token/contracts/token/base/GovernancePowerDelegationERC20.sol@v1.0.4
+// File @pj/pj-token/contracts/token/base/GovernancePowerDelegationERC20.sol@v1.0.4
 
 /**
  * @notice implementation of the token contract
