@@ -41,7 +41,7 @@ import { IbPool } from '../../types/IbPool';
 import { IConfigurableRightsPool } from '../../types/IConfigurableRightsPool';
 import { StakedTokenV3 } from '../../types/StakedTokenV3';
 import { IStarlayGovernanceV2 } from '../../types/IStarlayGovernanceV2';
-import { IControllerAaveEcosystemReserve } from '../../types/IControllerAaveEcosystemReserve';
+import { IControllerStarlayEcosystemReserve } from '../../types/IControllerStarlayEcosystemReserve';
 import { parse } from 'path';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address';
 
@@ -84,7 +84,7 @@ rawBRE.run('set-dre').then(async () => {
     let layToken: MintableErc20;
     let weth: MintableErc20;
     let BPool: IbPool; // BPool
-    let ReserveController: IControllerAaveEcosystemReserve;
+    let ReserveController: IControllerStarlayEcosystemReserve;
     let stakedBPS: StakedTokenV3; // bptshare
     let deployerSigner: ethers.providers.JsonRpcSigner;
     let holderSigner: ethers.providers.JsonRpcSigner;

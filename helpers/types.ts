@@ -33,7 +33,7 @@ export enum eContractid {
   StakedTokenV3 = 'StakedTokenV3',
   IConfigurableRightsPool = 'IConfigurableRightsPool',
   IBPool = 'IBPool',
-  IControllerAaveEcosystemReserve = 'IControllerAaveEcosystemReserve',
+  IControllerStarlayEcosystemReserve = 'IControllerStarlayEcosystemReserve',
   MockSelfDestruct = 'SelfdestructTransfer',
   StakedTokenV2Rev3 = 'StakedTokenV2Rev3',
   StakedTokenBptRev2 = 'StakedTokenBptRev2',
