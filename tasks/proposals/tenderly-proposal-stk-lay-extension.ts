@@ -12,7 +12,7 @@ import { parseEther, formatEther } from 'ethers/lib/utils';
 import { getDefenderRelaySigner } from '../../helpers/defender-utils';
 import { Signer } from '@ethersproject/abstract-signer';
 
-task('proposal-stk-aave-extension:tenderly', 'Create proposal at Tenderly')
+task('proposal-stk-lay-extension:tenderly', 'Create proposal at Tenderly')
   .addFlag('defender')
   .setAction(async ({ defender }, localBRE: any) => {
     await localBRE.run('set-dre');
