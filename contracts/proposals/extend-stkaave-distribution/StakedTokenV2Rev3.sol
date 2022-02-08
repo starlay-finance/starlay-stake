@@ -840,7 +840,7 @@ library SafeERC20 {
  * a parent initializer twice, or ensure that all initializers are idempotent,
  * because this is not dealt with automatically as with constructors.
  *
- * @author Aave, inspired by the OpenZeppelin Initializable contract
+ * @author Starlay, inspired by the OpenZeppelin Initializable contract
  */
 abstract contract VersionedInitializable {
   /**
@@ -876,7 +876,7 @@ interface IDistributionManager {
 /**
  * @title DistributionManager
  * @notice Accounting contract to manage multiple staking distributions
- * @author Aave
+ * @author Starlay
  **/
 contract DistributionManager is IDistributionManager {
   using SafeMath for uint256;
@@ -935,7 +935,7 @@ contract DistributionManager is IDistributionManager {
 
   /**
    * @dev Updates the state of one distribution, mainly rewards index and timestamp
-   * @param underlyingAsset The address used as key in the distribution, for example sAAVE or the aTokens addresses on Aave
+   * @param underlyingAsset The address used as key in the distribution, for example sLAY or the aTokens addresses on Starlay
    * @param assetConfig Storage pointer to the distribution's config
    * @param totalStaked Current total of staked assets for this distribution
    * @return The new distribution index
@@ -1112,8 +1112,8 @@ contract DistributionManager is IDistributionManager {
 }
 
 /**
- * @notice implementation of the AAVE token contract
- * @author Aave
+ * @notice implementation of the LAY token contract
+ * @author Starlay
  */
 abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDelegationToken {
   using SafeMath for uint256;
@@ -1204,8 +1204,8 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the total supply at a certain block number
    * used by the voting strategy contracts to calculate the total votes needed for threshold/quorum
-   * In this initial implementation with no AAVE minting, simply returns the current supply
-   * A snapshots mapping will need to be added in case a mint function is added to the AAVE token in the future
+   * In this initial implementation with no LAY minting, simply returns the current supply
+   * A snapshots mapping will need to be added in case a mint function is added to the LAY token in the future
    **/
   function totalSupplyAt(uint256 blockNumber) external view override returns (uint256) {
     return super.totalSupply();
@@ -1349,7 +1349,7 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the delegation data (snapshot, snapshotsCount, list of delegates) by delegation type
    * NOTE: Ideal implementation would have mapped this in a struct by delegation type. Unfortunately,
-   * the AAVE token and StakeToken already include a mapping for the snapshots, so we require contracts
+   * the LAY token and StakeToken already include a mapping for the snapshots, so we require contracts
    * who inherit from this to provide access to the delegation data by overriding this method.
    * @param delegationType the type of delegation
    **/
@@ -1417,7 +1417,7 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
 /**
  * @title ERC20WithSnapshot
  * @notice ERC20 including snapshots of balances on transfer-related actions
- * @author Aave
+ * @author Starlay
  **/
 abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 {
   using SafeMath for uint256;
@@ -1443,8 +1443,8 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
 
 /**
  * @title StakedToken
- * @notice Contract to stake Aave token, tokenize the position and get rewards, inheriting from a distribution manager contract
- * @author Aave
+ * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
+ * @author Starlay
  **/
 contract StakedTokenV2Rev3 is
   IStakedLay,

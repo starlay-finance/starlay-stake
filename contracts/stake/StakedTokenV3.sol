@@ -18,8 +18,8 @@ import {GovernancePowerWithSnapshot} from '../lib/GovernancePowerWithSnapshot.so
 
 /**
  * @title StakedToken V3
- * @notice Contract to stake Aave token, tokenize the position and get rewards, inheriting from a distribution manager contract
- * @author Aave
+ * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
+ * @author Starlay
  **/
 contract StakedTokenV3 is
   IStakedLay,

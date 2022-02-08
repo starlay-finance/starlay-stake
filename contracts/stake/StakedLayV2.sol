@@ -7,7 +7,7 @@ import {StakedTokenV2} from './StakedTokenV2.sol';
 
 /**
  * @title StakedLayV2
- * @notice StakedTokenV2 with AAVE token as staked token
+ * @notice StakedTokenV2 with LAY token as staked token
  * @author Starlay
  **/
 contract StakedLayV2 is StakedTokenV2 {

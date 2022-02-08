@@ -23,7 +23,7 @@ contract DistributionManager is IDistributionManager {
 
   uint256 public immutable DISTRIBUTION_END;
 
-  address public immutable EMISSION_MANAGER; // AaveProtoGovernance
+  address public immutable EMISSION_MANAGER;
 
   uint8 public constant PRECISION = 18;
 
@@ -35,7 +35,7 @@ contract DistributionManager is IDistributionManager {
 
   constructor(address emissionManager, uint256 distributionDuration) public {
     DISTRIBUTION_END = block.timestamp.add(distributionDuration);
-    EMISSION_MANAGER = emissionManager; // AaveProtoGovernance
+    EMISSION_MANAGER = emissionManager;
   }
 
   /**
@@ -68,7 +68,7 @@ contract DistributionManager is IDistributionManager {
 
   /**
    * @dev Updates the state of one distribution, mainly rewards index and timestamp
-   * @param underlyingAsset The address used as key in the distribution, for example sAAVE or the aTokens addresses on Aave // TODO: modify
+   * @param underlyingAsset The address used as key in the distribution, for example sLAY or the aTokens addresses on LAY
    * @param assetConfig Storage pointer to the distribution's config
    * @param totalStaked Current total of staked assets for this distribution
    * @return The new distribution index

@@ -14,8 +14,8 @@ import {SafeMath} from '../lib/SafeMath.sol';
 
 /**
  * @title StakedToken
- * @notice Contract to stake Aave token, tokenize the position and get rewards, inheriting from a distribution manager contract
- * @author Aave
+ * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
+ * @author Starlay
  **/
 contract StakedToken is
   IStakedLay,
@@ -36,7 +36,7 @@ contract StakedToken is
   uint256 public immutable UNSTAKE_WINDOW;
 
   /// @notice Address to pull from the rewards, needs to have approved this contract
-  address public immutable REWARDS_VAULT; // AaveIncentivesVault
+  address public immutable REWARDS_VAULT;
 
   mapping(address => uint256) public stakerRewardsToClaim;
   mapping(address => uint256) public stakersCooldowns;
@@ -54,8 +54,8 @@ contract StakedToken is
     IERC20 rewardToken,
     uint256 cooldownSeconds,
     uint256 unstakeWindow,
-    address rewardsVault, // AaveIncentivesVault
-    address emissionManager, // AaveProtoGovernance
+    address rewardsVault,
+    address emissionManager,
     uint128 distributionDuration,
     string memory name,
     string memory symbol,
@@ -69,7 +69,7 @@ contract StakedToken is
     REWARD_TOKEN = rewardToken;
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
-    REWARDS_VAULT = rewardsVault; // AaveIncentivesVault
+    REWARDS_VAULT = rewardsVault;
   }
 
   /**
