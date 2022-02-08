@@ -1,0 +1,3 @@
+[submodule "submodule-protocol"]
+	path = submodule-protocol
+	url = https://github.com/starlay-finance/starlay-protocol
