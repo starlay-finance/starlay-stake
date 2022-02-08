@@ -14,8 +14,8 @@ import {DistributionManager} from './DistributionManager.sol';
 
 /**
  * @title IncentivesController
- * @notice Distributor contract for rewards to the Aave protocol
- * @author Aave
+ * @notice Distributor contract for rewards to the protocol
+ * @author Starlay
  **/
 contract IncentivesController is
   IIncentivesController,

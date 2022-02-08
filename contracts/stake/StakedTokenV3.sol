@@ -18,8 +18,8 @@ import {GovernancePowerWithSnapshot} from '../lib/GovernancePowerWithSnapshot.so
 
 /**
  * @title StakedToken V3
- * @notice Contract to stake Aave token, tokenize the position and get rewards, inheriting from a distribution manager contract
- * @author Aave
+ * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
+ * @author Starlay
  **/
 contract StakedTokenV3 is
   IStakedLay,
@@ -91,7 +91,7 @@ contract StakedTokenV3 is
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
     REWARDS_VAULT = rewardsVault;
-    _aaveGovernance = ITransferHook(governance);
+    _governance = ITransferHook(governance);
     ERC20._setupDecimals(decimals);
   }
 
@@ -430,9 +430,9 @@ contract StakedTokenV3 is
     );
 
     // caching the governance address to avoid multiple state loads
-    ITransferHook aaveGovernance = _aaveGovernance;
-    if (aaveGovernance != ITransferHook(0)) {
-      aaveGovernance.onTransfer(from, to, amount);
+    ITransferHook governance = _governance;
+    if (governance != ITransferHook(0)) {
+      governance.onTransfer(from, to, amount);
     }
   }
 

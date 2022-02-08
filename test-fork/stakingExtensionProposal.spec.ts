@@ -12,7 +12,7 @@ import {
   impersonateAccountsHardhat,
 } from '../helpers/misc-utils';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
-import { IAaveGovernanceV2 } from '../types/IAaveGovernanceV2';
+import { IStarlayGovernanceV2 } from '../types/IStarlayGovernanceV2';
 import { ILendingPool } from '../types/ILendingPool';
 import {
   StakedLayV2,
@@ -72,7 +72,7 @@ describe('Proposal: Extend Staked Lay distribution', () => {
   let whale: JsonRpcSigner;
   let daiHolder: JsonRpcSigner;
   let proposer: SignerWithAddress;
-  let gov: IAaveGovernanceV2;
+  let gov: IStarlayGovernanceV2;
   let pool: ILendingPool;
   let layToken: Erc20;
   let layBpt: Erc20;
@@ -113,10 +113,10 @@ describe('Proposal: Extend Staked Lay distribution', () => {
 
     // Initialize contracts and tokens
     gov = (await ethers.getContractAt(
-      'IAaveGovernanceV2',
+      'IStarlayGovernanceV2',
       GOVERNANCE_V2,
       proposer
-    )) as IAaveGovernanceV2;
+    )) as IStarlayGovernanceV2;
     pool = (await ethers.getContractAt(
       'ILendingPool',
       LENDING_POOL,

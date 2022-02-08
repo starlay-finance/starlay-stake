@@ -5,7 +5,7 @@ import { StakedLay } from '../types/StakedLay';
 import { StakedLayV2 } from '../types/StakedLayV2';
 import { IcrpFactory } from '../types/IcrpFactory'; // Configurable right pool factory
 import { IConfigurableRightsPool } from '../types/IConfigurableRightsPool';
-import { IControllerAaveEcosystemReserve } from '../types/IControllerAaveEcosystemReserve';
+import { IControllerStarlayEcosystemReserve } from '../types/IControllerStarlayEcosystemReserve';
 import { SelfdestructTransfer } from '../types/SelfdestructTransfer';
 import { IbPool } from '../types/IbPool'; // Balance pool
 import { StakedTokenV2 } from '../types/StakedTokenV2';
@@ -421,8 +421,8 @@ export const getERC20Contract = (address: tEthereumAddress) =>
   getContract<MintableErc20>(eContractid.MintableErc20, address);
 
 export const getController = (address: tEthereumAddress) =>
-  getContract<IControllerAaveEcosystemReserve>(
-    eContractid.IControllerAaveEcosystemReserve,
+  getContract<IControllerStarlayEcosystemReserve>(
+    eContractid.IControllerStarlayEcosystemReserve,
     address
   );
 

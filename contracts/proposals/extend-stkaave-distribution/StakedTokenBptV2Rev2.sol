@@ -787,7 +787,7 @@ library SafeERC20 {
  * a parent initializer twice, or ensure that all initializers are idempotent,
  * because this is not dealt with automatically as with constructors.
  *
- * @author Aave, inspired by the OpenZeppelin Initializable contract
+ * @author Starlay, inspired by the OpenZeppelin Initializable contract
  */
 abstract contract VersionedInitializable {
   /**
@@ -827,7 +827,7 @@ interface IDistributionManager {
 /**
  * @title DistributionManager
  * @notice Accounting contract to manage multiple staking distributions
- * @author Aave
+ * @author Starlay
  **/
 contract DistributionManager is IDistributionManager {
   using SafeMath for uint256;
@@ -886,7 +886,7 @@ contract DistributionManager is IDistributionManager {
 
   /**
    * @dev Updates the state of one distribution, mainly rewards index and timestamp
-   * @param underlyingAsset The address used as key in the distribution, for example sAAVE or the aTokens addresses on Aave
+   * @param underlyingAsset The address used as key in the distribution, for example sLay or the aTokens addresses on Starlay
    * @param assetConfig Storage pointer to the distribution's config
    * @param totalStaked Current total of staked assets for this distribution
    * @return The new distribution index
@@ -1153,8 +1153,8 @@ interface IGovernancePowerDelegationToken {
 // File @aave/aave-token/contracts/token/base/GovernancePowerDelegationERC20.sol@v1.0.4
 
 /**
- * @notice implementation of the AAVE token contract
- * @author Aave
+ * @notice implementation of the token contract
+ * @author Starlay
  */
 abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDelegationToken {
   using SafeMath for uint256;
@@ -1245,8 +1245,8 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the total supply at a certain block number
    * used by the voting strategy contracts to calculate the total votes needed for threshold/quorum
-   * In this initial implementation with no AAVE minting, simply returns the current supply
-   * A snapshots mapping will need to be added in case a mint function is added to the AAVE token in the future
+   * In this initial implementation with no LAY minting, simply returns the current supply
+   * A snapshots mapping will need to be added in case a mint function is added to the LAY token in the future
    **/
   function totalSupplyAt(uint256 blockNumber) external view override returns (uint256) {
     return super.totalSupply();
@@ -1390,7 +1390,7 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the delegation data (snapshot, snapshotsCount, list of delegates) by delegation type
    * NOTE: Ideal implementation would have mapped this in a struct by delegation type. Unfortunately,
-   * the AAVE token and StakeToken already include a mapping for the snapshots, so we require contracts
+   * the LAY token and StakeToken already include a mapping for the snapshots, so we require contracts
    * who inherit from this to provide access to the delegation data by overriding this method.
    * @param delegationType the type of delegation
    **/
@@ -1460,7 +1460,7 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
 /**
  * @title ERC20WithSnapshot
  * @notice ERC20 including snapshots of balances on transfer-related actions
- * @author Aave
+ * @author Starlay
  **/
 abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 {
   using SafeMath for uint256;
@@ -1469,18 +1469,18 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
    * @dev The following storage layout points to the prior StakedToken.sol implementation:
    * _snapshots => _votingSnapshots
    * _snapshotsCounts =>  _votingSnapshotsCounts
-   * _aaveGovernance => _aaveGovernance
+   * _governance => _governance
    */
   mapping(address => mapping(uint256 => Snapshot)) public _votingSnapshots;
   mapping(address => uint256) public _votingSnapshotsCounts;
 
-  /// @dev reference to the Aave governance contract to call (if initialized) on _beforeTokenTransfer
-  /// !!! IMPORTANT The Aave governance is considered a trustable contract, being its responsibility
+  /// @dev reference to the governance contract to call (if initialized) on _beforeTokenTransfer
+  /// !!! IMPORTANT The governance is considered a trustable contract, being its responsibility
   /// to control all potential reentrancies by calling back the this contract
-  ITransferHook public _aaveGovernance;
+  ITransferHook public _governance;
 
-  function _setAaveGovernance(ITransferHook aaveGovernance) internal virtual {
-    _aaveGovernance = aaveGovernance;
+  function _setGovernance(ITransferHook governance) internal virtual {
+    _governance = governance;
   }
 }
 
@@ -1488,8 +1488,8 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
 
 /**
  * @title StakedToken
- * @notice Contract to stake Aave token, tokenize the position and get rewards, inheriting from a distribution manager contract
- * @author Aave
+ * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
+ * @author Starlay
  **/
 contract StakedTokenBptRev2 is
   IStakedLay,
@@ -1561,7 +1561,7 @@ contract StakedTokenBptRev2 is
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
     REWARDS_VAULT = rewardsVault;
-    _aaveGovernance = ITransferHook(governance);
+    _governance = ITransferHook(governance);
     ERC20._setupDecimals(decimals);
   }
 
@@ -1898,10 +1898,10 @@ contract StakedTokenBptRev2 is
       DelegationType.PROPOSITION_POWER
     );
 
-    // caching the aave governance address to avoid multiple state loads
-    ITransferHook aaveGovernance = _aaveGovernance;
-    if (aaveGovernance != ITransferHook(0)) {
-      aaveGovernance.onTransfer(from, to, amount);
+    // caching the governance address to avoid multiple state loads
+    ITransferHook governance = _governance;
+    if (governance != ITransferHook(0)) {
+      governance.onTransfer(from, to, amount);
     }
   }
 

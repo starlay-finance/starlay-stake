@@ -1,7 +1,7 @@
 import { task } from 'hardhat/config';
 import {
   Erc20__factory,
-  IAaveGovernanceV2,
+  IStarlayGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
 } from '../../types';
@@ -59,10 +59,10 @@ task('proposal-vault-approval:tenderly', 'Create proposal at Tenderly')
 
     // Initialize contracts and tokens
     const gov = (await ethers.getContractAt(
-      'IAaveGovernanceV2',
+      'IStarlayGovernanceV2',
       GOVERNANCE_V2,
       proposer
-    )) as IAaveGovernanceV2;
+    )) as IStarlayGovernanceV2;
 
     const layToken = Erc20__factory.connect(RAY_TOKEN, whale);
 

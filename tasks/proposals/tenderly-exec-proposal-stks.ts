@@ -1,7 +1,7 @@
 import { task } from 'hardhat/config';
 import {
   Erc20__factory,
-  IAaveGovernanceV2,
+  IStarlayGovernanceV2,
   IDelegationAwareToken__factory,
   SelfdestructTransfer__factory,
   StakedLayV2__factory,
@@ -96,10 +96,10 @@ task('exec-stks:tenderly', 'Execute staking extension proposal at Tenderly fork'
 
     // Initialize contracts and tokens
     const gov = (await ethers.getContractAt(
-      'IAaveGovernanceV2',
+      'IStarlayGovernanceV2',
       GOVERNANCE_V2,
       proposer
-    )) as IAaveGovernanceV2;
+    )) as IStarlayGovernanceV2;
 
     const layToken = Erc20__factory.connect(RAY_TOKEN, whale);
     const stakedTokenV2 = StakedLayV2__factory.connect(STAKED_TOKEN, proposer);
