@@ -1,7 +1,7 @@
 {
-  "name": "@aave/safety-module",
+  "name": "starlay-stake",
   "version": "1.0.2",
-  "description": "Safety Module for the Aave Protocol",
+  "description": "contracts related with staking",
   "files": [
     "contracts",
     "artifacts"
