@@ -76,7 +76,7 @@ contract StakedToken is
    * @dev Called by the proxy contract
    **/
   function initialize(
-    ITransferHook aaveGovernance,
+    ITransferHook governance,
     string calldata name,
     string calldata symbol,
     uint8 decimals
@@ -84,7 +84,7 @@ contract StakedToken is
     _setName(name);
     _setSymbol(symbol);
     _setDecimals(decimals);
-    _setAaveGovernance(aaveGovernance);
+    _setGovernance(governance);
   }
 
   function stake(address onBehalfOf, uint256 amount) external override {
