@@ -8,8 +8,8 @@ import {
 } from '../../interfaces/IGovernancePowerDelegationToken.sol';
 
 /**
- * @notice implementation of the AAVE token contract
- * @author Aave
+ * @notice implementation of the token contract
+ * @author Starlay
  */
 abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDelegationToken {
   using SafeMath for uint256;
@@ -102,8 +102,8 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the total supply at a certain block number
    * used by the voting strategy contracts to calculate the total votes needed for threshold/quorum
-   * In this initial implementation with no AAVE minting, simply returns the current supply
-   * A snapshots mapping will need to be added in case a mint function is added to the AAVE token in the future
+   * In this initial implementation with no LAY minting, simply returns the current supply
+   * A snapshots mapping will need to be added in case a mint function is added to the LAY token in the future
    **/
   function totalSupplyAt(uint256 blockNumber) external override view returns (uint256) {
     return super.totalSupply();
@@ -247,7 +247,7 @@ abstract contract GovernancePowerDelegationERC20 is ERC20, IGovernancePowerDeleg
   /**
    * @dev returns the delegation data (snapshot, snapshotsCount, list of delegates) by delegation type
    * NOTE: Ideal implementation would have mapped this in a struct by delegation type. Unfortunately,
-   * the AAVE token and StakeToken already include a mapping for the snapshots, so we require contracts
+   * the LAY token and StakeToken already include a mapping for the snapshots, so we require contracts
    * who inherit from this to provide access to the delegation data by overriding this method.
    * @param delegationType the type of delegation
    **/

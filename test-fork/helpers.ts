@@ -1,6 +1,6 @@
 import { tEthereumAddress } from '../helpers/types';
 import {
-  AaveProtocolDataProvider__factory,
+  StarlayProtocolDataProvider__factory,
   Erc20__factory,
   ILendingPoolAddressesProvider__factory,
 } from '../types';
@@ -61,7 +61,7 @@ export const getReserveConfigs = async (
     poolProviderAddress,
     proposer
   );
-  const protocolDataProvider = await AaveProtocolDataProvider__factory.connect(
+  const protocolDataProvider = await StarlayProtocolDataProvider__factory.connect(
     await poolProvider.getAddress(
       '0x0100000000000000000000000000000000000000000000000000000000000000'
     ),
