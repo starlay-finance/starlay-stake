@@ -6,6 +6,9 @@
 
 ### Setup
 
+set specified node version
+reference: `.node-version`
+
 create `.env` file like
 
 ```env
