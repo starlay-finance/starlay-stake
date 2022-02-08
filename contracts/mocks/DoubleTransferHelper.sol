@@ -1,1 +1,1 @@
-import {DoubleTransferHelper} from '@aave/aave-token/contracts/utils/DoubleTransferHelper.sol';
+import {DoubleTransferHelper} from '../stake-v1/contracts/utils/DoubleTransferHelper.sol';
