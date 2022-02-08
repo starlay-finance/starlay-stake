@@ -40,7 +40,7 @@ import { MintableErc20 } from '../../types/MintableErc20';
 import { IbPool } from '../../types/IbPool';
 import { IConfigurableRightsPool } from '../../types/IConfigurableRightsPool';
 import { StakedTokenV3 } from '../../types/StakedTokenV3';
-import { IAaveGovernanceV2 } from '../../types/IAaveGovernanceV2';
+import { IStarlayGovernanceV2 } from '../../types/IStarlayGovernanceV2';
 import { IControllerAaveEcosystemReserve } from '../../types/IControllerAaveEcosystemReserve';
 import { parse } from 'path';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address';

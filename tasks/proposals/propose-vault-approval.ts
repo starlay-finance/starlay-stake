@@ -1,5 +1,5 @@
 import { task } from 'hardhat/config';
-import { IAaveGovernanceV2__factory } from '../../types';
+import { IStarlayGovernanceV2__factory } from '../../types';
 import { Signer } from 'ethers';
 import { getDefenderRelaySigner } from '../../helpers/defender-utils';
 import { DRE } from '../../helpers/misc-utils';
@@ -51,7 +51,7 @@ task('propose-vault-approval', 'Create some proposals and votes')
       );
 
       const executeSignature = 'approve(address,address,uint256)';
-      const gov = await IAaveGovernanceV2__factory.connect(governance, proposer);
+      const gov = await IStarlayGovernanceV2__factory.connect(governance, proposer);
 
       try {
         const tx = await gov.create(

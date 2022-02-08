@@ -1,6 +1,6 @@
 import { task } from 'hardhat/config';
 import {
-  IAaveGovernanceV2__factory,
+  IStarlayGovernanceV2__factory,
   StakedTokenBptRev2__factory,
   StakedTokenV2Rev3,
   StakedTokenV2Rev3__factory,
@@ -83,7 +83,7 @@ task('propose-extension', 'Create some proposals and votes')
         [stkBptImpl, payloadStkBpt]
       );
       const executeSignature = 'upgradeToAndCall(address,bytes)';
-      const gov = await IAaveGovernanceV2__factory.connect(governance, proposer);
+      const gov = await IStarlayGovernanceV2__factory.connect(governance, proposer);
 
       try {
         const tx = await gov.create(
