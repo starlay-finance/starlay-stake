@@ -56,7 +56,7 @@ export const getTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
       [eEthereumNetwork.main]: '0x9c0435779F5E52CEC404D957C9bAa6f7d674C8bA',
       [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
       [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
-      [eAstarNetwork.shibuya]: '0x58f1aa7B5C1F4B4d5334c5b00D547F68Fa0424F0' // Dummy
+      [eAstarNetwork.shibuya]: '0xEB741C051E474f83cff38B44A912281772C23CE6' // Dummy
     },
     network
   );
