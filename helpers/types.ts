@@ -36,6 +36,7 @@ export enum eContractid {
   IControllerStarlayEcosystemReserve = 'IControllerStarlayEcosystemReserve',
   MockSelfDestruct = 'SelfdestructTransfer',
   StakedTokenV2Rev3 = 'StakedTokenV2Rev3',
+  Proxy_StakedTokenV2Rev3 = 'Proxy-StakedTokenV2Rev3',
   StakedTokenBptRev2 = 'StakedTokenBptRev2',
 }
 
