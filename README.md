@@ -36,5 +36,5 @@ npm run compile
 docker-compose up
 # --- other terminal ---
 docker-compose exec contracts-env bash
-npm run shibuya:deployment
+npm run shibuya:deployment-StakedTokenV2Rev3
 ```
