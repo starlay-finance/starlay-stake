@@ -26,13 +26,11 @@ const { StakedTokenV2Rev3, Proxy_StakedTokenV2Rev3 } = eContractid
 
 task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
   .addFlag('verify', 'Verify StakedToken contract via Etherscan API.')
-  .addOptionalParam(
-    'vaultAddress',
-    'Use IncentivesVault address by param instead of configuration.'
-  )
+  .addOptionalParam('vaultAddress', 'Use IncentivesVault address by param instead of configuration.')
   .addOptionalParam('tokenAddress', 'Use LayToken address by param instead of configuration.')
+  .addOptionalParam('emissionManager', 'EmissionManager address. ref: PullRewardsIncentivesController')
   .addOptionalParam('proxyAdmin', 'Admin address for proxy contracts')
-  .setAction(async ({ verify, vaultAddress, tokenAddress, proxyAdmin }, localBRE) => {
+  .setAction(async ({ verify, vaultAddress, tokenAddress, emissionManager, proxyAdmin }, localBRE) => {
     await localBRE.run('set-dre');
 
     // If Etherscan verification is enabled, check needed enviroments to prevent loss of gas in failed deployments.
@@ -58,7 +56,7 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
         vaultAddress || getIncentivesVaultPerNetwork(network),
-        getAdminPerNetwork(network),
+        emissionManager || getAdminPerNetwork(network),
         getDistributionDurationPerNetwork(network),
         STAKED_TOKEN_NAME,
         STAKED_TOKEN_SYMBOL,
