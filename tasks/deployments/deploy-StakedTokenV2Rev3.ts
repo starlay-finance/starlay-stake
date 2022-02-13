@@ -63,7 +63,7 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
         `${STAKED_TOKEN_DECIMALS}`,
         ZERO_ADDRESS,
       ],
-      false // disable verify due not supported by current buidler etherscan plugin
+      verify // disable verify due not supported by current builder etherscan plugin
     );
     await stakedTokenImpl.deployTransaction.wait();
     await registerContractInJsonDb(StakedTokenV2Rev3, stakedTokenImpl);
