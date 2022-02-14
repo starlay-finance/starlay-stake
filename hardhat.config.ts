@@ -120,6 +120,7 @@ const config: HardhatUserConfig = {
   networks: {
     tenderly: getCommonNetworkConfig(eEthereumNetwork.tenderly, 3030),
     kovan: getCommonNetworkConfig(eEthereumNetwork.kovan, 42),
+    rinkeby: getCommonNetworkConfig(eEthereumNetwork.rinkeby, 4),
     main: getCommonNetworkConfig(eEthereumNetwork.main, 1),
     astar: getAstarNetworkConfig(eAstarNetwork.astar, 592),
     shiden: getAstarNetworkConfig(eAstarNetwork.shiden, 336),
