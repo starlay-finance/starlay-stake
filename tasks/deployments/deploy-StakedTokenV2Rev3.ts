@@ -1,6 +1,6 @@
 import { task } from 'hardhat/config';
 
-import { eAstarNetwork, eContractid, eEthereumNetwork, tEthereumAddress } from '../../helpers/types';
+import { eAstarNetwork, eContractid, eEthereumNetwork } from '../../helpers/types';
 import { registerContractInJsonDb } from '../../helpers/contracts-helpers';
 import {
   getTokenPerNetwork,
@@ -15,7 +15,6 @@ import {
   STAKED_TOKEN_DECIMALS,
 } from '../../helpers/constants';
 import {
-  deployStakedLay,
   deployInitializableAdminUpgradeabilityProxy,
   deployStakedTokenV2Revision3,
 } from '../../helpers/contracts-accessors';
