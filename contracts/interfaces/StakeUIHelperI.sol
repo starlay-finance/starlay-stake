@@ -40,41 +40,14 @@ interface StakeUIHelperI {
 
   function getStkAaveData(address user) external view returns (AssetUIData memory);
 
-  function getStkBptData(address user) external view returns (AssetUIData memory);
-
   function getStkGeneralAaveData() external view returns (GeneralStakeUIData memory);
-
-  function getStkGeneralBptData() external view returns (GeneralStakeUIData memory);
 
   function getStkUserAaveData(address user) external view returns (UserStakeUIData memory);
 
-  function getStkUserBptData(address user) external view returns (UserStakeUIData memory);
-
   /// @dev This will return user + general for fallback
-  function getUserUIData(address user)
-    external
-    view
-    returns (
-      AssetUIData memory,
-      AssetUIData memory,
-      uint256
-    );
+  function getUserUIData(address user) external view returns (AssetUIData memory, uint256);
 
-  function getGeneralStakeUIData()
-    external
-    view
-    returns (
-      GeneralStakeUIData memory,
-      GeneralStakeUIData memory,
-      uint256
-    );
+  function getGeneralStakeUIData() external view returns (GeneralStakeUIData memory, uint256);
 
-  function getUserStakeUIData(address user)
-    external
-    view
-    returns (
-      UserStakeUIData memory,
-      UserStakeUIData memory,
-      uint256
-    );
+  function getUserStakeUIData(address user) external view returns (UserStakeUIData memory, uint256);
 }
