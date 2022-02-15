@@ -56,7 +56,7 @@ export const getTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
       [eEthereumNetwork.kovan]: '0x75AC15EbCA4e93D61bCc878ded9Ba338FD23E761', // Mock Lay Token
       [eEthereumNetwork.main]: '0x9c0435779F5E52CEC404D957C9bAa6f7d674C8bA',
       [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
-      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: '0xb163716cb6c8b0a56e4f57c394A50F173E34181b',
       [eAstarNetwork.shibuya]: '0xEB741C051E474f83cff38B44A912281772C23CE6'
     },
     network
@@ -102,7 +102,7 @@ export const getAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // '0x8134929c3dcb1b8b82f27f53424b959fb82182f2', // Governance
       [eEthereumNetwork.main]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52', // Governance
       [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
-      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
       [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5'
     },
     network
@@ -136,7 +136,7 @@ export const getIncentivesVaultPerNetwork = (network: eEthereumNetwork | eAstarN
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
       [eEthereumNetwork.main]: '0x253f7b06c1d60c1fbbc9d82c301327eb86e3ba81',
       [eAstarNetwork.astar]: ZERO_ADDRESS, // Dummy
-      [eAstarNetwork.shiden]: ZERO_ADDRESS, // Dummy
+      [eAstarNetwork.shiden]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
       [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5' // Dummy
     },
     network
