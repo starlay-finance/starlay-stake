@@ -21,7 +21,7 @@ import { DoubleTransferHelper } from '../types/DoubleTransferHelper';
 import { zeroAddress } from 'ethereumjs-util';
 import { ZERO_ADDRESS } from './constants';
 import { Signer } from 'ethers';
-import { StakedTokenBptRev2, StakedTokenV2Rev3 } from '../types';
+import { StakedTokenBptRev2, StakedTokenV2Rev3, StarlayRewardsVault } from '../types';
 
 export const deployStakedLay = async (
   [
@@ -142,6 +142,17 @@ export const deployStakedTokenV2 = async (
     governance,
   ];
   const instance = await deployContract<StakedTokenV2>(id, args, '', signer);
+  if (verify) {
+    await verifyContract(instance.address, args);
+  }
+  return instance;
+};
+
+export const deployRewardsVault = async (verify?: boolean): Promise<StarlayRewardsVault> => {
+  const id = eContractid.StarlayRewardsVault;
+  const args: string[] = [];
+  const instance = await deployContract<StarlayRewardsVault>(id, args);
+  await instance.deployTransaction.wait();
   if (verify) {
     await verifyContract(instance.address, args);
   }
