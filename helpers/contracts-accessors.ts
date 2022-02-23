@@ -158,6 +158,13 @@ export const deployRewardsVault = async (verify?: boolean): Promise<StarlayRewar
   }
   return instance;
 };
+export const getStarlayRewardsVault = async (address?: tEthereumAddress) => {
+  return await getContract<StarlayRewardsVault>(
+    eContractid.StarlayRewardsVault,
+    address ||
+      (await getDb().get(`${eContractid.StarlayRewardsVault}.${DRE.network.name}`).value()).address
+  );
+};
 
 export const deployStakedTokenV2Revision3 = async (
   [

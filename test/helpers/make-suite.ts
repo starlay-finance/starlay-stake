@@ -1,6 +1,6 @@
 import { evmRevert, evmSnapshot, DRE } from '../../helpers/misc-utils';
 import { Signer } from 'ethers';
-import { getEthersSigners, getStarlayRewardsVault } from '../../helpers/contracts-helpers';
+import { getEthersSigners } from '../../helpers/contracts-helpers';
 import { tEthereumAddress } from '../../helpers/types';
 
 import chai from 'chai';
@@ -13,12 +13,13 @@ import {
   getMintableErc20,
   getStakedLay,
   getStakedLayV2,
+  getStarlayRewardsVault,
 } from '../../helpers/contracts-accessors';
 import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
 import { ATokenMock } from '../../types/ATokenMock';
 import { StakedLayV2 } from '../../types/StakedLayV2';
-import { StarlayRewardsVault } from '../../types';
+import { StarlayRewardsVault } from '../../types/StarlayRewardsVault';
 
 chai.use(bignumberChai());
 

@@ -5,7 +5,6 @@ import { eContractid, tEthereumAddress } from './types';
 import { Artifact } from 'hardhat/types';
 import { signTypedData_v4 } from 'eth-sig-util';
 import { fromRpcSig, ECDSASignature } from 'ethereumjs-util';
-import { StarlayRewardsVault } from '../types';
 
 export const registerContractInJsonDb = async (contractId: string, contractInstance: Contract) => {
   const currentNetwork = DRE.network.name;
@@ -246,11 +245,4 @@ export const getSignatureFromTypedData = (
     data: typedData,
   });
   return fromRpcSig(signature);
-};
-export const getStarlayRewardsVault = async (address?: tEthereumAddress) => {
-  return await getContract<StarlayRewardsVault>(
-    eContractid.StarlayRewardsVault,
-    address ||
-      (await getDb().get(`${eContractid.StarlayRewardsVault}.${DRE.network.name}`).value()).address
-  );
 };
