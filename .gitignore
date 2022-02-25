@@ -2,7 +2,8 @@
 
 #Buidler files
 cache
-artifacts
+/artifacts
+!/artifacts/contracts
 
 node_modules
 dist/
