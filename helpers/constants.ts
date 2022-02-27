@@ -51,18 +51,20 @@ export const getTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
-      [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
+      [eEthereumNetwork.hardhat]: '0x75AC15EbCA4e93D61bCc878ded9Ba338FD23E761',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x75AC15EbCA4e93D61bCc878ded9Ba338FD23E761', // Mock Lay Token
       [eEthereumNetwork.main]: '0x9c0435779F5E52CEC404D957C9bAa6f7d674C8bA',
       [eAstarNetwork.astar]: '0x026734Fb820F072a0FbA1D49A60E4f545F9804a1', // Dummy
       [eAstarNetwork.shiden]: '0xb163716cb6c8b0a56e4f57c394A50F173E34181b',
-      [eAstarNetwork.shibuya]: '0xEB741C051E474f83cff38B44A912281772C23CE6'
+      [eAstarNetwork.shibuya]: '0xEB741C051E474f83cff38B44A912281772C23CE6',
     },
     network
   );
 
-export const getCooldownSecondsPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getCooldownSecondsPerNetwork = (
+  network: eEthereumNetwork | eAstarNetwork
+): tEthereumAddress =>
   getParamPerNetwork<string>(
     {
       [eEthereumNetwork.coverage]: COOLDOWN_SECONDS,
@@ -72,12 +74,14 @@ export const getCooldownSecondsPerNetwork = (network: eEthereumNetwork | eAstarN
       [eEthereumNetwork.main]: '864000', // 10d
       [eAstarNetwork.astar]: COOLDOWN_SECONDS, // Dummy
       [eAstarNetwork.shiden]: COOLDOWN_SECONDS, // Dummy
-      [eAstarNetwork.shibuya]: COOLDOWN_SECONDS // Dummy
+      [eAstarNetwork.shibuya]: COOLDOWN_SECONDS, // Dummy
     },
     network
   );
 
-export const getUnstakeWindowPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getUnstakeWindowPerNetwork = (
+  network: eEthereumNetwork | eAstarNetwork
+): tEthereumAddress =>
   getParamPerNetwork<string>(
     {
       [eEthereumNetwork.coverage]: UNSTAKE_WINDOW,
@@ -87,7 +91,7 @@ export const getUnstakeWindowPerNetwork = (network: eEthereumNetwork | eAstarNet
       [eEthereumNetwork.main]: '172800', // 2d
       [eAstarNetwork.astar]: UNSTAKE_WINDOW, // Dummy
       [eAstarNetwork.shiden]: UNSTAKE_WINDOW, // Dummy
-      [eAstarNetwork.shibuya]: UNSTAKE_WINDOW // Dummy
+      [eAstarNetwork.shibuya]: UNSTAKE_WINDOW, // Dummy
     },
     network
   );
@@ -97,28 +101,30 @@ export const getAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
-      [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
+      [eEthereumNetwork.hardhat]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // '0x8134929c3dcb1b8b82f27f53424b959fb82182f2', // Governance
       [eEthereumNetwork.main]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52', // Governance
       [eAstarNetwork.astar]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
-      [eAstarNetwork.shiden]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
-      [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5'
+      [eAstarNetwork.shiden]: '0x50414Ac6431279824df9968855181474c919a94B', // Deployer
+      [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
     },
     network
   );
 
-export const getDistributionDurationPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getDistributionDurationPerNetwork = (
+  network: eEthereumNetwork | eAstarNetwork
+): tEthereumAddress =>
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: DISTRIBUTION_DURATION,
-      [eEthereumNetwork.hardhat]: DISTRIBUTION_DURATION,
+      [eEthereumNetwork.hardhat]: '864000',
       [eEthereumNetwork.rinkeby]: DISTRIBUTION_DURATION,
       [eEthereumNetwork.kovan]: '864000',
       [eEthereumNetwork.main]: '12960000', // 5 months (30 days) in seconds
       [eAstarNetwork.astar]: DISTRIBUTION_DURATION, // Dummy
       [eAstarNetwork.shiden]: DISTRIBUTION_DURATION, // Dummy
-      [eAstarNetwork.shibuya]: DISTRIBUTION_DURATION
+      [eAstarNetwork.shibuya]: DISTRIBUTION_DURATION,
     },
     network
   );
@@ -127,17 +133,19 @@ export const getDistributionDurationPerNetwork = (network: eEthereumNetwork | eA
 // refs
 // - https://github.com/aave/genesis-migration
 // - https://github.com/aave/genesis-migration/blob/master/tasks/deployments/1.vault.ts
-export const getIncentivesVaultPerNetwork = (network: eEthereumNetwork | eAstarNetwork): tEthereumAddress =>
+export const getIncentivesVaultPerNetwork = (
+  network: eEthereumNetwork | eAstarNetwork
+): tEthereumAddress =>
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: '',
-      [eEthereumNetwork.hardhat]: '',
+      [eEthereumNetwork.hardhat]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
       [eEthereumNetwork.main]: '0x253f7b06c1d60c1fbbc9d82c301327eb86e3ba81',
       [eAstarNetwork.astar]: '0x06aBB8782C91EEB459862e09262E8cEbcA98E568', // Dummy
       [eAstarNetwork.shiden]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
-      [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5' // Dummy
+      [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // Dummy
     },
     network
   );

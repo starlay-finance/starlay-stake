@@ -34,5 +34,11 @@ task('common-deployment', 'Deployment in for Main, Kovan networks')
       admin: admin,
     });
 
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`);
+
+    await DRE.run(`initialize-${eContractid.StakedTokenV2Rev3}`, {
+      admin: admin,
+    });
+
     console.log(`\n✔️ Finished the deployment of the Lay Token ${network} Enviroment. ✔️`);
   });

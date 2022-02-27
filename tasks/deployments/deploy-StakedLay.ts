@@ -1,7 +1,7 @@
 import { task } from 'hardhat/config';
 
-import { eAstarNetwork, eContractid, eEthereumNetwork, tEthereumAddress } from '../../helpers/types';
-import { registerContractInJsonDb } from '../../helpers/contracts-helpers';
+import { eAstarNetwork, eContractid, eEthereumNetwork } from '../../helpers/types';
+import { getEthersSigners, registerContractInJsonDb } from '../../helpers/contracts-helpers';
 import {
   getTokenPerNetwork,
   getCooldownSecondsPerNetwork,
@@ -15,6 +15,7 @@ import {
   deployInitializableAdminUpgradeabilityProxy,
 } from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
+import { ethers } from 'hardhat';
 
 const { StakedLay, StakedLayImpl } = eContractid;
 
@@ -42,6 +43,7 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     console.log(`\n- ${StakedLay} deployment`);
 
     console.log(`\tDeploying ${StakedLay} implementation ...`);
+    const admin = getAdminPerNetwork(network);
     const stakedLayImpl = await deployStakedLay(
       [
         tokenAddress || getTokenPerNetwork(network),
@@ -49,7 +51,7 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
         vaultAddress || getIncentivesVaultPerNetwork(network),
-        getAdminPerNetwork(network),
+        admin,
         getDistributionDurationPerNetwork(network),
       ],
       false // disable verify due not supported by current buidler etherscan plugin
@@ -58,7 +60,10 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
     await registerContractInJsonDb(StakedLayImpl, stakedLayImpl);
 
     console.log(`\tDeploying ${StakedLay} Transparent Proxy ...`);
-    const stakedTokenProxy = await deployInitializableAdminUpgradeabilityProxy(verify);
+    const stakedTokenProxy = await deployInitializableAdminUpgradeabilityProxy(
+      verify,
+      await getEthersSigners()[0]
+    );
     await registerContractInJsonDb(StakedLay, stakedTokenProxy);
 
     console.log(`\tFinished ${StakedLay} proxy and implementation deployment`);
