@@ -20,10 +20,12 @@ task(
   const stakedLayImpl = await getStakedTokenV2Rev3();
   const stakedLayProxy = await getStakedLayProxy();
 
-  console.log('\tInitializing StakedLay');
+  console.log('\tInitializing StakedTokenV2Rev3');
+
+  console.log(`\tStakedTokenV2Rev3 Implementation address: ${stakedLayImpl.address}`);
 
   const encodedInitializeStakedLay = stakedLayImpl.interface.encodeFunctionData('initialize');
-
+  console.log('upgrade');
   await waitForTx(
     await stakedLayProxy.upgradeToAndCall(stakedLayImpl.address, encodedInitializeStakedLay)
   );
