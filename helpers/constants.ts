@@ -51,7 +51,7 @@ export const getTokenPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
-      [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
+      [eEthereumNetwork.hardhat]: '0x75AC15EbCA4e93D61bCc878ded9Ba338FD23E761',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x75AC15EbCA4e93D61bCc878ded9Ba338FD23E761', // Mock Lay Token
       [eEthereumNetwork.main]: '0x9c0435779F5E52CEC404D957C9bAa6f7d674C8bA',
@@ -101,7 +101,7 @@ export const getAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: ZERO_ADDRESS,
-      [eEthereumNetwork.hardhat]: ZERO_ADDRESS,
+      [eEthereumNetwork.hardhat]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // '0x8134929c3dcb1b8b82f27f53424b959fb82182f2', // Governance
       [eEthereumNetwork.main]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52', // Governance
@@ -118,7 +118,7 @@ export const getDistributionDurationPerNetwork = (
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: DISTRIBUTION_DURATION,
-      [eEthereumNetwork.hardhat]: DISTRIBUTION_DURATION,
+      [eEthereumNetwork.hardhat]: '864000',
       [eEthereumNetwork.rinkeby]: DISTRIBUTION_DURATION,
       [eEthereumNetwork.kovan]: '864000',
       [eEthereumNetwork.main]: '12960000', // 5 months (30 days) in seconds
@@ -139,7 +139,7 @@ export const getIncentivesVaultPerNetwork = (
   getParamPerNetwork<tEthereumAddress>(
     {
       [eEthereumNetwork.coverage]: '',
-      [eEthereumNetwork.hardhat]: '',
+      [eEthereumNetwork.hardhat]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
       [eEthereumNetwork.main]: '0x253f7b06c1d60c1fbbc9d82c301327eb86e3ba81',

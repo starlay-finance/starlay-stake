@@ -28,6 +28,7 @@
     "test-bpt": "npm run compile:force:quiet && FORKING_BLOCK=11730175 MAINNET_FORK=true hardhat test test/StakedBPT/create-bpt-and-stakebpt.fork.ts",
     "test-proposal": "MAINNET_FORK=true hardhat test ./test-fork/stakingExtensionProposal.spec.ts",
     "test-proposal:tenderly": "TENDERLY=true npm run hardhat:tenderly -- test ./test-fork/stakingExtensionProposal.spec.ts",
+    "test-stakedLay": "npm run test test/__setup.spec.ts test/StakedLayV2/stakedLay-basic.spec.ts",
     "proposal-extend-stklay:tenderly": "TENDERLY=true npm run hardhat:tenderly -- proposal-stk-lay-extension:tenderly",
     "proposal-extend-stklay:tenderly:defender": "TENDERLY=true npm run hardhat:tenderly -- proposal-stk-lay-extension:tenderly --defender",
     "coverage": "npm run compile && npx hardhat coverage --testfiles \"test/**/*.spec.ts\"",

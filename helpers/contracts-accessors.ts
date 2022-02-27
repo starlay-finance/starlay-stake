@@ -18,7 +18,6 @@ import { verifyContract } from './etherscan-verification';
 import { ATokenMock } from '../types/ATokenMock';
 import { getDb, DRE } from './misc-utils';
 import { DoubleTransferHelper } from '../types/DoubleTransferHelper';
-import { zeroAddress } from 'ethereumjs-util';
 import { ZERO_ADDRESS } from './constants';
 import { Signer } from 'ethers';
 import { StakedTokenBptRev2, StakedTokenV2Rev3 } from '../types';
@@ -397,6 +396,14 @@ export const getStakedTokenV3 = async (address?: tEthereumAddress) => {
     eContractid.StakedTokenV2,
     address ||
       (await getDb().get(`${eContractid.StakedTokenV2}.${DRE.network.name}`).value()).address
+  );
+};
+
+export const getStakedTokenV2Rev3 = async (address?: tEthereumAddress) => {
+  return await getContract<StakedTokenV2Rev3>(
+    eContractid.StakedTokenV2Rev3,
+    address ||
+      (await getDb().get(`${eContractid.StakedTokenV2Rev3}.${DRE.network.name}`).value()).address
   );
 };
 

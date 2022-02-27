@@ -1,3 +1,4 @@
+import { StakedTokenV2Rev3__factory } from './../../types/factories/StakedTokenV2Rev3__factory';
 import { makeSuite, TestEnv } from '../helpers/make-suite';
 import {
   COOLDOWN_SECONDS,
@@ -7,16 +8,43 @@ import {
   STAKED_TOKEN_SYMBOL,
   STAKED_TOKEN_DECIMALS,
 } from '../../helpers/constants';
-import { waitForTx, timeLatest, advanceBlock, increaseTimeAndMine } from '../../helpers/misc-utils';
+import {
+  waitForTx,
+  timeLatest,
+  advanceBlock,
+  increaseTimeAndMine,
+  DRE,
+} from '../../helpers/misc-utils';
 import { ethers } from 'ethers';
 import BigNumber from 'bignumber.js';
 import { compareRewardsAtAction } from './data-helpers/reward';
 import { getUserIndex } from '../DistributionManager/data-helpers/asset-user-data';
 import { getRewards } from '../DistributionManager/data-helpers/base-math';
+import { getEthersSigners } from '../../helpers/contracts-helpers';
+import { getStakedLayProxy } from '../../helpers/contracts-accessors';
+import { eContractid } from '../../helpers/types';
 
 const { expect } = require('chai');
 
 makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
+  it('deployment StakedLayV2Rev3', async () => {
+    const [deployer, user1] = await getEthersSigners();
+
+    await DRE.run(`deploy-${eContractid.StakedLay}`);
+    await DRE.run(`initialize-${eContractid.StakedLay}`, { admin: await deployer.getAddress() });
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`);
+    await DRE.run(`initialize-${eContractid.StakedTokenV2Rev3}`);
+    const proxyInstance = StakedTokenV2Rev3__factory.connect(
+      (await getStakedLayProxy()).address,
+      user1
+    );
+    expect(await proxyInstance.name()).to.be.equal(STAKED_TOKEN_NAME);
+    expect(await proxyInstance.symbol()).to.be.equal(STAKED_TOKEN_SYMBOL);
+    expect(await proxyInstance.decimals()).to.be.equal(STAKED_TOKEN_DECIMALS);
+    expect(await proxyInstance.REVISION()).to.be.equal(3);
+    expect((await proxyInstance.COOLDOWN_SECONDS()).toString()).to.be.equal(COOLDOWN_SECONDS);
+    expect((await proxyInstance.UNSTAKE_WINDOW()).toString()).to.be.equal(UNSTAKE_WINDOW);
+  });
   it('Initial configuration after initialize() is correct', async () => {
     const { stakedTokenV2, layToken, rewardsVault } = testEnv;
 
@@ -170,7 +198,9 @@ makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
     const userIndexBefore = await getUserIndex(stakedTokenV2, userAddress, underlyingAsset);
 
     // Claim rewards
-    await expect(stakedTokenV2.connect(staker.signer).claimRewards(staker.address, MAX_UINT_AMOUNT));
+    await expect(
+      stakedTokenV2.connect(staker.signer).claimRewards(staker.address, MAX_UINT_AMOUNT)
+    );
 
     // Get index after actions
     const userIndexAfter = await getUserIndex(stakedTokenV2, userAddress, underlyingAsset);
