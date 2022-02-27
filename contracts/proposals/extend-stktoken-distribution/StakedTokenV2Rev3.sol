@@ -1540,10 +1540,6 @@ contract StakedTokenV2Rev3 is
         address(this)
       )
     );
-
-    // Update lastUpdateTimestamp of StakedRay to reward users since the end of the prior staking period
-    AssetData storage assetData = assets[address(this)];
-    assetData.lastUpdateTimestamp = 1620594720;
   }
 
   function stake(address onBehalfOf, uint256 amount) external override {
