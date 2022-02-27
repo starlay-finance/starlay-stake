@@ -26,10 +26,15 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - name: Initialize submodules
+      - name: SSH Seting for submodule-protocol
+        env: 
+          TOKEN: ${{ secrets.SSH_KEY_SUBMODULE_PROTOCOL }}
         run: |
-          git submodule init
-          git submodule update
+          mkdir -p /home/runner/.ssh/
+          echo -e "$TOKEN" > /home/runner/.ssh/id_rsa
+          chmod 600 /home/runner/.ssh/id_rsa
+      - name: checkout submodule-protocol
+        run: git submodule init --remote submodule-protocol
       - name: Install dependencies
         run: npm ci
       - name: Compile
