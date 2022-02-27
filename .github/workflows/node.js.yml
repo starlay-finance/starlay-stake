@@ -34,7 +34,7 @@ jobs:
           echo -e "$TOKEN" > /home/runner/.ssh/id_rsa
           chmod 600 /home/runner/.ssh/id_rsa
       - name: checkout submodule-protocol
-        run: git submodule init --remote submodule-protocol
+        run: git submodule update --init --remote submodule-protocol
       - name: Install dependencies
         run: npm ci
       - name: Compile
