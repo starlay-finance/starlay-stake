@@ -54,7 +54,7 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
         vaultAddress || getIncentivesVaultPerNetwork(network),
-        emissionManager || getAdminPerNetwork(network),
+        "0xed81c007113D8E532954B735B683260776F3c297", // emissionManager || getAdminPerNetwork(network),
         getDistributionDurationPerNetwork(network),
         STAKED_TOKEN_NAME,
         STAKED_TOKEN_SYMBOL,
