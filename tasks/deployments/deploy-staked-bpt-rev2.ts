@@ -28,7 +28,7 @@ task('deploy-staked-bpt-rev2', 'Deploy implementation')
         '0x25F2226B597E8F9514B3F68F00f494cF4f286491',
         '0xEE56e2B3D491590B5b31738cC34d5232F378a8D5',
         '3153600000', // 100 years from now
-        'Starley stakedToken',
+        'Starlay stakedToken',
         'stkToken',
         '18',
         '0xec568fffba86c094cf06b22134b23074dfe2252c',
