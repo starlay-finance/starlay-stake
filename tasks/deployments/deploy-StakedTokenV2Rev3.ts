@@ -16,6 +16,7 @@ import {
 } from '../../helpers/constants';
 import { deployStakedTokenV2Revision3 } from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
+import { notFalsyOrZeroAddress } from '../../helpers/misc-utils';
 const { StakedTokenV2Rev3 } = eContractid;
 
 task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
@@ -50,13 +51,13 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
     const token = tokenAddress || getTokenPerNetwork(network);
     const vault = vaultAddress || getIncentivesVaultPerNetwork(network);
     const em = emissionManager || getAdminPerNetwork(network);
-    if (!token || token == ZERO_ADDRESS) {
+    if (!notFalsyOrZeroAddress(token)) {
       throw new Error('mising token address');
     }
-    if (!vault || vault == ZERO_ADDRESS) {
+    if (!notFalsyOrZeroAddress(vault)) {
       throw new Error('mising vault address');
     }
-    if (!emissionManager || vault == ZERO_ADDRESS) {
+    if (!notFalsyOrZeroAddress(emissionManager)) {
       throw new Error('mising emission manager');
     }
     const stakedTokenImpl = await deployStakedTokenV2Revision3(

@@ -7,6 +7,8 @@ import { HardhatRuntimeEnvironment } from 'hardhat/types';
 import { iParamsPerNetwork, eEthereumNetwork, tEthereumAddress, eAstarNetwork } from './types';
 import { getCurrentBlock } from './contracts-helpers';
 import { time } from 'console';
+import { isAddress } from 'ethers/lib/utils';
+import { isZeroAddress } from 'ethereumjs-util';
 
 export const toWad = (value: string | number) => new BigNumber(value).times(WAD).toFixed();
 
@@ -42,6 +44,13 @@ export const getParamPerNetwork = <T>(
     default:
       return main;
   }
+};
+
+export const notFalsyOrZeroAddress = (address: tEthereumAddress | null | undefined): boolean => {
+  if (!address) {
+    return false;
+  }
+  return isAddress(address) && !isZeroAddress(address);
 };
 
 export const sleep = (milliseconds: number) => {

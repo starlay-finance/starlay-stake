@@ -1,6 +1,6 @@
 import { task } from 'hardhat/config';
 import { eContractid } from '../../helpers/types';
-import { waitForTx } from '../../helpers/misc-utils';
+import { notFalsyOrZeroAddress, waitForTx } from '../../helpers/misc-utils';
 import { getStakedLayProxy, getStakedTokenV2Rev3 } from '../../helpers/contracts-accessors';
 
 const { StakedTokenV2Rev3 } = eContractid;
@@ -19,6 +19,13 @@ task(
 
   const stakedLayImpl = await getStakedTokenV2Rev3();
   const stakedLayProxy = await getStakedLayProxy();
+
+  if (!notFalsyOrZeroAddress(stakedLayImpl.address)) {
+    throw new Error('missing stakedLayImpl');
+  }
+  if (!notFalsyOrZeroAddress(stakedLayProxy.address)) {
+    throw new Error('missing stakedLayProxy');
+  }
 
   console.log('\tInitializing StakedTokenV2Rev3');
 
