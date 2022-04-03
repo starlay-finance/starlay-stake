@@ -47,14 +47,26 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
 
     // Deployment
     console.log(`[${StakedTokenV2Rev3}] Starting deployment:`);
+    const token = tokenAddress || getTokenPerNetwork(network);
+    const vault = vaultAddress || getIncentivesVaultPerNetwork(network);
+    const em = emissionManager || getAdminPerNetwork(network);
+    if (!token || token == ZERO_ADDRESS) {
+      throw new Error('mising token address');
+    }
+    if (!vault || vault == ZERO_ADDRESS) {
+      throw new Error('mising vault address');
+    }
+    if (!emissionManager || vault == ZERO_ADDRESS) {
+      throw new Error('mising emission manager');
+    }
     const stakedTokenImpl = await deployStakedTokenV2Revision3(
       [
-        tokenAddress || getTokenPerNetwork(network),
-        tokenAddress || getTokenPerNetwork(network),
+        token,
+        token,
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
-        vaultAddress || getIncentivesVaultPerNetwork(network),
-        emissionManager || getAdminPerNetwork(network),
+        vault,
+        em,
         getDistributionDurationPerNetwork(network),
         STAKED_TOKEN_NAME,
         STAKED_TOKEN_SYMBOL,
