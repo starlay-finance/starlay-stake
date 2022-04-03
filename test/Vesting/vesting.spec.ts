@@ -1,25 +1,27 @@
+import { MintableErc20__factory } from './../../types/factories/MintableErc20__factory';
 import { ethers } from 'hardhat';
 import { Signer } from 'ethers';
 import { makeSuite, TestEnv } from '../helpers/make-suite';
-import { Token, TokenVesting__factory, Token__factory } from '../../types';
+import { MintableErc20, TokenVesting__factory } from '../../types';
 import { getEthersSigners } from '../../helpers/contracts-helpers';
 
 const { expect } = require('chai');
 makeSuite('Delegation', (testEnv: TestEnv) => {
-  let Token: Token__factory;
-  let testToken: Token;
+  let Token: MintableErc20__factory;
+  let testToken: MintableErc20;
   let TokenVesting: TokenVesting__factory;
   let owner: Signer;
   let addr1: Signer;
   let addr2: Signer;
 
   before(async function () {
-    Token = (await ethers.getContractFactory('Token')) as Token__factory;
+    Token = (await ethers.getContractFactory('MintableErc20')) as MintableErc20__factory;
     TokenVesting = (await ethers.getContractFactory('MockTokenVesting')) as TokenVesting__factory;
   });
   beforeEach(async function () {
     [owner, addr1, addr2] = await getEthersSigners();
-    testToken = await Token.deploy('Test Token', 'TT', 1000000);
+    testToken = await Token.deploy('Test Token', 'TT', 18);
+    await testToken.mint(1000000);
     await testToken.deployed();
   });
 
