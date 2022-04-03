@@ -45,7 +45,7 @@ contract TokenVesting is Ownable, ReentrancyGuard {
   uint256 private vestingSchedulesTotalAmount;
   mapping(address => uint256) private holdersVestingCount;
 
-  event Released(uint256 amount);
+  event Released(bytes32 vestingScheduleId, uint256 amount);
   event Revoked();
 
   /**
@@ -227,6 +227,7 @@ contract TokenVesting is Ownable, ReentrancyGuard {
     address payable beneficiaryPayable = payable(vestingSchedule.beneficiary);
     vestingSchedulesTotalAmount = vestingSchedulesTotalAmount.sub(amount);
     _token.safeTransfer(beneficiaryPayable, amount);
+    emit Released(vestingScheduleId, amount);
   }
 
   /**
