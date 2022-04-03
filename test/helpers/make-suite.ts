@@ -13,7 +13,6 @@ import {
   getMintableErc20,
   getStakedLay,
   getStakedLayV2,
-  getStarlayRewardsVault,
 } from '../../helpers/contracts-accessors';
 import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
@@ -90,7 +89,6 @@ export async function initializeMakeSuite() {
   testEnv.layToken = await getMintableErc20();
   testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
   testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });
-  testEnv.starlayRewardsVault = await getStarlayRewardsVault();
 }
 
 export function makeSuite(name: string, tests: (testEnv: TestEnv) => void) {

@@ -83,9 +83,7 @@ export const testDeployStakedRayV1 = async (
     peiEncodedInitialize
   );
   await waitForTx(
-    await token
-      .connect(vaultOfRewards)
-      .approve(incentivesControllerProxy.address, MAX_UINT_AMOUNT)
+    await token.connect(vaultOfRewards).approve(incentivesControllerProxy.address, MAX_UINT_AMOUNT)
   );
   await insertContractAddressInDb(
     eContractid.IncentivesController,

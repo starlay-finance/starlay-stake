@@ -20,7 +20,7 @@ import { getDb, DRE } from './misc-utils';
 import { DoubleTransferHelper } from '../types/DoubleTransferHelper';
 import { ZERO_ADDRESS } from './constants';
 import { Signer } from 'ethers';
-import { StakedTokenBptRev2, StakedTokenV2Rev3, StarlayRewardsVault } from '../types';
+import { StakedTokenBptRev2, StakedTokenV2Rev3 } from '../types';
 
 export const deployStakedLay = async (
   [
@@ -145,24 +145,6 @@ export const deployStakedTokenV2 = async (
     await verifyContract(instance.address, args);
   }
   return instance;
-};
-
-export const deployRewardsVault = async (verify?: boolean): Promise<StarlayRewardsVault> => {
-  const id = eContractid.StarlayRewardsVault;
-  const args: string[] = [];
-  const instance = await deployContract<StarlayRewardsVault>(id, args);
-  await instance.deployTransaction.wait();
-  if (verify) {
-    await verifyContract(instance.address, args);
-  }
-  return instance;
-};
-export const getStarlayRewardsVault = async (address?: tEthereumAddress) => {
-  return await getContract<StarlayRewardsVault>(
-    eContractid.StarlayRewardsVault,
-    address ||
-      (await getDb().get(`${eContractid.StarlayRewardsVault}.${DRE.network.name}`).value()).address
-  );
 };
 
 export const deployStakedTokenV2Revision3 = async (

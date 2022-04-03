@@ -2,11 +2,7 @@ import rawBRE from 'hardhat';
 import { Signer, ethers } from 'ethers';
 import { getEthersSigners } from '../helpers/contracts-helpers';
 import { initializeMakeSuite } from './helpers/make-suite';
-import {
-  deployMintableErc20,
-  deployATokenMock,
-  deployRewardsVault,
-} from '../helpers/contracts-accessors';
+import { deployMintableErc20, deployATokenMock } from '../helpers/contracts-accessors';
 import { waitForTx } from '../helpers/misc-utils';
 import { MintableErc20 } from '../types/MintableErc20';
 import { testDeployStakedRayV2, testDeployStakedRayV1 } from './helpers/deploy';
@@ -48,10 +44,8 @@ const buildTestEnv = async (deployer: Signer, vaultOfRewards: Signer, restWallet
 
   await deployATokenMock(incentivesControllerProxy.address, 'lDai');
   await deployATokenMock(incentivesControllerProxy.address, 'lWeth');
-  const vault = await deployRewardsVault();
   const toVaultAmount = parseEther('2000');
   await layToken.mint(toVaultAmount);
-  await layToken.transfer(vault.address, toVaultAmount);
   console.timeEnd('setup');
 };
 
