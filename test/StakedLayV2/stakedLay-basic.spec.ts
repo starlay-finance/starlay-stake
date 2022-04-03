@@ -1,3 +1,4 @@
+import { getFirstSigner } from './../../submodule-protocol/helpers/contracts-getters';
 import { StakedTokenV2Rev3__factory } from './../../types/factories/StakedTokenV2Rev3__factory';
 import { makeSuite, TestEnv } from '../helpers/make-suite';
 import {
@@ -23,6 +24,7 @@ import { getRewards } from '../DistributionManager/data-helpers/base-math';
 import { getEthersSigners } from '../../helpers/contracts-helpers';
 import { getStakedLayProxy } from '../../helpers/contracts-accessors';
 import { eContractid } from '../../helpers/types';
+import { StakedTokenV2Rev4__factory } from '../../types/factories/StakedTokenV2Rev4__factory';
 
 const { expect } = require('chai');
 
@@ -32,9 +34,15 @@ makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
 
     await DRE.run(`deploy-${eContractid.StakedLay}`);
     await DRE.run(`initialize-${eContractid.StakedLay}`, { admin: await deployer.getAddress() });
-    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`);
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`, {
+      emissionManager: (await getFirstSigner()).getAddress(),
+    });
     await DRE.run(`initialize-${eContractid.StakedTokenV2Rev3}`);
-    const proxyInstance = StakedTokenV2Rev3__factory.connect(
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev4}`, {
+      emissionManager: (await getFirstSigner()).getAddress(),
+    });
+    await DRE.run(`initialize-${eContractid.StakedTokenV2Rev4}`);
+    const proxyInstance = StakedTokenV2Rev4__factory.connect(
       (await getStakedLayProxy()).address,
       user1
     );
