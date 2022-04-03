@@ -39,7 +39,6 @@ export enum eContractid {
   StakedTokenV2Rev3 = 'StakedTokenV2Rev3',
   Proxy_StakedTokenV2Rev3 = 'Proxy-StakedTokenV2Rev3',
   StakedTokenBptRev2 = 'StakedTokenBptRev2',
-  StarlayRewardsVault = 'StarlayRewardsVault',
 }
 
 export type tEthereumAddress = string;
