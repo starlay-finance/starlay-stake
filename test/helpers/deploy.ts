@@ -7,6 +7,7 @@ import {
   STAKED_TOKEN_SYMBOL,
   STAKED_TOKEN_DECIMALS,
   MAX_UINT_AMOUNT,
+  ZERO_ADDRESS,
 } from '../../helpers/constants';
 import {
   deployInitializableAdminUpgradeabilityProxy,
@@ -14,6 +15,8 @@ import {
   deployStakedLay,
   deployMockTransferHook,
   deployStakedLayV2,
+  deployStakedTokenV2Revision3,
+  deployStakedTokenV2Revision4,
 } from '../../helpers/contracts-accessors';
 import { insertContractAddressInDb } from '../../helpers/contracts-helpers';
 import { waitForTx } from '../../helpers/misc-utils';
@@ -114,7 +117,7 @@ export const testDeployStakedRayV2 = async (
     restWallets
   );
 
-  const stakedLayImpl = await deployStakedLayV2([
+  const stakedLayImpl = await deployStakedTokenV2Revision4([
     stakedToken,
     rewardsToken,
     COOLDOWN_SECONDS,
@@ -122,6 +125,10 @@ export const testDeployStakedRayV2 = async (
     vaultOfRewardsAddress,
     emissionManager,
     (1000 * 60 * 60).toString(),
+    'Staked LAY',
+    'sLAY',
+    '18',
+    ZERO_ADDRESS,
   ]);
 
   const stakedLayEncodedInitialize = stakedLayImpl.interface.encodeFunctionData('initialize');

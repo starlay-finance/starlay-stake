@@ -458,6 +458,14 @@ export const getStakedTokenV2Rev3 = async (address?: tEthereumAddress) => {
   );
 };
 
+export const getStakedTokenV2Rev4 = async (address?: tEthereumAddress) => {
+  return await getContract<StakedTokenV2Rev3>(
+    eContractid.StakedTokenV2Rev4,
+    address ||
+      (await getDb().get(`${eContractid.StakedTokenV2Rev4}.${DRE.network.name}`).value()).address
+  );
+};
+
 export const getIncentivesController = getContractFactory<IncentivesController>(
   eContractid.IncentivesController
 );
