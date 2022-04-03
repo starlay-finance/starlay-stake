@@ -138,7 +138,7 @@ task(`deploy-CRP`, `Deploys the Configurabl Righ Pool LAY/WETH`)
         REWARDS_VAULT,
         EMISSION_MANAGER,
         DISTRIBUTION_DURATION,
-        'Starley stakedToken',
+        'Starlay stakedToken',
         'stkToken',
         '18',
         GOVERNANCE_V2,

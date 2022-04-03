@@ -51,7 +51,7 @@ task(`deploy-${StakedLay}`, `Deploys the ${StakedLay} contract`)
         getCooldownSecondsPerNetwork(network),
         getUnstakeWindowPerNetwork(network),
         vaultAddress || getIncentivesVaultPerNetwork(network),
-        admin,
+        "0xed81c007113D8E532954B735B683260776F3c297", // admin, // emissionManager
         getDistributionDurationPerNetwork(network),
       ],
       false // disable verify due not supported by current buidler etherscan plugin

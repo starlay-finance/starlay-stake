@@ -57,7 +57,7 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
     if (!notFalsyOrZeroAddress(vault)) {
       throw new Error('mising vault address');
     }
-    if (!notFalsyOrZeroAddress(emissionManager)) {
+    if (!notFalsyOrZeroAddress(em)) {
       throw new Error('mising emission manager');
     }
     const stakedTokenImpl = await deployStakedTokenV2Revision3(
