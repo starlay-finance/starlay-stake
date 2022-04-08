@@ -34,6 +34,7 @@ contract DistributionManager is IDistributionManager {
   event UserIndexUpdated(address indexed user, address indexed asset, uint256 index);
 
   constructor(address emissionManager, uint256 distributionDuration) public {
+    require(emissionManager != address(0), 'Cannot set the emissionManager to the zero address');
     DISTRIBUTION_END = block.timestamp.add(distributionDuration);
     EMISSION_MANAGER = emissionManager;
   }

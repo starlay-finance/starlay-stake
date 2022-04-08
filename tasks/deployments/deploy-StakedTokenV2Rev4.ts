@@ -14,12 +14,15 @@ import {
   STAKED_TOKEN_SYMBOL,
   STAKED_TOKEN_DECIMALS,
 } from '../../helpers/constants';
-import { deployStakedTokenV2Revision3 } from '../../helpers/contracts-accessors';
+import {
+  deployStakedTokenV2Revision3,
+  deployStakedTokenV2Revision4,
+} from '../../helpers/contracts-accessors';
 import { checkVerification } from '../../helpers/etherscan-verification';
 import { notFalsyOrZeroAddress } from '../../helpers/misc-utils';
-const { StakedTokenV2Rev3 } = eContractid;
+const { StakedTokenV2Rev4 } = eContractid;
 
-task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
+task(`deploy-${StakedTokenV2Rev4}`, `Deploys the ${StakedTokenV2Rev4} contract`)
   .addFlag('verify', 'Verify StakedTokenV2Rev3 contract via Etherscan API.')
   .addOptionalParam(
     'vaultAddress',
@@ -43,11 +46,11 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
     }
 
     const network = localBRE.network.name as eEthereumNetwork | eAstarNetwork;
-    console.log(`[${StakedTokenV2Rev3}] Starting deployment & initialization:`);
+    console.log(`[${StakedTokenV2Rev4}] Starting deployment & initialization:`);
     console.log(`  - Network name: ${network}`);
 
     // Deployment
-    console.log(`[${StakedTokenV2Rev3}] Starting deployment:`);
+    console.log(`[${StakedTokenV2Rev4}] Starting deployment:`);
     const token = tokenAddress || getTokenPerNetwork(network);
     const vault = vaultAddress || getIncentivesVaultPerNetwork(network);
     const em = emissionManager || getAdminPerNetwork(network);
@@ -57,10 +60,10 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
     if (!notFalsyOrZeroAddress(vault)) {
       throw new Error('mising vault address');
     }
-    if (!notFalsyOrZeroAddress(em)) {
+    if (!notFalsyOrZeroAddress(emissionManager)) {
       throw new Error('mising emission manager');
     }
-    const stakedTokenImpl = await deployStakedTokenV2Revision3(
+    const stakedTokenImpl = await deployStakedTokenV2Revision4(
       [
         token,
         token,
@@ -77,9 +80,9 @@ task(`deploy-${StakedTokenV2Rev3}`, `Deploys the ${StakedTokenV2Rev3} contract`)
       verify // disable verify due not supported by current builder etherscan plugin
     );
     await stakedTokenImpl.deployTransaction.wait();
-    await registerContractInJsonDb(StakedTokenV2Rev3, stakedTokenImpl);
-    console.log(`  - Deployed implementation of ${StakedTokenV2Rev3}`);
-    console.log(`  - Finished ${StakedTokenV2Rev3} deployment`);
+    await registerContractInJsonDb(StakedTokenV2Rev4, stakedTokenImpl);
+    console.log(`  - Deployed implementation of ${StakedTokenV2Rev4}`);
+    console.log(`  - Finished ${StakedTokenV2Rev4} deployment`);
     console.log(`    - Impl: ${stakedTokenImpl.address}`);
     return { implementation: stakedTokenImpl.address };
   });

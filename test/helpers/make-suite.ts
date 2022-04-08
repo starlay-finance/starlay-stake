@@ -13,13 +13,11 @@ import {
   getMintableErc20,
   getStakedLay,
   getStakedLayV2,
-  getStarlayRewardsVault,
 } from '../../helpers/contracts-accessors';
 import { IncentivesController } from '../../types/IncentivesController';
 import { MintableErc20 } from '../../types/MintableErc20';
 import { ATokenMock } from '../../types/ATokenMock';
 import { StakedLayV2 } from '../../types/StakedLayV2';
-import { StarlayRewardsVault } from '../../types/StarlayRewardsVault';
 
 chai.use(bignumberChai());
 
@@ -35,7 +33,6 @@ export interface SignerWithAddress {
 export interface TestEnv {
   stakedTokenV2: StakedLayV2;
   rewardsVault: SignerWithAddress;
-  starlayRewardsVault: StarlayRewardsVault;
   deployer: SignerWithAddress;
   users: SignerWithAddress[];
   layToken: MintableErc20;
@@ -61,7 +58,6 @@ const testEnv: TestEnv = {
   incentivesController: {} as IncentivesController,
   aDaiMock: {} as ATokenMock,
   aWethMock: {} as ATokenMock,
-  starlayRewardsVault: {} as StarlayRewardsVault,
 } as TestEnv;
 
 export async function initializeMakeSuite() {
@@ -90,7 +86,6 @@ export async function initializeMakeSuite() {
   testEnv.layToken = await getMintableErc20();
   testEnv.aDaiMock = await getATokenMock({ slug: 'lDai' });
   testEnv.aWethMock = await getATokenMock({ slug: 'lWeth' });
-  testEnv.starlayRewardsVault = await getStarlayRewardsVault();
 }
 
 export function makeSuite(name: string, tests: (testEnv: TestEnv) => void) {

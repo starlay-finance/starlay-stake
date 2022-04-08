@@ -1,13 +1,17 @@
 import { task } from 'hardhat/config';
 import { eContractid } from '../../helpers/types';
 import { notFalsyOrZeroAddress, waitForTx } from '../../helpers/misc-utils';
-import { getStakedLayProxy, getStakedTokenV2Rev3 } from '../../helpers/contracts-accessors';
+import {
+  getStakedLayProxy,
+  getStakedTokenV2Rev3,
+  getStakedTokenV2Rev4,
+} from '../../helpers/contracts-accessors';
 
-const { StakedTokenV2Rev3 } = eContractid;
+const { StakedTokenV2Rev4 } = eContractid;
 
 task(
-  `initialize-${StakedTokenV2Rev3}`,
-  `Initialize the ${StakedTokenV2Rev3} proxy contract`
+  `initialize-${StakedTokenV2Rev4}`,
+  `Initialize the ${StakedTokenV2Rev4} proxy contract`
 ).setAction(async ({}, localBRE) => {
   await localBRE.run('set-dre');
 
@@ -15,9 +19,9 @@ task(
     throw new Error('INVALID_CHAIN_ID');
   }
 
-  console.log(`\n- ${StakedTokenV2Rev3} initialization`);
+  console.log(`\n- ${StakedTokenV2Rev4} initialization`);
 
-  const stakedLayImpl = await getStakedTokenV2Rev3();
+  const stakedLayImpl = await getStakedTokenV2Rev4();
   const stakedLayProxy = await getStakedLayProxy();
 
   if (!notFalsyOrZeroAddress(stakedLayImpl.address)) {

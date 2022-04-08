@@ -1,3 +1,4 @@
+import { StakedTokenV2Rev4 } from './../types/StakedTokenV2Rev4.d';
 import { deployContract, getContractFactory, getContract } from './contracts-helpers';
 import { eContractid, tEthereumAddress } from './types';
 import { MintableErc20 } from '../types/MintableErc20';
@@ -20,7 +21,7 @@ import { getDb, DRE } from './misc-utils';
 import { DoubleTransferHelper } from '../types/DoubleTransferHelper';
 import { ZERO_ADDRESS } from './constants';
 import { Signer } from 'ethers';
-import { StakedTokenBptRev2, StakedTokenV2Rev3, StarlayRewardsVault } from '../types';
+import { StakedTokenBptRev2, StakedTokenV2Rev3 } from '../types';
 
 export const deployStakedLay = async (
   [
@@ -147,22 +148,54 @@ export const deployStakedTokenV2 = async (
   return instance;
 };
 
-export const deployRewardsVault = async (verify?: boolean): Promise<StarlayRewardsVault> => {
-  const id = eContractid.StarlayRewardsVault;
-  const args: string[] = [];
-  const instance = await deployContract<StarlayRewardsVault>(id, args);
-  await instance.deployTransaction.wait();
+export const deployStakedTokenV2Revision4 = async (
+  [
+    stakedToken,
+    rewardsToken,
+    cooldownSeconds,
+    unstakeWindow,
+    rewardsVault,
+    emissionManager,
+    distributionDuration,
+    name,
+    symbol,
+    decimals,
+    governance,
+  ]: [
+    tEthereumAddress,
+    tEthereumAddress,
+    string,
+    string,
+    tEthereumAddress,
+    tEthereumAddress,
+    string,
+    string,
+    string,
+    string,
+    tEthereumAddress
+  ],
+  verify?: boolean,
+  signer?: Signer
+) => {
+  const id = eContractid.StakedTokenV2Rev4;
+  const args: string[] = [
+    stakedToken,
+    rewardsToken,
+    cooldownSeconds,
+    unstakeWindow,
+    rewardsVault,
+    emissionManager,
+    distributionDuration,
+    name,
+    symbol,
+    decimals,
+    governance,
+  ];
+  const instance = await deployContract<StakedTokenV2Rev4>(id, args, '', signer);
   if (verify) {
     await verifyContract(instance.address, args);
   }
   return instance;
-};
-export const getStarlayRewardsVault = async (address?: tEthereumAddress) => {
-  return await getContract<StarlayRewardsVault>(
-    eContractid.StarlayRewardsVault,
-    address ||
-      (await getDb().get(`${eContractid.StarlayRewardsVault}.${DRE.network.name}`).value()).address
-  );
 };
 
 export const deployStakedTokenV2Revision3 = async (
@@ -422,6 +455,14 @@ export const getStakedTokenV2Rev3 = async (address?: tEthereumAddress) => {
     eContractid.StakedTokenV2Rev3,
     address ||
       (await getDb().get(`${eContractid.StakedTokenV2Rev3}.${DRE.network.name}`).value()).address
+  );
+};
+
+export const getStakedTokenV2Rev4 = async (address?: tEthereumAddress) => {
+  return await getContract<StakedTokenV2Rev3>(
+    eContractid.StakedTokenV2Rev4,
+    address ||
+      (await getDb().get(`${eContractid.StakedTokenV2Rev4}.${DRE.network.name}`).value()).address
   );
 };
 

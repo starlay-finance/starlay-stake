@@ -37,9 +37,9 @@ export enum eContractid {
   IControllerStarlayEcosystemReserve = 'IControllerStarlayEcosystemReserve',
   MockSelfDestruct = 'SelfdestructTransfer',
   StakedTokenV2Rev3 = 'StakedTokenV2Rev3',
-  Proxy_StakedTokenV2Rev3 = 'Proxy-StakedTokenV2Rev3',
+  StakedTokenV2Rev4 = 'StakedTokenV2Rev4',
+  Proxy_StakedTokenV2Rev4 = 'Proxy-StakedTokenV2Rev4',
   StakedTokenBptRev2 = 'StakedTokenBptRev2',
-  StarlayRewardsVault = 'StarlayRewardsVault',
 }
 
 export type tEthereumAddress = string;

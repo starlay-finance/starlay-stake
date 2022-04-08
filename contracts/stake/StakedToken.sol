@@ -50,8 +50,8 @@ contract StakedToken is
   event Cooldown(address indexed user);
 
   constructor(
-    IERC20 stakedToken,
-    IERC20 rewardToken,
+    address stakedToken,
+    address rewardToken,
     uint256 cooldownSeconds,
     uint256 unstakeWindow,
     address rewardsVault,
@@ -65,8 +65,12 @@ contract StakedToken is
     ERC20WithSnapshot(name, symbol, decimals)
     DistributionManager(emissionManager, distributionDuration)
   {
-    STAKED_TOKEN = stakedToken;
-    REWARD_TOKEN = rewardToken;
+    require(stakedToken != address(0), 'Cannot set the stakedToken to the zero address');    
+    require(rewardToken != address(0), 'Cannot set the rewardToken to the zero address');    
+    require(rewardsVault != address(0), 'Cannot set the rewardsVault to the zero address');    
+    require(emissionManager != address(0), 'Cannot set the emissionManager to the zero address');    
+    STAKED_TOKEN = IERC20(stakedToken);
+    REWARD_TOKEN = IERC20(rewardToken);
     COOLDOWN_SECONDS = cooldownSeconds;
     UNSTAKE_WINDOW = unstakeWindow;
     REWARDS_VAULT = rewardsVault;

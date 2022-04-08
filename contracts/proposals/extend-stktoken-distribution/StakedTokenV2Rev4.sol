@@ -1,10 +1,10 @@
 /**
  *Submitted for verification at Etherscan.io on 2020-12-10
  */
-
 // SPDX-License-Identifier: agpl-3.0
 pragma solidity 0.7.5;
 pragma experimental ABIEncoderV2;
+import {ECDSA} from '../../lib/ECDSA.sol';
 
 interface IGovernancePowerDelegationToken {
   enum DelegationType {VOTING_POWER, PROPOSITION_POWER}
@@ -1446,7 +1446,7 @@ abstract contract GovernancePowerWithSnapshot is GovernancePowerDelegationERC20 
  * @notice Contract to stake LAY token, tokenize the position and get rewards, inheriting from a distribution manager contract
  * @author Starlay
  **/
-contract StakedTokenV2Rev3 is
+contract StakedTokenV2Rev4 is
   IStakedLay,
   GovernancePowerWithSnapshot,
   VersionedInitializable,
@@ -1456,7 +1456,7 @@ contract StakedTokenV2Rev3 is
   using SafeERC20 for IERC20;
 
   /// @dev Start of Storage layout from StakedToken v1
-  uint256 public constant REVISION = 3;
+  uint256 public constant REVISION = 4;
 
   IERC20 public immutable STAKED_TOKEN;
   IERC20 public immutable REWARD_TOKEN;
@@ -1787,8 +1787,7 @@ contract StakedTokenV2Rev3 is
           keccak256(abi.encode(PERMIT_TYPEHASH, owner, spender, value, currentValidNonce, deadline))
         )
       );
-
-    require(owner == ecrecover(digest, v, r, s), 'INVALID_SIGNATURE');
+    require(owner == ECDSA.recover(digest, v, r, s), 'INVALID_SIGNATURE');
     _nonces[owner] = currentValidNonce.add(1);
     _approve(owner, spender, value);
   }
@@ -1909,7 +1908,7 @@ contract StakedTokenV2Rev3 is
       )
     );
     bytes32 digest = keccak256(abi.encodePacked('\x19\x01', domainSeparator, structHash));
-    address signatory = ecrecover(digest, v, r, s);
+    address signatory = ECDSA.recover(digest, v, r, s);
     require(signatory != address(0), 'INVALID_SIGNATURE');
     require(nonce == _nonces[signatory]++, 'INVALID_NONCE');
     require(block.timestamp <= expiry, 'INVALID_EXPIRATION');
@@ -1950,7 +1949,7 @@ contract StakedTokenV2Rev3 is
       )
     );
     bytes32 digest = keccak256(abi.encodePacked('\x19\x01', domainSeparator, structHash));
-    address signatory = ecrecover(digest, v, r, s);
+    address signatory = ECDSA.recover(digest, v, r, s);
     require(signatory != address(0), 'INVALID_SIGNATURE');
     require(nonce == _nonces[signatory]++, 'INVALID_NONCE');
     require(block.timestamp <= expiry, 'INVALID_EXPIRATION');

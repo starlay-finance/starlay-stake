@@ -1,3 +1,4 @@
+import { deployStakedLay } from './../../helpers/contracts-accessors';
 import { makeSuite, TestEnv } from '../helpers/make-suite';
 import {
   COOLDOWN_SECONDS,
@@ -6,6 +7,7 @@ import {
   STAKED_TOKEN_NAME,
   STAKED_TOKEN_SYMBOL,
   STAKED_TOKEN_DECIMALS,
+  ZERO_ADDRESS,
 } from '../../helpers/constants';
 import { waitForTx, timeLatest, advanceBlock, increaseTimeAndMine } from '../../helpers/misc-utils';
 import { ethers } from 'ethers';
@@ -30,7 +32,53 @@ makeSuite('StakedToken. Basics', (testEnv: TestEnv) => {
     expect((await stakedToken.UNSTAKE_WINDOW()).toString()).to.be.equal(UNSTAKE_WINDOW);
     expect(await stakedToken.REWARDS_VAULT()).to.be.equal(rewardsVault.address);
   });
-
+  it('Reverts trying to constract with zero_address', async () => {
+    const { stakedToken, layToken, rewardsVault } = testEnv;
+    await expect(
+      deployStakedLay([
+        ZERO_ADDRESS,
+        layToken.address,
+        '100',
+        '100',
+        rewardsVault.address,
+        layToken.address,
+        '100',
+      ])
+    ).to.be.revertedWith('Cannot set the stakedToken to the zero address');
+    await expect(
+      deployStakedLay([
+        stakedToken.address,
+        ZERO_ADDRESS,
+        '100',
+        '100',
+        rewardsVault.address,
+        layToken.address,
+        '100',
+      ])
+    ).to.be.revertedWith('Cannot set the rewardToken to the zero address');
+    await expect(
+      deployStakedLay([
+        stakedToken.address,
+        stakedToken.address,
+        '100',
+        '100',
+        ZERO_ADDRESS,
+        layToken.address,
+        '100',
+      ])
+    ).to.be.revertedWith('Cannot set the rewardsVault to the zero address');
+    await expect(
+      deployStakedLay([
+        stakedToken.address,
+        stakedToken.address,
+        '100',
+        '100',
+        layToken.address,
+        ZERO_ADDRESS,
+        '100',
+      ])
+    ).to.be.revertedWith('Cannot set the emissionManager to the zero address');
+  });
   it('Reverts trying to stake 0 amount', async () => {
     const {
       stakedToken,

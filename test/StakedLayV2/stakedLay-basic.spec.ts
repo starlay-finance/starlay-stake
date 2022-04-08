@@ -23,25 +23,33 @@ import { getRewards } from '../DistributionManager/data-helpers/base-math';
 import { getEthersSigners } from '../../helpers/contracts-helpers';
 import { getStakedLayProxy } from '../../helpers/contracts-accessors';
 import { eContractid } from '../../helpers/types';
+import { StakedTokenV2Rev4__factory } from '../../types/factories/StakedTokenV2Rev4__factory';
 
 const { expect } = require('chai');
 
 makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
-  it('deployment StakedLayV2Rev3', async () => {
+  it('deployment StakedLayV2Rev4', async () => {
     const [deployer, user1] = await getEthersSigners();
 
     await DRE.run(`deploy-${eContractid.StakedLay}`);
     await DRE.run(`initialize-${eContractid.StakedLay}`, { admin: await deployer.getAddress() });
-    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`);
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev3}`, {
+      emissionManager: await deployer.getAddress(),
+    });
     await DRE.run(`initialize-${eContractid.StakedTokenV2Rev3}`);
-    const proxyInstance = StakedTokenV2Rev3__factory.connect(
+    await DRE.run(`deploy-${eContractid.StakedTokenV2Rev4}`, {
+      emissionManager: await deployer.getAddress(),
+    });
+    console.log('initialize v4');
+    await DRE.run(`initialize-${eContractid.StakedTokenV2Rev4}`);
+    const proxyInstance = StakedTokenV2Rev4__factory.connect(
       (await getStakedLayProxy()).address,
       user1
     );
     expect(await proxyInstance.name()).to.be.equal(STAKED_TOKEN_NAME);
     expect(await proxyInstance.symbol()).to.be.equal(STAKED_TOKEN_SYMBOL);
     expect(await proxyInstance.decimals()).to.be.equal(STAKED_TOKEN_DECIMALS);
-    expect(await proxyInstance.REVISION()).to.be.equal(3);
+    expect(await proxyInstance.REVISION()).to.be.equal(4);
     expect((await proxyInstance.COOLDOWN_SECONDS()).toString()).to.be.equal(COOLDOWN_SECONDS);
     expect((await proxyInstance.UNSTAKE_WINDOW()).toString()).to.be.equal(UNSTAKE_WINDOW);
   });
@@ -51,7 +59,7 @@ makeSuite('StakedToken V2. Basics', (testEnv: TestEnv) => {
     expect(await stakedTokenV2.name()).to.be.equal(STAKED_TOKEN_NAME);
     expect(await stakedTokenV2.symbol()).to.be.equal(STAKED_TOKEN_SYMBOL);
     expect(await stakedTokenV2.decimals()).to.be.equal(STAKED_TOKEN_DECIMALS);
-    expect(await stakedTokenV2.REVISION()).to.be.equal(2);
+    expect(await stakedTokenV2.REVISION()).to.be.equal(4);
     expect(await stakedTokenV2.STAKED_TOKEN()).to.be.equal(layToken.address);
     expect(await stakedTokenV2.REWARD_TOKEN()).to.be.equal(layToken.address);
     expect((await stakedTokenV2.COOLDOWN_SECONDS()).toString()).to.be.equal(COOLDOWN_SECONDS);

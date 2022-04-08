@@ -37,16 +37,19 @@ contract IncentivesController is
   event RewardsClaimed(address indexed user, address indexed to, uint256 amount);
 
   constructor(
-    IERC20 rewardToken,
+    address rewardToken,
     address rewardsVault,
-    IStakedLay psm,
+    address psm,
     uint256 extraPsmReward,
     address emissionManager,
     uint128 distributionDuration
   ) public DistributionManager(emissionManager, distributionDuration) {
-    REWARD_TOKEN = rewardToken;
+    require(rewardToken != address(0), 'Cannot set the rewardToken to the zero address');    
+    require(rewardsVault != address(0), 'Cannot set the rewardsVault to the zero address');    
+    require(psm != address(0), 'Cannot set the psm to the zero address');    
+    REWARD_TOKEN = IERC20(rewardToken);
     REWARDS_VAULT = rewardsVault;
-    PSM = psm;
+    PSM = IStakedLay(psm);
     EXTRA_PSM_REWARD = extraPsmReward;
   }
 

@@ -105,7 +105,7 @@ export const getAdminPerNetwork = (network: eEthereumNetwork | eAstarNetwork): t
       [eEthereumNetwork.rinkeby]: ZERO_ADDRESS,
       [eEthereumNetwork.kovan]: '0x175d905470e85279899C37F89000b195f3d0c0C5', // '0x8134929c3dcb1b8b82f27f53424b959fb82182f2', // Governance
       [eEthereumNetwork.main]: '0x8a2Efd9A790199F4c94c6effE210fce0B4724f52', // Governance
-      [eAstarNetwork.astar]: '0x50414Ac6431279824df9968855181474c919a94B', // Deployer
+      [eAstarNetwork.astar]: '0xed81c007113D8E532954B735B683260776F3c297', // Emission manager
       [eAstarNetwork.shiden]: '0x50414Ac6431279824df9968855181474c919a94B', // Deployer
       [eAstarNetwork.shibuya]: '0x175d905470e85279899C37F89000b195f3d0c0C5',
     },

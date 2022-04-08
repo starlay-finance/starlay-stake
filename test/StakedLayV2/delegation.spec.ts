@@ -702,7 +702,7 @@ makeSuite('StakedTokenV2. Power Delegations', (testEnv: TestEnv) => {
       stakedTokenV2
         .connect(user1.signer)
         .delegateByTypeBySig(user2.address, '0', nonce, expiration, 0, r, s)
-    ).to.be.revertedWith('INVALID_SIGNATURE');
+    ).to.be.revertedWith(`revert ECDSA: invalid signature 'v' value`);
   });
 
   it('User 1 should not be able to delegate with bad nonce', async () => {
@@ -804,7 +804,7 @@ makeSuite('StakedTokenV2. Power Delegations', (testEnv: TestEnv) => {
     // Transmit tx via delegateBySig
     await expect(
       stakedTokenV2.connect(user2.signer).delegateBySig(user4.address, nonce, expiration, '0', r, s)
-    ).to.be.revertedWith('INVALID_SIGNATURE');
+    ).to.be.revertedWith(`revert ECDSA: invalid signature 'v' value`);
   });
 
   it('User 2 should not be able to delegate all with bad nonce', async () => {

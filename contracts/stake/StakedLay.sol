@@ -16,8 +16,8 @@ contract StakedLay is StakedToken {
   uint8 internal constant DECIMALS = 18;
 
   constructor(
-    IERC20 stakedToken,
-    IERC20 rewardToken,
+    address stakedToken,
+    address rewardToken,
     uint256 cooldownSeconds,
     uint256 unstakeWindow,
     address rewardsVault,
